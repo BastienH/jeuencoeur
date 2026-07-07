@@ -177,6 +177,7 @@ def doodle_save(request, lang):
         prompt_subject=data.get('subject', ''),
         prompt_emotion=data.get('emotion', ''),
         prompt_accessory=data.get('accessory', ''),
+        image=data.get('image', ''),
         language=lang,
     )
     return JsonResponse({'status': 'ok'})

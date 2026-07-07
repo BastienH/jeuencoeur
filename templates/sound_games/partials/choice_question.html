@@ -3,11 +3,11 @@
 <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
     <h2 class="text-center text-lg font-semibold text-gray-800 mb-6">{% trans "Would you rather..." %}</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button data-vote="a"
+        <button data-vote="a" data-question-id="{{ question.id }}"
                 class="vote-btn bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-400 rounded-xl p-6 text-center transition-all min-h-[100px]">
             <p class="text-lg font-medium text-gray-700">{{ question.display_a }}</p>
         </button>
-        <button data-vote="b"
+        <button data-vote="b" data-question-id="{{ question.id }}"
                 class="vote-btn bg-pink-50 hover:bg-pink-100 border-2 border-pink-200 hover:border-pink-400 rounded-xl p-6 text-center transition-all min-h-[100px]">
             <p class="text-lg font-medium text-gray-700">{{ question.display_b }}</p>
         </button>

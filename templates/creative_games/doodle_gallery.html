@@ -21,7 +21,7 @@
             {% if drawing.prompt_accessory %}&middot; {{ drawing.prompt_accessory }}{% endif %}
         </p>
         {% if drawing.image %}
-        <img src="{{ drawing.image.url }}" class="w-full rounded-lg mt-2" alt="{% trans 'Doodle' %}">
+        <img src="{{ drawing.image }}" class="w-full rounded-lg mt-2" alt="{% trans 'Doodle' %}">
         {% endif %}
     </div>
     {% endfor %}

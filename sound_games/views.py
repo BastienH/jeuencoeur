@@ -81,6 +81,8 @@ def lip_sync_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='lip-sync-legends')
     sound = LipSyncSound.get_random()
+    if sound:
+        sound.display_description = sound.get_description(lang)
     return render(request, 'sound_games/lip_sync.html', {
         'genre': genre, 'sound': sound, 'lang': lang,
     })
@@ -88,6 +90,8 @@ def lip_sync_play(request, lang):
 
 def lip_sync_next(request, lang):
     sound = LipSyncSound.get_random()
+    if sound:
+        sound.display_description = sound.get_description(lang)
     return render(request, 'sound_games/partials/lip_sync_sound.html', {
         'sound': sound, 'lang': lang,
     })

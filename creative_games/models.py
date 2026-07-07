@@ -142,7 +142,7 @@ class DoodleDrawing(models.Model):
     prompt_subject = models.CharField(max_length=200, blank=True)
     prompt_emotion = models.CharField(max_length=200, blank=True)
     prompt_accessory = models.CharField(max_length=200, blank=True)
-    image = models.ImageField(upload_to='doodles/', null=True, blank=True)
+    image = models.TextField(blank=True, null=True)
     language = models.CharField(max_length=10, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
