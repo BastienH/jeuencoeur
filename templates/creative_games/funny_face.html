@@ -18,10 +18,16 @@
         {% include 'creative_games/partials/funny_face_prompt.html' %}
     </div>
 
-    <div class="relative bg-black rounded-2xl overflow-hidden mb-6 aspect-[3/4]">
-        <video id="camera-feed" class="w-full h-full object-cover" autoplay playsinline></video>
+    <div id="camera-container" class="relative bg-black rounded-2xl overflow-hidden mb-6 aspect-[3/4] cursor-pointer">
+        <video id="camera-feed" class="w-full h-full object-cover" autoplay playsinline muted></video>
         <canvas id="face-canvas" class="absolute inset-0 w-full h-full"></canvas>
         <div id="face-frame" class="absolute inset-0 border-4 border-dashed border-purple-400 rounded-2xl m-4 pointer-events-none"></div>
+        <div id="camera-start-overlay" class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+            <div class="text-center text-white">
+                <div class="text-5xl mb-3">📸</div>
+                <p class="text-lg font-semibold">{% trans "Tap to start camera" %}</p>
+            </div>
+        </div>
     </div>
 
     <div class="flex flex-wrap gap-3 justify-center">

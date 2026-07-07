@@ -12,6 +12,7 @@
     let stream = null;
     let capturedDataUrl = null;
     let promptCount = parseInt(sessionStorage.getItem('funny-face-factory-count') || '0');
+    let cameraStarted = false;
 
     async function startCamera() {
         try {
@@ -19,6 +20,9 @@
                 video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
             });
             if (video) video.srcObject = stream;
+            cameraStarted = true;
+            const overlay = document.getElementById('camera-start-overlay');
+            if (overlay) overlay.classList.add('hidden');
         } catch {
             const frame = document.getElementById('face-frame');
             if (frame) frame.textContent = document.documentElement.lang === 'fr' ? 'Accès caméra refusé.' : document.documentElement.lang === 'es' ? 'Acceso a cámara denegado.' : 'Camera access denied.';
@@ -45,6 +49,10 @@
 
     if (snapBtn) {
         snapBtn.addEventListener('click', () => {
+            if (!cameraStarted) {
+                startCamera();
+                return;
+            }
             capturedDataUrl = captureFrame();
             if (capturedDataUrl && resultCanvas) {
                 const img = new Image();
@@ -96,7 +104,12 @@
         });
     }
 
-    startCamera();
+    const cameraContainer = document.getElementById('camera-container');
+    if (cameraContainer) {
+        cameraContainer.addEventListener('click', () => {
+            if (!cameraStarted) startCamera();
+        });
+    }
 
     function checkPlayLimit(currentModule) {
         if (promptCount >= 7) {
