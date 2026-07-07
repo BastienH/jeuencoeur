@@ -1,0 +1,273 @@
+# Spanish translation for Jeu en coeur
+# Copyright (C) 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Jeu en coeur"
+msgstr "Jeu en coeur"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Silly ideas for connecting with your kids"
+msgstr "Ideas divertidas para conectar con tus hijos"
+
+msgid "Back to Hub"
+msgstr "Volver al inicio"
+
+msgid "Next Prompt"
+msgstr "Siguiente idea"
+
+msgid "No prompts found in this category"
+msgstr "No se encontraron ideas en esta categoría"
+
+msgid "3...2...1... ACTION!"
+msgstr "3...2...1... ¡ACCIÓN!"
+
+msgid "Activity"
+msgstr "Actividad"
+
+msgid "All"
+msgstr "Todo"
+
+msgid "Already have an account?"
+msgstr "¿Ya tienes una cuenta?"
+
+msgid "Back to Drawing"
+msgstr "Volver al dibujo"
+
+msgid "Back to Story"
+msgstr "Volver a la historia"
+
+msgid "Beginning"
+msgstr "Inicio"
+
+msgid "Character"
+msgstr "Personaje"
+
+msgid "Choose a game to generate and print a physical card deck."
+msgstr "Elige un juego para generar e imprimir un mazo de cartas físico."
+
+msgid "Choose a plot twist..."
+msgstr "Elige un giro argumental..."
+
+msgid "Choose an ending..."
+msgstr "Elige un final..."
+
+msgid "Choose how your story begins..."
+msgstr "Elige cómo empieza tu historia..."
+
+msgid "Clear"
+msgstr "Limpiar"
+
+msgid "Create an Account"
+msgstr "Crear una Cuenta"
+
+msgid "Deep"
+msgstr "Profundo"
+
+msgid "Don't have an account?"
+msgstr "¿No tienes una cuenta?"
+
+msgid "Doodle Gallery"
+msgstr "Galería de dibujos"
+
+msgid "Draw..."
+msgstr "Dibuja..."
+
+msgid "End Trip"
+msgstr "Terminar viaje"
+
+msgid "Ending"
+msgstr "Final"
+
+msgid "Filter:"
+msgstr "Filtrar:"
+
+msgid "Food"
+msgstr "Comida"
+
+msgid "Gallery"
+msgstr "Galería"
+
+msgid "Go!"
+msgstr "¡Vamos!"
+
+msgid "I don't like this one"
+msgstr "No me gusta esta"
+
+msgid "Imitate the sound to fill the bar!"
+msgstr "¡Imita el sonido para llenar la barra!"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Log In"
+msgstr "Iniciar sesión"
+
+msgid "Log in"
+msgstr "Inicia sesión"
+
+msgid "Login"
+msgstr "Iniciar sesión"
+
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+msgid "Make some noise!"
+msgstr "¡Haz ruido!"
+
+msgid "My Favorites"
+msgstr "Mis Favoritos"
+
+msgid "My Profile"
+msgstr "Mi Perfil"
+
+msgid "My Vault"
+msgstr "Mi Cofre"
+
+msgid "New Story"
+msgstr "Nueva Historia"
+
+msgid "Next Sound"
+msgstr "Siguiente sonido"
+
+msgid "No challenges yet!"
+msgstr "¡Sin desafíos todavía!"
+
+msgid "No drawings yet!"
+msgstr "¡Sin dibujos todavía!"
+
+msgid ""
+"No favorites yet. Browse genres and tap the heart icon to save prompts."
+msgstr ""
+"Sin favoritos todavía. Explora los géneros y toca el corazón para guardar."
+
+msgid "No prompts yet!"
+msgstr "¡Sin ideas todavía!"
+
+msgid "No questions yet!"
+msgstr "¡Sin preguntas todavía!"
+
+msgid "No sounds yet!"
+msgstr "¡Sin sonidos todavía!"
+
+msgid "No stories saved yet. Go create one!"
+msgstr "Sin historias guardadas todavía. ¡Ve a crear una!"
+
+msgid "No story started yet."
+msgstr "Ninguna historia empezada todavía."
+
+msgid "Not inspired? Reroll"
+msgstr "¿No estás inspirado? Nueva idea"
+
+msgid "Play Sound"
+msgstr "Reproducir sonido"
+
+msgid "Plot Twist"
+msgstr "Giro argumental"
+
+msgid "Plot Twist!"
+msgstr "¡Giro argumental!"
+
+msgid "Print"
+msgstr "Imprimir"
+
+msgid "Printable Card Decks"
+msgstr "Mazos de cartas imprimibles"
+
+msgid "Progress"
+msgstr "Progreso"
+
+msgid "Read aloud"
+msgstr "Leer en voz alta"
+
+msgid "Read story"
+msgstr "Leer historia"
+
+msgid "Retry"
+msgstr "Reintentar"
+
+msgid "Reverse Mode: OFF"
+msgstr "Modo invertido: OFF"
+
+msgid "Save & Share"
+msgstr "Guardar & Compartir"
+
+msgid "Save Drawing"
+msgstr "Guardar dibujo"
+
+msgid "Save prompts by tapping the heart icon"
+msgstr "Guarda ideas tocando el corazón"
+
+msgid "Save to Device"
+msgstr "Guardar en el dispositivo"
+
+msgid "Setting"
+msgstr "Escenario"
+
+msgid "Shake to refresh"
+msgstr "Agitar para actualizar"
+
+msgid "Sign Up"
+msgstr "Registrarse"
+
+msgid "Sign up"
+msgstr "Regístrate"
+
+msgid "Silly"
+msgstr "Tonto"
+
+msgid "Skip"
+msgstr "Saltar"
+
+msgid "Snap!"
+msgstr "¡Foto!"
+
+msgid "Spin!"
+msgstr "¡Girar!"
+
+msgid "Start Trip!"
+msgstr "¡Iniciar viaje!"
+
+msgid "Start Your Trip"
+msgstr "Iniciar tu viaje"
+
+msgid "Storytime Vault"
+msgstr "Cofre de historias"
+
+msgid "Switch Roles"
+msgstr "Cambiar roles"
+
+msgid "Tap Spin to get started!"
+msgstr "¡Toca Girar para empezar!"
+
+msgid "Tap the button for a car game!"
+msgstr "¡Toca el botón para un juego de auto!"
+
+msgid "Total distance (km/miles):"
+msgstr "Distancia total (km/millas):"
+
+msgid "Twist"
+msgstr "Giro"
+
+msgid "Update"
+msgstr "Actualizar"
+
+msgid "Volume"
+msgstr "Volumen"
+
+msgid "Would you rather..."
+msgstr "¿Qué prefieres..."
+
+msgid "Your Silly Face"
+msgstr "Tu Cara Tonta"

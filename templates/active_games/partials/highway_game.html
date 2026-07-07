@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if car_game %}
+<h3 class="font-semibold text-gray-800 mb-2">{{ car_game.name_en }}</h3>
+<p class="text-gray-600 text-sm">{{ car_game.instructions_en|linebreaksbr }}</p>
+{% else %}
+<p class="text-gray-400 text-center">{% trans "Tap the button for a car game!" %}</p>
+{% endif %}

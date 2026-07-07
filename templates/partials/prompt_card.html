@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if prompt %}
+<div class="text-center">
+    <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium">
+        {{ prompt.display_text }}
+    </p>
+    {% if prompt.category and genre.slug == 'little-moments' %}
+    <span class="inline-block mt-4 bg-purple-100 text-purple-700 text-xs font-medium px-3 py-1 rounded-full">
+        {{ prompt.category }}
+    </span>
+    {% endif %}
+    <div class="mt-6">
+        {% include 'partials/favorite_heart.html' %}
+    </div>
+</div>
+{% else %}
+<div class="text-center text-gray-400">
+    <p class="text-lg">{% trans "No prompts found in this category" %}</p>
+</div>
+{% endif %}

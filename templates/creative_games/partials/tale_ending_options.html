@@ -1,0 +1,11 @@
+{% load i18n %}
+<h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">{% trans "Choose an ending..." %}</h2>
+<div class="grid gap-3">
+    {% for ending in endings %}
+    <button class="ending-option w-full text-left bg-green-50 hover:bg-green-100 border-2 border-green-200 hover:border-green-400 rounded-xl p-4 transition-all min-h-[60px]"
+            data-ending-id="{{ ending.id }}">
+        <span class="inline-block bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs font-medium mb-1">{% trans "Ending" %}</span>
+        <p class="text-gray-700 font-medium">{{ ending.display_text }}</p>
+    </button>
+    {% endfor %}
+</div>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: A4; margin: 1.5cm; }
+        body { font-family: sans-serif; }
+        .card { page-break-inside: avoid; border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin-bottom: 8px; min-height: 60px; }
+        .card .meta { color: #888; font-size: 11px; }
+        .card .text { font-size: 14px; }
+        .cut-line { border-bottom: 1px dashed #ddd; margin: 4px 0; }
+        h1 { text-align: center; font-size: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    </style>
+</head>
+<body>
+    <h1>{{ genre.icon }} {{ genre.name }}</h1>
+    <div class="grid">
+        {% for entry in entries %}
+        <div class="card">
+            <div class="text">{{ entry.text }}</div>
+            {% if entry.meta %}<div class="meta">{{ entry.meta }}</div>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

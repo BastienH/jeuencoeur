@@ -1,0 +1,27 @@
+{% load i18n %}
+<div class="space-y-4" data-phase="{% if phase == 'complete' %}3{% elif phase == 'twist_locked' %}2{% elif phase == 'seed_locked' %}1{% else %}0{% endif %}">
+    {% if seed %}
+    <div class="bg-purple-50 rounded-xl p-4 border border-purple-200">
+        <span class="text-xs text-purple-500 font-semibold uppercase tracking-wide">{% trans "Beginning" %}</span>
+        <p class="text-gray-700 mt-1">{{ seed }}</p>
+    </div>
+    {% endif %}
+
+    {% if twist %}
+    <div class="bg-yellow-50 rounded-xl p-4 border border-yellow-200">
+        <span class="text-xs text-yellow-600 font-semibold uppercase tracking-wide">{% trans "Plot Twist" %}</span>
+        <p class="text-gray-700 mt-1">{{ twist }}</p>
+    </div>
+    {% endif %}
+
+    {% if ending %}
+    <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+        <span class="text-xs text-green-600 font-semibold uppercase tracking-wide">{% trans "Ending" %}</span>
+        <p class="text-gray-700 mt-1">{{ ending }}</p>
+    </div>
+    {% endif %}
+
+    {% if not seed %}
+    <p class="text-center text-gray-400 italic py-8">{% trans "No story started yet." %}</p>
+    {% endif %}
+</div>

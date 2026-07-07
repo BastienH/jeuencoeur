@@ -1,0 +1,6 @@
+{% load i18n %}
+{% if prompt %}
+<p class="text-xl font-bold text-gray-700">{{ prompt.display_text }}</p>
+{% else %}
+<p class="text-gray-400">{% trans "No prompts yet!" %}</p>
+{% endif %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block content %}
+<div class="mb-6 flex justify-between">
+    <a href="{% url 'hub' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
+        &larr; {% trans "Back to Hub" %}
+    </a>
+    <a href="{% url 'doodle_dash_gallery' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
+        {% trans "Gallery" %} 🖼️
+    </a>
+</div>
+
+<div class="text-center mb-6">
+    <span class="text-5xl">{{ genre.icon }}</span>
+    <h1 class="text-2xl font-bold text-gray-800 mt-2">{{ genre.name }}</h1>
+</div>
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+        <h2 class="text-lg font-semibold text-gray-700 text-center">{% trans "Draw..." %}</h2>
+        <p class="text-xl font-bold text-purple-700 text-center mt-2">
+            {{ prompt.subject }}
+        </p>
+        <p class="text-center text-gray-500 mt-1">{{ prompt.emotion }} &middot; {{ prompt.accessory }}</p>
+        <button id="reroll-prompt-btn"
+                class="mt-3 text-sm text-purple-600 hover:text-purple-800 underline">
+            {% trans "Not inspired? Reroll" %}
+        </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+        <div class="flex gap-2 p-3 bg-gray-50 border-b">
+            <div class="flex gap-1">
+                <button data-size="4" class="brush-size-btn w-6 h-6 rounded-full bg-gray-800 border-2 border-transparent hover:border-purple-400"></button>
+                <button data-size="12" class="brush-size-btn w-6 h-6 rounded-full bg-gray-800 border-2 border-transparent hover:border-purple-400"></button>
+                <button data-size="24" class="brush-size-btn w-6 h-6 rounded-full bg-gray-800 border-2 border-transparent hover:border-purple-400"></button>
+            </div>
+            <div class="flex gap-1 ml-4">
+                <button data-color="#000000" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#000"></button>
+                <button data-color="#7c3aed" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#7c3aed"></button>
+                <button data-color="#ef4444" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#ef4444"></button>
+                <button data-color="#22c55e" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#22c55e"></button>
+                <button data-color="#f59e0b" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#f59e0b"></button>
+                <button data-color="#3b82f6" class="color-btn w-6 h-6 rounded-full border-2 border-transparent hover:border-gray-400" style="background:#3b82f6"></button>
+            </div>
+            <button id="clear-canvas-btn" class="ml-auto text-xs text-red-500 hover:text-red-700 px-2 min-h-[44px]">{% trans "Clear" %}</button>
+        </div>
+        <canvas id="doodle-canvas" class="w-full touch-none" width="600" height="400"></canvas>
+    </div>
+
+    <div class="flex flex-wrap gap-3 justify-center mt-4">
+        <button id="save-doodle-btn"
+                class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
+            {% trans "Save Drawing" %}
+        </button>
+        <button id="print-doodle-btn"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-xl min-h-[44px]">
+            🖨️ {% trans "Print" %}
+        </button>
+    </div>
+</div>
+
+<script src="{% static 'creative_games/doodle.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,274 @@
+# French translation for Jeu en coeur
+# Copyright (C) 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Jeu en coeur"
+msgstr "Jeu en coeur"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Silly ideas for connecting with your kids"
+msgstr "Des idées amusantes pour créer des liens avec vos enfants"
+
+msgid "Back to Hub"
+msgstr "Retour à l'accueil"
+
+msgid "Next Prompt"
+msgstr "Nouvelle idée"
+
+msgid "No prompts found in this category"
+msgstr "Aucune idée trouvée dans cette catégorie"
+
+msgid "3...2...1... ACTION!"
+msgstr "3...2...1... ACTION!"
+
+msgid "Activity"
+msgstr "Activité"
+
+msgid "All"
+msgstr "Tout"
+
+msgid "Already have an account?"
+msgstr "Vous avez déjà un compte?"
+
+msgid "Back to Drawing"
+msgstr "Retour au dessin"
+
+msgid "Back to Story"
+msgstr "Retour à l'histoire"
+
+msgid "Beginning"
+msgstr "Début"
+
+msgid "Character"
+msgstr "Personnage"
+
+msgid "Choose a game to generate and print a physical card deck."
+msgstr "Choisissez un jeu pour générer et imprimer un jeu de cartes physique."
+
+msgid "Choose a plot twist..."
+msgstr "Choisis un rebondissement..."
+
+msgid "Choose an ending..."
+msgstr "Choisis une fin..."
+
+msgid "Choose how your story begins..."
+msgstr "Choisis comment ton histoire commence..."
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Create an Account"
+msgstr "Créer un Compte"
+
+msgid "Deep"
+msgstr "Profond"
+
+msgid "Don't have an account?"
+msgstr "Vous n'avez pas de compte?"
+
+msgid "Doodle Gallery"
+msgstr "Galerie de dessins"
+
+msgid "Draw..."
+msgstr "Dessine..."
+
+msgid "End Trip"
+msgstr "Terminer le voyage"
+
+msgid "Ending"
+msgstr "Fin"
+
+msgid "Filter:"
+msgstr "Filtrer:"
+
+msgid "Food"
+msgstr "Nourriture"
+
+msgid "Gallery"
+msgstr "Galerie"
+
+msgid "Go!"
+msgstr "Go!"
+
+msgid "I don't like this one"
+msgstr "Je n'aime pas celle-ci"
+
+msgid "Imitate the sound to fill the bar!"
+msgstr "Imitez le son pour remplir la barre!"
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "Log In"
+msgstr "Connexion"
+
+msgid "Log in"
+msgstr "Connectez-vous"
+
+msgid "Login"
+msgstr "Connexion"
+
+msgid "Logout"
+msgstr "Déconnexion"
+
+msgid "Make some noise!"
+msgstr "Fais du bruit!"
+
+msgid "My Favorites"
+msgstr "Mes Favoris"
+
+msgid "My Profile"
+msgstr "Mon Profil"
+
+msgid "My Vault"
+msgstr "Mon Coffre"
+
+msgid "New Story"
+msgstr "Nouvelle Histoire"
+
+msgid "Next Sound"
+msgstr "Son suivant"
+
+msgid "No challenges yet!"
+msgstr "Pas encore de défis!"
+
+msgid "No drawings yet!"
+msgstr "Pas encore de dessins!"
+
+msgid ""
+"No favorites yet. Browse genres and tap the heart icon to save prompts."
+msgstr ""
+"Pas encore de favoris. Parcourez les genres et appuyez sur le coeur pour "
+"sauvegarder."
+
+msgid "No prompts yet!"
+msgstr "Pas encore d'idées!"
+
+msgid "No questions yet!"
+msgstr "Pas encore de questions!"
+
+msgid "No sounds yet!"
+msgstr "Pas encore de sons!"
+
+msgid "No stories saved yet. Go create one!"
+msgstr "Pas encore d'histoires. Va en créer une!"
+
+msgid "No story started yet."
+msgstr "Pas encore d'histoire commencée."
+
+msgid "Not inspired? Reroll"
+msgstr "Pas inspiré? Nouvelle idée"
+
+msgid "Play Sound"
+msgstr "Jouer le son"
+
+msgid "Plot Twist"
+msgstr "Rebondissement"
+
+msgid "Plot Twist!"
+msgstr "Rebondissement!"
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Printable Card Decks"
+msgstr "Jeux de cartes imprimables"
+
+msgid "Progress"
+msgstr "Progression"
+
+msgid "Read aloud"
+msgstr "Lire à haute voix"
+
+msgid "Read story"
+msgstr "Lire l'histoire"
+
+msgid "Retry"
+msgstr "Recommencer"
+
+msgid "Reverse Mode: OFF"
+msgstr "Mode inversé: OFF"
+
+msgid "Save & Share"
+msgstr "Enregistrer & Partager"
+
+msgid "Save Drawing"
+msgstr "Enregistrer le dessin"
+
+msgid "Save prompts by tapping the heart icon"
+msgstr "Sauvegardez les idées en appuyant sur le coeur"
+
+msgid "Save to Device"
+msgstr "Sauvegarder sur l'appareil"
+
+msgid "Setting"
+msgstr "Cadre"
+
+msgid "Shake to refresh"
+msgstr "Secouer pour actualiser"
+
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+msgid "Sign up"
+msgstr "Inscrivez-vous"
+
+msgid "Silly"
+msgstr "Idiot"
+
+msgid "Skip"
+msgstr "Passer"
+
+msgid "Snap!"
+msgstr "Photo!"
+
+msgid "Spin!"
+msgstr "Tourner!"
+
+msgid "Start Trip!"
+msgstr "Commencer le voyage!"
+
+msgid "Start Your Trip"
+msgstr "Commencer votre voyage"
+
+msgid "Storytime Vault"
+msgstr "Coffre à histoires"
+
+msgid "Switch Roles"
+msgstr "Changer de rôles"
+
+msgid "Tap Spin to get started!"
+msgstr "Appuie sur Tourner pour commencer!"
+
+msgid "Tap the button for a car game!"
+msgstr "Appuie sur le bouton pour un jeu de voiture!"
+
+msgid "Total distance (km/miles):"
+msgstr "Distance totale (km/miles):"
+
+msgid "Twist"
+msgstr "Rebondissement"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Would you rather..."
+msgstr "Tu préfères..."
+
+msgid "Your Silly Face"
+msgstr "Ton Visage Drôle"

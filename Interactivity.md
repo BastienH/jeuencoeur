@@ -1,0 +1,1 @@
+For each game, the user should be able to suggest new prompt. A section of the app, a "contact" page will be dedidated to suggesting adding prompts to each game. It should arrive on the admin's page as an easy "accept"/"deny"/"Edit and accept" option

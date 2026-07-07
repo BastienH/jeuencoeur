@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if user.is_authenticated and prompt %}
+<button
+    hx-post="{% url 'toggle_favorite' lang=lang prompt_id=prompt.id %}"
+    hx-target="closest .mt-6"
+    hx-swap="innerHTML"
+    class="text-2xl transition-all duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center mx-auto hover:scale-110"
+    aria-label="{% if is_favorited %}{% trans 'Remove from favorites' %}{% else %}{% trans 'Add to favorites' %}{% endif %}"
+>
+    {% if is_favorited %}
+    <span class="text-red-500">❤️</span>
+    {% else %}
+    <span class="text-gray-300 hover:text-red-400">🤍</span>
+    {% endif %}
+</button>
+{% endif %}

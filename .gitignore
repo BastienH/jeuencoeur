@@ -1,0 +1,23 @@
+# Django
+*.pyc
+__pycache__/
+*.pyo
+db.sqlite3
+staticfiles/
+media/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Project notes (optional docs tracked, but specific dev notes)
+*.swp
+*.swo
+*~

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block content %}
+<div class="mb-6">
+    <a href="{% url 'hub' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
+        &larr; {% trans "Back to Hub" %}
+    </a>
+</div>
+
+<div class="text-center mb-6">
+    <span class="text-5xl">{{ genre.icon }}</span>
+    <h1 class="text-2xl font-bold text-gray-800 mt-2">{{ genre.name }}</h1>
+</div>
+
+<div class="max-w-md mx-auto">
+    <div id="challenge-container" class="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 text-center">
+        {% include 'sound_games/partials/giggle_challenge.html' %}
+    </div>
+
+    <div class="flex flex-col items-center gap-4">
+        <div id="countdown-container" class="w-32 h-32 mb-2">
+            <svg viewBox="0 0 100 100" class="w-full h-full -rotate-90">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                <circle id="timer-ring" cx="50" cy="50" r="42" fill="none" stroke="#7c3aed" stroke-width="8"
+                        stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <span id="timer-text" class="text-3xl font-bold text-gray-700">20</span>
+
+        <button id="trigger-btn"
+                class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-10 rounded-xl text-xl shadow-lg hover:shadow-xl transition-all min-h-[56px] active:scale-95">
+            {% trans "Go!" %}
+        </button>
+
+        <button id="skip-btn" class="hidden bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
+            {% trans "Skip" %} ⏭
+        </button>
+
+        <label class="flex items-center gap-2 text-sm text-gray-500 cursor-pointer">
+            <input type="checkbox" id="tts-toggle" class="rounded">
+            {% trans "Read aloud" %}
+        </label>
+
+        <label class="flex items-center gap-2 text-sm text-gray-500 cursor-pointer">
+            <input type="checkbox" id="shake-toggle" checked class="rounded">
+            {% trans "Shake to refresh" %}
+        </label>
+    </div>
+</div>
+
+<script src="{% static 'sound_games/giggle.js' %}"></script>
+{% endblock %}

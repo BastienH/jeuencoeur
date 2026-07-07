@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-center text-gray-800 mb-2">
+    {% trans "Jeu en coeur" %}
+</h1>
+<p class="text-center text-gray-500 mb-8">
+    {% trans "Silly ideas for connecting with your kids" %}
+</p>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for genre in genres %}
+    {% if genre.game_module %}
+    <a
+        href="{% url genre.game_module|add:'_play' lang=lang %}"
+        class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
+    >
+        <span class="text-4xl mb-3">{{ genre.icon }}</span>
+        <h2 class="text-lg font-semibold text-gray-800">{{ genre.name }}</h2>
+        {% if genre.tagline %}
+        <p class="text-sm text-gray-400 mt-1">{{ genre.tagline }}</p>
+        {% endif %}
+    </a>
+    {% else %}
+    <a
+        href="{% url 'detail' lang=lang genre_slug=genre.slug %}"
+        class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
+    >
+        <span class="text-4xl mb-3">{{ genre.icon }}</span>
+        <h2 class="text-lg font-semibold text-gray-800">{{ genre.name }}</h2>
+        {% if genre.tagline %}
+        <p class="text-sm text-gray-400 mt-1">{{ genre.tagline }}</p>
+        {% endif %}
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="mt-8 text-center">
+    <a href="{% url 'print_deck_list' lang=lang %}" class="text-purple-600 hover:text-purple-800 text-sm underline">
+        {% trans "Printable Card Decks" %}
+    </a>
+</div>
+
+{% if user.is_authenticated %}
+<div class="mt-12">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">{% trans "My Favorites" %}</h2>
+    {% with fav_count=user.favorites.count %}
+    {% if fav_count > 0 %}
+    <a href="{% url 'profile' lang=lang %}" class="text-purple-600 hover:text-purple-800">
+        {% blocktrans %}{{ fav_count }} saved prompts{% endblocktrans %}
+    </a>
+    {% else %}
+    <p class="text-gray-400">{% trans "Save prompts by tapping the heart icon" %}</p>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endif %}
+{% endblock %}
