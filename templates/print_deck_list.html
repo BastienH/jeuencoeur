@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n genre_tags %}
 
 {% block content %}
 <div class="mb-6">
@@ -16,7 +16,7 @@
     <a href="{% url 'print_deck_pdf' lang=lang game_module=genre.game_module %}"
        class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200">
         <span class="text-4xl mb-3 block">{{ genre.icon }}</span>
-        <h2 class="text-lg font-semibold text-gray-800">{{ genre.name }}</h2>
+        <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
     </a>
     {% endfor %}
 </div>

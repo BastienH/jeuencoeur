@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n genre_tags %}
 
 {% block content %}
 <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">
@@ -9,7 +9,7 @@
     {% trans "Silly ideas for connecting with your kids" %}
 </p>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for genre in genres %}
     {% if genre.game_module %}
     <a
@@ -17,10 +17,10 @@
         class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
     >
         <span class="text-4xl mb-3">{{ genre.icon }}</span>
-        <h2 class="text-lg font-semibold text-gray-800">{{ genre.name }}</h2>
-        {% if genre.tagline %}
-        <p class="text-sm text-gray-400 mt-1">{{ genre.tagline }}</p>
-        {% endif %}
+        <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
+        {% with tagline=genre|genre_tagline:lang %}{% if tagline %}
+        <p class="text-sm text-gray-400 mt-1">{{ tagline }}</p>
+        {% endif %}{% endwith %}
     </a>
     {% else %}
     <a
@@ -28,10 +28,10 @@
         class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
     >
         <span class="text-4xl mb-3">{{ genre.icon }}</span>
-        <h2 class="text-lg font-semibold text-gray-800">{{ genre.name }}</h2>
-        {% if genre.tagline %}
-        <p class="text-sm text-gray-400 mt-1">{{ genre.tagline }}</p>
-        {% endif %}
+        <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
+        {% with tagline=genre|genre_tagline:lang %}{% if tagline %}
+        <p class="text-sm text-gray-400 mt-1">{{ tagline }}</p>
+        {% endif %}{% endwith %}
     </a>
     {% endif %}
     {% endfor %}

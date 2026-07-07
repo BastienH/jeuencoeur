@@ -5,15 +5,15 @@ from django.core.management.base import BaseCommand
 from games.models import Genre, Prompt, StorySeed
 
 GENRES = [
-    {'name': 'Giggle Generators', 'slug': 'giggle-generators', 'icon': '😂', 'tagline': 'Tap for instant laughs!', 'game_module': 'giggle_generators'},
-    {'name': 'Choice Chaos', 'slug': 'choice-chaos', 'icon': '🤔', 'tagline': 'Silly debates for everyone!', 'game_module': 'choice_chaos'},
-    {'name': 'Tale Twisters', 'slug': 'tale-twisters', 'icon': '📖', 'tagline': 'Collaborative story fun', 'game_module': 'tale_twisters'},
-    {'name': 'Mimic Mayhem', 'slug': 'mimic-mayhem', 'icon': '🔊', 'tagline': 'Imitate the sound!', 'game_module': 'mimic_mayhem'},
-    {'name': 'Wild Roles', 'slug': 'wild-roles', 'icon': '🎭', 'tagline': 'Spin, act, and laugh!', 'game_module': 'wild_roles'},
-    {'name': 'Funny Face Factory', 'slug': 'funny-face-factory', 'icon': '📸', 'tagline': 'Make your silliest face!', 'game_module': 'funny_face_factory'},
-    {'name': 'Lip-Sync Legends', 'slug': 'lip-sync-legends', 'icon': '🎤', 'tagline': 'Act out that sound!', 'game_module': 'lip_sync_legends'},
-    {'name': 'Highway Hijinks', 'slug': 'highway-hijinks', 'icon': '🚗', 'tagline': 'Beat backseat boredom!', 'game_module': 'highway_hijinks'},
-    {'name': 'Doodle Dash', 'slug': 'doodle-dash', 'icon': '🎨', 'tagline': 'Draw what you imagine!', 'game_module': 'doodle_dash'},
+    {'name': 'Giggle Generators', 'name_fr': 'Générateur de fous rires', 'name_es': 'Generador de risas', 'slug': 'giggle-generators', 'icon': '😂', 'tagline': 'Tap for instant laughs!', 'tagline_fr': 'Appuyez pour des rires instantanés!', 'tagline_es': '¡Toca para reír al instante!', 'game_module': 'giggle_generators'},
+    {'name': 'Choice Chaos', 'name_fr': 'Chaos des choix', 'name_es': 'Caos de elecciones', 'slug': 'choice-chaos', 'icon': '🤔', 'tagline': 'Silly debates for everyone!', 'tagline_fr': 'Des débats amusants pour tous!', 'tagline_es': '¡Debates divertidos para todos!', 'game_module': 'choice_chaos'},
+    {'name': 'Tale Twisters', 'name_fr': 'Tordeurs d\'histoires', 'name_es': 'Trenzadores de cuentos', 'slug': 'tale-twisters', 'icon': '📖', 'tagline': 'Collaborative story fun', 'tagline_fr': 'Création d\'histoires en famille', 'tagline_es': 'Diversión con historias colaborativas', 'game_module': 'tale_twisters'},
+    {'name': 'Mimic Mayhem', 'name_fr': 'Chahut imitateur', 'name_es': 'Caos de imitación', 'slug': 'mimic-mayhem', 'icon': '🔊', 'tagline': 'Imitate the sound!', 'tagline_fr': 'Imitez le son!', 'tagline_es': '¡Imita el sonido!', 'game_module': 'mimic_mayhem'},
+    {'name': 'Wild Roles', 'name_fr': 'Rôles sauvages', 'name_es': 'Roles salvajes', 'slug': 'wild-roles', 'icon': '🎭', 'tagline': 'Spin, act, and laugh!', 'tagline_fr': 'Tourne, joue, et ris!', 'tagline_es': '¡Gira, actúa y ríe!', 'game_module': 'wild_roles'},
+    {'name': 'Funny Face Factory', 'name_fr': 'Fabrique à grimaces', 'name_es': 'Fábrica de caras graciosas', 'slug': 'funny-face-factory', 'icon': '📸', 'tagline': 'Make your silliest face!', 'tagline_fr': 'Fais la grimace la plus drôle!', 'tagline_es': '¡Haz la cara más tonta!', 'game_module': 'funny_face_factory'},
+    {'name': 'Lip-Sync Legends', 'name_fr': 'Légendes du lip-sync', 'name_es': 'Leyendas del lip-sync', 'slug': 'lip-sync-legends', 'icon': '🎤', 'tagline': 'Act out that sound!', 'tagline_fr': 'Joue ce son!', 'tagline_es': '¡Representa ese sonido!', 'game_module': 'lip_sync_legends'},
+    {'name': 'Highway Hijinks', 'name_fr': 'Jeux de route', 'name_es': 'Juegos de carretera', 'slug': 'highway-hijinks', 'icon': '🚗', 'tagline': 'Beat backseat boredom!', 'tagline_fr': 'Fini l\'ennui en voiture!', 'tagline_es': '¡Adiós al aburrimiento!', 'game_module': 'highway_hijinks'},
+    {'name': 'Doodle Dash', 'name_fr': 'Course au doodle', 'name_es': 'Carrera de doodles', 'slug': 'doodle-dash', 'icon': '🎨', 'tagline': 'Draw what you imagine!', 'tagline_fr': 'Dessine ce que tu imagines!', 'tagline_es': '¡Dibuja lo que imaginas!', 'game_module': 'doodle_dash'},
 ]
 
 PROMPTS_CSV = """genre_slug,category,text_en,text_fr,text_es
@@ -226,14 +226,23 @@ class Command(BaseCommand):
         for g in GENRES:
             genre, created = Genre.objects.get_or_create(
                 slug=g['slug'],
-                defaults={'name': g['name'], 'icon': g['icon'], 'tagline': g['tagline'], 'game_module': g['game_module']},
+                defaults={
+                    'name': g['name'], 'name_fr': g['name_fr'], 'name_es': g['name_es'],
+                    'icon': g['icon'],
+                    'tagline': g['tagline'], 'tagline_fr': g['tagline_fr'], 'tagline_es': g['tagline_es'],
+                    'game_module': g['game_module'],
+                },
             )
             if created:
                 self.stdout.write(f'  Created genre: {genre.name}')
             else:
                 genre.name = g['name']
+                genre.name_fr = g['name_fr']
+                genre.name_es = g['name_es']
                 genre.icon = g['icon']
                 genre.tagline = g['tagline']
+                genre.tagline_fr = g['tagline_fr']
+                genre.tagline_es = g['tagline_es']
                 genre.game_module = g['game_module']
                 genre.save()
             genre_map[g['slug']] = genre

@@ -19,9 +19,13 @@ class PromptManager(models.Manager):
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
+    name_fr = models.CharField(max_length=50, default='')
+    name_es = models.CharField(max_length=50, default='')
     slug = models.SlugField(unique=True)
     icon = models.CharField(max_length=10)
     tagline = models.CharField(max_length=100, blank=True)
+    tagline_fr = models.CharField(max_length=100, blank=True, default='')
+    tagline_es = models.CharField(max_length=100, blank=True, default='')
     game_module = models.CharField(max_length=50, blank=True, db_index=True,
                                    help_text='e.g. giggle_generators, choice_chaos — blank uses generic detail view')
 
@@ -30,6 +34,12 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_name(self, lang):
+        return getattr(self, f'name_{lang}', self.name) or self.name
+
+    def get_tagline(self, lang):
+        return getattr(self, f'tagline_{lang}', self.tagline) or self.tagline
 
 
 class Prompt(models.Model):

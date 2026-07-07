@@ -35,3 +35,6 @@ All Critical and High items fixed. Remaining Medium/Low items:
 
 ### 10. Tale Twister — save title is always empty
 - `{ title: '' }` hardcoded in JS.
+
+### 11. Tale Twister - no vault
+- can't consult the vault, "VariableDoesNotExist" error

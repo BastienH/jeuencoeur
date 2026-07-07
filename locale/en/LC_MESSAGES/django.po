@@ -1,0 +1,18 @@
+# English translation for Jeu en coeur
+# Copyright (C) 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Jeu en coeur"
+msgstr "Heart Game"
+
+msgid "Silly ideas for connecting with your kids"
+msgstr "Silly ideas for connecting with your kids"

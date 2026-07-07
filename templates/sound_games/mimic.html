@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static %}
+{% load i18n static genre_tags %}
 
 {% block content %}
 <div class="mb-6">
@@ -10,7 +10,7 @@
 
 <div class="text-center mb-6">
     <span class="text-5xl">{{ genre.icon }}</span>
-    <h1 class="text-2xl font-bold text-gray-800 mt-2">{{ genre.name }}</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mt-2">{{ genre|genre_name:lang }}</h1>
     <p class="text-gray-500 text-sm mt-1">{% trans "Imitate the sound to fill the bar!" %}</p>
 </div>
 
