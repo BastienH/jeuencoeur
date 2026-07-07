@@ -39,7 +39,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
 ]
 
-ROOT_URLCONF = 'coeuretjeu.urls'
+ROOT_URLCONF = 'jeuencoeur.urls'
 
 TEMPLATES = [
     {
@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'coeuretjeu.wsgi.application'
+WSGI_APPLICATION = 'jeuencoeur.wsgi.application'
 
 DATABASES = {
     'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'),

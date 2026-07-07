@@ -1,0 +1,15 @@
+[Unit]
+Description=jeuencoeur gunicorn
+After=network.target
+
+[Service]
+User=jeuencoeur
+Group=jeuencoeur
+WorkingDirectory=/opt/jeuencoeur
+EnvironmentFile=/opt/jeuencoeur/.env
+ExecStart=/opt/jeuencoeur/venv/bin/gunicorn jeuencoeur.wsgi:application \
+          --workers 3 --bind 127.0.0.1:8081
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

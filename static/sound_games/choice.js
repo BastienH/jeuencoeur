@@ -70,7 +70,7 @@
             voteResult.textContent = (document.documentElement.lang === 'fr' ? 'Tu as choisi ' : document.documentElement.lang === 'es' ? 'Elegiste ' : 'You chose ') + (vote === 'a' ? 'Option A' : (document.documentElement.lang === 'fr' ? 'Option B' : document.documentElement.lang === 'es' ? 'Opción B' : 'Option B')) + '!';
         }
 
-        fetch('/en/choice-chaos/vote/', {
+        fetch(window.location.pathname.replace(/\/+$/, '') + '/vote/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
