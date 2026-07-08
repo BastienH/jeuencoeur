@@ -186,16 +186,21 @@ def tale_claim_story(request, lang):
 def funny_face_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='funny-face-factory')
-    prompt = FacePrompt.get_random(lang)
+    age_group = request.GET.get('age')
+    category = request.GET.get('cat')
+    prompt = FacePrompt.get_random(lang, age_group=age_group, category=category)
     return render(request, 'creative_games/funny_face.html', {
         'genre': genre, 'prompt': prompt, 'lang': lang,
+        'age_group': age_group, 'category': category,
     })
 
 
 @require_active_game('funny-face-factory')
 def funny_face_next(request, lang):
     activate(lang)
-    prompt = FacePrompt.get_random(lang)
+    age_group = request.GET.get('age')
+    category = request.GET.get('cat')
+    prompt = FacePrompt.get_random(lang, age_group=age_group, category=category)
     return render(request, 'creative_games/partials/funny_face_prompt.html', {
         'prompt': prompt, 'lang': lang,
     })

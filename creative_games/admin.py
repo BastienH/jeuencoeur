@@ -43,8 +43,8 @@ class StorySessionAdmin(admin.ModelAdmin):
 @admin.register(FacePrompt)
 class FacePromptAdmin(ImportExportModelAdmin):
     resource_class = FacePromptResource
-    list_display = ('id', 'text_en_preview', 'genre')
-    list_filter = ('genre',)
+    list_display = ('id', 'text_en_preview', 'age_group', 'category', 'genre')
+    list_filter = ('age_group', 'category', 'genre')
     search_fields = ('text_en',)
     autocomplete_fields = ['genre']
 

@@ -1,17 +1,18 @@
 import random
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class MicroChallenge(models.Model):
     AGE_GROUPS = [
-        ('toddler', 'Toddler'),
-        ('prek', 'Pre-K'),
-        ('elementary', 'Elementary'),
+        ('toddler', _('Toddler')),
+        ('prek', _('Pre-K')),
+        ('elementary', _('Elementary')),
     ]
     ENERGY_LEVELS = [
-        ('calm', 'Calm'),
-        ('wild', 'Wild'),
+        ('calm', _('Calm')),
+        ('wild', _('Wild')),
     ]
 
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='micro_challenges')
@@ -52,9 +53,9 @@ class MicroChallenge(models.Model):
 
 class WYRQuestion(models.Model):
     CATEGORIES = [
-        ('silly', 'Silly'),
-        ('deep', 'Deep'),
-        ('food', 'Food'),
+        ('silly', _('Silly')),
+        ('deep', _('Deep')),
+        ('food', _('Food')),
     ]
 
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='wyr_questions')

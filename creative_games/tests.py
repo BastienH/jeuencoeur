@@ -27,10 +27,20 @@ class StoryTwistTest(TestCase):
 class FacePromptTest(TestCase):
     def setUp(self):
         self.genre = Genre.objects.create(name='Test', slug='test', icon='🎯')
-        FacePrompt.objects.create(genre=self.genre, text_en='EN', text_fr='FR', text_es='ES')
+        FacePrompt.objects.create(genre=self.genre, text_en='EN', text_fr='FR', text_es='ES', age_group='all', category='silly')
 
     def test_get_random(self):
         p = FacePrompt.get_random('en')
+        self.assertEqual(p.display_text, 'EN')
+
+    def test_get_random_age_filter(self):
+        p = FacePrompt.get_random('en', age_group='toddler')
+        self.assertIsNotNone(p)
+        self.assertEqual(p.display_text, 'EN')
+
+    def test_get_random_category_filter(self):
+        p = FacePrompt.get_random('en', category='silly')
+        self.assertIsNotNone(p)
         self.assertEqual(p.display_text, 'EN')
 
 
@@ -53,7 +63,8 @@ class CreativeGameViewTest(TestCase):
         g = Genre.objects.get(slug='tale-twisters')
         StoryTwist.objects.create(genre=g, text_en='twist', text_fr='twist', text_es='twist')
         FacePrompt.objects.create(genre=Genre.objects.get(slug='funny-face-factory'),
-                                   text_en='face', text_fr='face', text_es='face')
+                                   text_en='face', text_fr='face', text_es='face',
+                                   age_group='all', category='silly')
         DoodleSubject.objects.create(text_en='subj', text_fr='subj', text_es='subj')
         DoodleEmotion.objects.create(text_en='emo', text_fr='emo', text_es='emo')
         DoodleAccessory.objects.create(text_en='acc', text_fr='acc', text_es='acc')

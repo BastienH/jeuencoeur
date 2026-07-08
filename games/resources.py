@@ -107,7 +107,7 @@ class FacePromptResource(_BaseResource):
 
     class Meta(_BaseResource.Meta):
         model = FacePrompt
-        fields = ('genre', 'text_en', 'text_fr', 'text_es')
+        fields = ('genre', 'age_group', 'category', 'text_en', 'text_fr', 'text_es')
 
 
 class DoodleSubjectResource(_BaseResource):

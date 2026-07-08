@@ -2,6 +2,7 @@ import random
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class RoleCharacter(models.Model):
@@ -45,10 +46,10 @@ class RoleActivity(models.Model):
 
 class CarGame(models.Model):
     AGE_GROUPS = [
-        ('toddler', 'Toddler'),
-        ('prek', 'Pre-K'),
-        ('elementary', 'Elementary'),
-        ('all', 'All Ages'),
+        ('toddler', _('Toddler')),
+        ('prek', _('Pre-K')),
+        ('elementary', _('Elementary')),
+        ('all', _('All Ages')),
     ]
 
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='car_games')

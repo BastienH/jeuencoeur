@@ -2,6 +2,7 @@ import random
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class StoryTwist(models.Model):
@@ -46,8 +47,31 @@ class StorySession(models.Model):
         return self.title or f"Story #{self.id}"
 
 
+CATEGORIES = [
+    ('silly', _('Silly')),
+    ('happy', _('Happy')),
+    ('sad', _('Sad')),
+    ('angry', _('Angry')),
+    ('surprised', _('Surprised')),
+    ('scared', _('Scared')),
+    ('sleepy', _('Sleepy')),
+    ('brave', _('Brave')),
+    ('grumpy', _('Grumpy')),
+    ('funny', _('Funny')),
+]
+
+AGE_GROUPS = [
+    ('toddler', _('Toddler')),
+    ('prek', _('Pre-K')),
+    ('elementary', _('Elementary')),
+    ('all', _('All Ages')),
+]
+
+
 class FacePrompt(models.Model):
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='face_prompts')
+    age_group = models.CharField(max_length=20, choices=AGE_GROUPS, default='all', db_index=True)
+    category = models.CharField(max_length=20, choices=CATEGORIES, default='silly', db_index=True)
     text_en = models.TextField()
     text_fr = models.TextField()
     text_es = models.TextField()
@@ -63,11 +87,18 @@ class FacePrompt(models.Model):
         return getattr(self, f'text_{lang}', self.text_en) or self.text_en
 
     @staticmethod
-    def get_random(lang):
-        count = FacePrompt.objects.count()
+    def get_random(lang, age_group=None, category=None):
+        qs = FacePrompt.objects.all()
+        if age_group and age_group != 'all':
+            qs = qs.filter(age_group=age_group)
+        if category:
+            qs = qs.filter(category=category)
+        if not qs.exists():
+            qs = FacePrompt.objects.all()
+        count = qs.count()
         if count == 0:
             return None
-        p = FacePrompt.objects.all()[random.randint(0, count - 1)]
+        p = qs[random.randint(0, count - 1)]
         p.display_text = p.get_text(lang)
         return p
 

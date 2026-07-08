@@ -57,17 +57,25 @@ def seed_story_endings(genre, stdout):
 
 def seed_face_prompts(genre, stdout):
     prompts = [
-        {'text_en': 'Make your silliest face!', 'text_fr': 'Fais la grimace la plus idiote!', 'text_es': '¡Haz la cara más tonta!'},
-        {'text_en': 'Pretend you just ate something sour', 'text_fr': 'Fais comme si tu venais de manger quelque chose d\'acide', 'text_es': 'Imagina que acabas de comer algo agrio'},
-        {'text_en': 'Show your happiest smile', 'text_fr': 'Montre ton plus beau sourire', 'text_es': 'Muestra tu sonrisa más feliz'},
-        {'text_en': 'Look surprised!', 'text_fr': 'Aie l\'air surpris!', 'text_es': '¡Parece sorprendido!'},
+        {'text_en': 'Make your silliest face!', 'text_fr': 'Fais la grimace la plus idiote!', 'text_es': '¡Haz la cara más tonta!', 'age_group': 'all', 'category': 'silly'},
+        {'text_en': 'Pretend you just ate something sour', 'text_fr': 'Fais comme si tu venais de manger quelque chose d\'acide', 'text_es': 'Imagina que acabas de comer algo agrio', 'age_group': 'all', 'category': 'funny'},
+        {'text_en': 'Show your happiest smile', 'text_fr': 'Montre ton plus beau sourire', 'text_es': 'Muestra tu sonrisa más feliz', 'age_group': 'all', 'category': 'happy'},
+        {'text_en': 'Look surprised!', 'text_fr': 'Aie l\'air surpris!', 'text_es': '¡Parece sorprendido!', 'age_group': 'all', 'category': 'surprised'},
+        {'text_en': 'Look like a brave superhero', 'text_fr': 'Prends l\'air d\'un super-héros courageux', 'text_es': 'Parece un superhéroe valiente', 'age_group': 'elementary', 'category': 'brave'},
+        {'text_en': 'Show your sleepiest face', 'text_fr': 'Montre ton air le plus fatigué', 'text_es': 'Muestra tu cara más soñolienta', 'age_group': 'toddler', 'category': 'sleepy'},
+        {'text_en': 'Make a grumpy face like a grouchy bear', 'text_fr': 'Fais la tête comme un ours grognon', 'text_es': 'Pon cara de gruñón como un oso enfadado', 'age_group': 'prek', 'category': 'grumpy'},
+        {'text_en': 'Show your scariest monster face!', 'text_fr': 'Montre ton visage de monstre le plus effrayant!', 'text_es': '¡Muestra tu cara de monstruo más aterradora!', 'age_group': 'elementary', 'category': 'scared'},
+        {'text_en': 'Look as sad as a rainy day', 'text_fr': 'Aie l\'air aussi triste qu\'un jour de pluie', 'text_es': 'Ponte tan triste como un día lluvioso', 'age_group': 'all', 'category': 'sad'},
+        {'text_en': 'Make your angriest face!', 'text_fr': 'Fais ta tête la plus fâchée!', 'text_es': '¡Pon tu cara más enfadada!', 'age_group': 'prek', 'category': 'angry'},
     ]
     count = 0
     for p in prompts:
-        FacePrompt.objects.get_or_create(genre=genre, text_en=p['text_en'],
-                                          defaults={'text_fr': p['text_fr'], 'text_es': p['text_es']})
-        count += 1
-    stdout.write(f'  Seeded {count} face prompts')
+        _, created = FacePrompt.objects.get_or_create(genre=genre, text_en=p['text_en'],
+                                          defaults={'text_fr': p['text_fr'], 'text_es': p['text_es'],
+                                                     'age_group': p['age_group'], 'category': p['category']})
+        if created:
+            count += 1
+    stdout.write(f'  Seeded {count} face prompts (new)')
 
 
 def seed_doodle_data(stdout):
