@@ -6,10 +6,12 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import AnalyticsEvent, Genre
+from games.utils import require_active_game
 
 from .models import LipSyncSound, MicroChallenge, SoundFX, WYRQuestion
 
 
+@require_active_game('giggle-generators')
 def giggle_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='giggle-generators')
@@ -19,6 +21,7 @@ def giggle_play(request, lang):
     })
 
 
+@require_active_game('giggle-generators')
 def giggle_next(request, lang):
     activate(lang)
     age_group = request.GET.get('age_group')
@@ -29,6 +32,7 @@ def giggle_next(request, lang):
     })
 
 
+@require_active_game('choice-chaos')
 def choice_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='choice-chaos')
@@ -38,6 +42,7 @@ def choice_play(request, lang):
     })
 
 
+@require_active_game('choice-chaos')
 def choice_reroll(request, lang):
     activate(lang)
     category = request.GET.get('category')
@@ -47,6 +52,7 @@ def choice_reroll(request, lang):
     })
 
 
+@require_active_game('choice-chaos')
 @require_POST
 def choice_vote(request, lang):
     data = json.loads(request.body) if request.body else request.POST
@@ -61,6 +67,7 @@ def choice_vote(request, lang):
     return JsonResponse({'status': 'ok', 'vote': vote})
 
 
+@require_active_game('mimic-mayhem')
 def mimic_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='mimic-mayhem')
@@ -70,6 +77,7 @@ def mimic_play(request, lang):
     })
 
 
+@require_active_game('mimic-mayhem')
 def mimic_next(request, lang):
     sound = SoundFX.get_random()
     return render(request, 'sound_games/partials/mimic_sound.html', {
@@ -77,6 +85,7 @@ def mimic_next(request, lang):
     })
 
 
+@require_active_game('lip-sync-legends')
 def lip_sync_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='lip-sync-legends')
@@ -88,6 +97,7 @@ def lip_sync_play(request, lang):
     })
 
 
+@require_active_game('lip-sync-legends')
 def lip_sync_next(request, lang):
     sound = LipSyncSound.get_random()
     if sound:

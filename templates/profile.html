@@ -11,6 +11,27 @@
 <h1 class="text-2xl font-bold text-gray-800 mb-2">{% trans "My Profile" %}</h1>
 <p class="text-gray-500 mb-8">{{ user.username }}</p>
 
+{% if genres %}
+<form method="post" class="mb-10">
+    {% csrf_token %}
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">{% trans "My Game Order" %}</h2>
+    <p class="text-sm text-gray-400 mb-4">{% trans "Drag or reorder to customise your hub." %}</p>
+    <div id="game-order-list" class="space-y-2 max-w-md">
+        {% for genre in genres %}
+        <div class="flex items-center gap-3 bg-white rounded-xl border border-gray-100 px-4 py-3 shadow-sm cursor-move select-none" data-slug="{{ genre.slug }}">
+            <span class="text-gray-400 text-sm font-mono w-6 text-right order-number">{{ forloop.counter }}</span>
+            <span class="text-xl">{{ genre.icon }}</span>
+            <span class="text-gray-700 font-medium">{{ genre|genre_name:lang }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <input type="hidden" name="game_order" id="game-order-input" value="{% for genre in genres %}{{ genre.slug }}{% if not forloop.last %},{% endif %}{% endfor %}">
+    <button type="submit" class="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
+        {% trans "Save Order" %}
+    </button>
+</form>
+{% endif %}
+
 <h2 class="text-xl font-semibold text-gray-800 mb-4">
     {% trans "My Favorites" %} ({{ favorites|length }})
 </h2>
@@ -40,4 +61,51 @@
 {% else %}
 <p class="text-gray-400">{% trans "No favorites yet. Browse genres and tap the heart icon to save prompts." %}</p>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var list = document.getElementById('game-order-list');
+    var input = document.getElementById('game-order-input');
+    if (!list || !input) return;
+    var items = list.querySelectorAll('[data-slug]');
+    var dragEl = null;
+
+    items.forEach(function(item) {
+        item.setAttribute('draggable', 'true');
+        item.addEventListener('dragstart', function(e) {
+            dragEl = this;
+            this.classList.add('opacity-50');
+        });
+        item.addEventListener('dragend', function(e) {
+            this.classList.remove('opacity-50');
+            dragEl = null;
+        });
+        item.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            if (dragEl === this) return;
+            var rect = this.getBoundingClientRect();
+            var mid = rect.top + rect.height / 2;
+            if (e.clientY < mid) {
+                this.parentNode.insertBefore(dragEl, this);
+            } else {
+                this.parentNode.insertBefore(dragEl, this.nextSibling);
+            }
+        });
+    });
+
+    list.addEventListener('drop', function() {
+        var slugs = [];
+        list.querySelectorAll('[data-slug]').forEach(function(el) {
+            slugs.push(el.dataset.slug);
+        });
+        input.value = slugs.join(',');
+        list.querySelectorAll('[data-slug]').forEach(function(el, i) {
+            var num = el.querySelector('.order-number');
+            if (num) num.textContent = i + 1;
+        });
+    });
+})();
+</script>
 {% endblock %}

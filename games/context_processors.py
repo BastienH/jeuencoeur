@@ -14,7 +14,10 @@ def analytics(request):
 
 
 def all_genres_data(request):
+    from .utils import is_tester
     genres = Genre.objects.exclude(game_module='')
+    if not is_tester(request.user):
+        genres = genres.filter(is_active=True)
     lang = translation.get_language() or 'en'
     data = [{
         'name': g.get_name(lang),

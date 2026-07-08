@@ -6,7 +6,9 @@ from .models import AnalyticsEvent, Favorite, Genre, Prompt, SoundEffect, StoryS
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'slug', 'icon')
+    list_display = ('name', 'slug', 'icon', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter = ('is_active',)
     search_fields = ('name',)
 
 
@@ -98,9 +100,14 @@ class SoundEffectAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at')
+    list_display = ('user', 'is_tester', 'created_at')
     search_fields = ('user__username', 'user__email')
     raw_id_fields = ('user',)
+
+    def is_tester(self, obj):
+        return obj.settings.get('is_tester', False)
+    is_tester.boolean = True
+    is_tester.short_description = 'Tester'
 
 
 @admin.register(Favorite)

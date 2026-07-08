@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .models import AnalyticsEvent, Favorite, Genre, Prompt, UserProfile
+from .utils import is_tester
 
 
 def _favorited(prompt, request):
@@ -20,13 +21,25 @@ def _favorited(prompt, request):
 
 def hub(request, lang):
     activate(lang)
-    genres = Genre.objects.all()
-    return render(request, 'hub.html', {'genres': genres, 'lang': lang})
+    genres = list(Genre.objects.all())
+    if request.user.is_authenticated:
+        try:
+            order = request.user.profile.settings.get('game_order', {})
+            if order:
+                genres.sort(key=lambda g: order.get(g.slug, 999))
+        except AttributeError:
+            pass
+    return render(request, 'hub.html', {
+        'genres': genres, 'lang': lang,
+        'is_tester': is_tester(request.user),
+    })
 
 
 def detail(request, lang, genre_slug):
     activate(lang)
     genre = get_object_or_404(Genre, slug=genre_slug)
+    if not genre.is_active and not is_tester(request.user):
+        return redirect('hub', lang=lang)
     prompt = Prompt.objects.get_random(genre, lang)
     return render(request, 'detail.html', {
         'genre': genre,
@@ -89,10 +102,28 @@ def profile(request, lang):
     activate(lang)
     favorites = Favorite.objects.filter(user=request.user).select_related('prompt__genre')
     profile_obj, _ = UserProfile.objects.get_or_create(user=request.user)
+    genres = Genre.objects.all()
+
+    if request.method == 'POST':
+        raw = request.POST.get('game_order', '')
+        order_map = {}
+        for i, slug in enumerate(raw.split(',')):
+            slug = slug.strip()
+            if slug:
+                order_map[slug] = i
+        settings = profile_obj.settings
+        if order_map:
+            settings['game_order'] = order_map
+        else:
+            settings.pop('game_order', None)
+        profile_obj.settings = settings
+        profile_obj.save(update_fields=['settings'])
+
     return render(request, 'profile.html', {
         'lang': lang,
         'favorites': favorites,
         'profile': profile_obj,
+        'genres': genres,
     })
 
 

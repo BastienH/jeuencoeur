@@ -7,10 +7,12 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import AnalyticsEvent, Genre
+from games.utils import require_active_game
 
 from .models import CarGame, RoleActivity, RoleCharacter, RoleSetting, TripSession
 
 
+@require_active_game('wild-roles')
 def wild_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='wild-roles')
@@ -26,6 +28,7 @@ def wild_play(request, lang):
     })
 
 
+@require_active_game('wild-roles')
 def wild_spin(request, lang):
     activate(lang)
     character = RoleCharacter.objects.order_by('?').first()
@@ -39,6 +42,7 @@ def wild_spin(request, lang):
     })
 
 
+@require_active_game('wild-roles')
 def wild_spin_character(request, lang):
     activate(lang)
     character = RoleCharacter.objects.order_by('?').first()
@@ -48,6 +52,7 @@ def wild_spin_character(request, lang):
     })
 
 
+@require_active_game('wild-roles')
 def wild_spin_setting(request, lang):
     activate(lang)
     setting = RoleSetting.objects.order_by('?').first()
@@ -57,6 +62,7 @@ def wild_spin_setting(request, lang):
     })
 
 
+@require_active_game('wild-roles')
 def wild_spin_activity(request, lang):
     activate(lang)
     activity = RoleActivity.objects.order_by('?').first()
@@ -66,6 +72,7 @@ def wild_spin_activity(request, lang):
     })
 
 
+@require_active_game('wild-roles')
 def wild_react(request, lang):
     data = json.loads(request.body) if request.body else request.POST
     AnalyticsEvent.objects.create(
@@ -77,6 +84,7 @@ def wild_react(request, lang):
     return JsonResponse({'status': 'ok'})
 
 
+@require_active_game('highway-hijinks')
 def highway_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='highway-hijinks')
@@ -90,6 +98,7 @@ def highway_play(request, lang):
     })
 
 
+@require_active_game('highway-hijinks')
 def highway_boredom_buster(request, lang):
     car_game = CarGame.objects.order_by('?').first()
     return render(request, 'active_games/partials/highway_game.html', {
@@ -97,6 +106,7 @@ def highway_boredom_buster(request, lang):
     })
 
 
+@require_active_game('highway-hijinks')
 def highway_next_game(request, lang):
     activate(lang)
     trip_id = request.GET.get('trip_id')
@@ -122,6 +132,7 @@ def highway_next_game(request, lang):
     })
 
 
+@require_active_game('highway-hijinks')
 def highway_start_trip(request, lang):
     data = json.loads(request.body) if request.body else request.POST
     session = TripSession.objects.create(
@@ -134,6 +145,7 @@ def highway_start_trip(request, lang):
     return JsonResponse({'status': 'ok', 'trip_id': session.id})
 
 
+@require_active_game('highway-hijinks')
 @require_POST
 def highway_update_progress(request, lang):
     data = json.loads(request.body) if request.body else request.POST
@@ -145,6 +157,7 @@ def highway_update_progress(request, lang):
     return JsonResponse({'status': 'ok'})
 
 
+@require_active_game('highway-hijinks')
 @require_POST
 def highway_end_trip(request, lang):
     data = json.loads(request.body) if request.body else request.POST

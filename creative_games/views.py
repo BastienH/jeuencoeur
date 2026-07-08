@@ -7,11 +7,13 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import Genre, StorySeed
+from games.utils import require_active_game
 
 from .models import (DoodleAccessory, DoodleDrawing, DoodleEmotion,
                      DoodleSubject, FacePrompt, StoryEnding, StorySession, StoryTwist)
 
 
+@require_active_game('tale-twisters')
 def tale_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='tale-twisters')
@@ -21,6 +23,7 @@ def tale_play(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_twist(request, lang):
     activate(lang)
     twist = StoryTwist.get_random(lang)
@@ -29,6 +32,7 @@ def tale_twist(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_start(request, lang):
     activate(lang)
     if request.method == 'POST':
@@ -51,6 +55,7 @@ def tale_start(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_pick_twist(request, lang):
     activate(lang)
     if request.method == 'POST':
@@ -74,6 +79,7 @@ def tale_pick_twist(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_pick_ending(request, lang):
     activate(lang)
     if request.method == 'POST':
@@ -93,6 +99,7 @@ def tale_pick_ending(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_state(request, lang):
     activate(lang)
     session_key = f'tale_{lang}'
@@ -112,6 +119,7 @@ def tale_state(request, lang):
     })
 
 
+@require_active_game('tale-twisters')
 def tale_save(request, lang):
     data = json.loads(request.body) if request.body else request.POST
     session = StorySession.objects.create(
@@ -127,6 +135,7 @@ def tale_save(request, lang):
     return JsonResponse({'status': 'ok', 'id': session.id})
 
 
+@require_active_game('tale-twisters')
 def tale_vault(request, lang):
     activate(lang)
     sessions = StorySession.objects.filter(user=request.user) if request.user.is_authenticated else StorySession.objects.none()
@@ -136,6 +145,7 @@ def tale_vault(request, lang):
     })
 
 
+@require_active_game('funny-face-factory')
 def funny_face_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='funny-face-factory')
@@ -145,6 +155,7 @@ def funny_face_play(request, lang):
     })
 
 
+@require_active_game('funny-face-factory')
 def funny_face_next(request, lang):
     activate(lang)
     prompt = FacePrompt.get_random(lang)
@@ -153,6 +164,7 @@ def funny_face_next(request, lang):
     })
 
 
+@require_active_game('doodle-dash')
 def doodle_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='doodle-dash')
@@ -170,6 +182,7 @@ def doodle_play(request, lang):
     })
 
 
+@require_active_game('doodle-dash')
 @require_POST
 def doodle_save(request, lang):
     data = json.loads(request.body) if request.body else request.POST
@@ -184,6 +197,7 @@ def doodle_save(request, lang):
     return JsonResponse({'status': 'ok'})
 
 
+@require_active_game('doodle-dash')
 def doodle_gallery(request, lang):
     activate(lang)
     drawings = DoodleDrawing.objects.all().order_by('-created_at')[:20]

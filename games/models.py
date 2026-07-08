@@ -28,10 +28,14 @@ class Genre(models.Model):
     tagline_es = models.CharField(max_length=100, blank=True, default='')
     game_module = models.CharField(max_length=50, blank=True, db_index=True,
                                    help_text='e.g. giggle_generators, choice_chaos — blank uses generic detail view')
+    is_active = models.BooleanField(default=True,
+                                    help_text='Uncheck to restrict to testers and show "Coming soon"')
+    order = models.PositiveIntegerField(default=0,
+                                        help_text='Default sort order (lower = first)')
 
     class Meta:
         verbose_name_plural = 'Games'
-        ordering = ['name']
+        ordering = ['order', 'name']
 
     def __str__(self):
         return self.name
