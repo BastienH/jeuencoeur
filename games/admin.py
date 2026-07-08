@@ -239,7 +239,7 @@ def _create_target_model_record(suggestion):
         'micro_challenge': lambda: MicroChallenge.objects.create(
             genre=suggestion.genre,
             text_en=text_en, text_fr=text_fr, text_es=text_es,
-            age_group=suggestion.age_group or 'elementary',
+            age_group=suggestion.age_group or '3-6',
             energy_level=suggestion.energy_level or 'calm',
             duration_seconds=suggestion.duration_seconds or 20,
         ),

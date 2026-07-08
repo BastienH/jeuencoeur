@@ -46,10 +46,10 @@ class RoleActivity(models.Model):
 
 class CarGame(models.Model):
     AGE_GROUPS = [
-        ('toddler', _('Toddler')),
-        ('prek', _('Pre-K')),
-        ('elementary', _('Elementary')),
         ('all', _('All Ages')),
+        ('3-6', _('3-6')),
+        ('7-10', _('7-10')),
+        ('11+', _('11+')),
     ]
 
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='car_games')

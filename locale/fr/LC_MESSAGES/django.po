@@ -375,8 +375,8 @@ msgid "No drawings yet!"
 msgstr "Pas encore de dessins!"
 
 #: templates/creative_games/funny_face.html:25
-msgid "I did it!"
-msgstr ""
+msgid "Done!"
+msgstr "Fait!"
 
 #: templates/creative_games/funny_face.html:29
 msgid "Another"

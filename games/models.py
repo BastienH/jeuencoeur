@@ -206,9 +206,10 @@ class GameSuggestion(models.Model):
     ]
     AGE_GROUPS = [
         ('', '---------'),
-        ('toddler', 'Toddler'),
-        ('prek', 'Pre-K'),
-        ('elementary', 'Elementary'),
+        ('all', 'All Ages'),
+        ('3-6', '3-6'),
+        ('7-10', '7-10'),
+        ('11+', '11+'),
     ]
     ENERGY_LEVELS = [
         ('', '---------'),

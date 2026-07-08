@@ -376,7 +376,7 @@ msgstr "¡Sin dibujos todavía!"
 
 #: templates/creative_games/funny_face.html:25
 msgid "Done!"
-msgstr ""
+msgstr "Hecho!"
 
 #: templates/creative_games/funny_face.html:29
 msgid "Another"

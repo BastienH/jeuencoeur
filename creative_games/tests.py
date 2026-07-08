@@ -34,7 +34,7 @@ class FacePromptTest(TestCase):
         self.assertEqual(p.display_text, 'EN')
 
     def test_get_random_age_filter(self):
-        p = FacePrompt.get_random('en', age_group='toddler')
+        p = FacePrompt.get_random('en', age_group='3-6')
         self.assertIsNotNone(p)
         self.assertEqual(p.display_text, 'EN')
 

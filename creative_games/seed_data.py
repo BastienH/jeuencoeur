@@ -61,12 +61,12 @@ def seed_face_prompts(genre, stdout):
         {'text_en': 'Pretend you just ate something sour', 'text_fr': 'Fais comme si tu venais de manger quelque chose d\'acide', 'text_es': 'Imagina que acabas de comer algo agrio', 'age_group': 'all', 'category': 'funny'},
         {'text_en': 'Show your happiest smile', 'text_fr': 'Montre ton plus beau sourire', 'text_es': 'Muestra tu sonrisa más feliz', 'age_group': 'all', 'category': 'happy'},
         {'text_en': 'Look surprised!', 'text_fr': 'Aie l\'air surpris!', 'text_es': '¡Parece sorprendido!', 'age_group': 'all', 'category': 'surprised'},
-        {'text_en': 'Look like a brave superhero', 'text_fr': 'Prends l\'air d\'un super-héros courageux', 'text_es': 'Parece un superhéroe valiente', 'age_group': 'elementary', 'category': 'brave'},
-        {'text_en': 'Show your sleepiest face', 'text_fr': 'Montre ton air le plus fatigué', 'text_es': 'Muestra tu cara más soñolienta', 'age_group': 'toddler', 'category': 'sleepy'},
-        {'text_en': 'Make a grumpy face like a grouchy bear', 'text_fr': 'Fais la tête comme un ours grognon', 'text_es': 'Pon cara de gruñón como un oso enfadado', 'age_group': 'prek', 'category': 'grumpy'},
-        {'text_en': 'Show your scariest monster face!', 'text_fr': 'Montre ton visage de monstre le plus effrayant!', 'text_es': '¡Muestra tu cara de monstruo más aterradora!', 'age_group': 'elementary', 'category': 'scared'},
+        {'text_en': 'Look like a brave superhero', 'text_fr': 'Prends l\'air d\'un super-héros courageux', 'text_es': 'Parece un superhéroe valiente', 'age_group': '7-10', 'category': 'brave'},
+        {'text_en': 'Show your sleepiest face', 'text_fr': 'Montre ton air le plus fatigué', 'text_es': 'Muestra tu cara más soñolienta', 'age_group': '3-6', 'category': 'sleepy'},
+        {'text_en': 'Make a grumpy face like a grouchy bear', 'text_fr': 'Fais la tête comme un ours grognon', 'text_es': 'Pon cara de gruñón como un oso enfadado', 'age_group': '3-6', 'category': 'grumpy'},
+        {'text_en': 'Show your scariest monster face!', 'text_fr': 'Montre ton visage de monstre le plus effrayant!', 'text_es': '¡Muestra tu cara de monstruo más aterradora!', 'age_group': '7-10', 'category': 'scared'},
         {'text_en': 'Look as sad as a rainy day', 'text_fr': 'Aie l\'air aussi triste qu\'un jour de pluie', 'text_es': 'Ponte tan triste como un día lluvioso', 'age_group': 'all', 'category': 'sad'},
-        {'text_en': 'Make your angriest face!', 'text_fr': 'Fais ta tête la plus fâchée!', 'text_es': '¡Pon tu cara más enfadada!', 'age_group': 'prek', 'category': 'angry'},
+        {'text_en': 'Make your angriest face!', 'text_fr': 'Fais ta tête la plus fâchée!', 'text_es': '¡Pon tu cara más enfadada!', 'age_group': '3-6', 'category': 'angry'},
     ]
     count = 0
     for p in prompts:

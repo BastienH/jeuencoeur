@@ -9,7 +9,7 @@ class MicroChallengeTest(TestCase):
         self.genre = Genre.objects.create(name='Test', slug='test', icon='🎯')
         self.c = MicroChallenge.objects.create(
             genre=self.genre, text_en='EN', text_fr='FR', text_es='ES',
-            age_group='toddler', energy_level='calm',
+            age_group='3-6', energy_level='calm',
         )
 
     def test_get_text(self):
@@ -23,10 +23,10 @@ class MicroChallengeTest(TestCase):
     def test_get_random_age_filter(self):
         MicroChallenge.objects.create(
             genre=self.genre, text_en='Wild', text_fr='', text_es='',
-            age_group='elementary', energy_level='wild',
+            age_group='7-10', energy_level='wild',
         )
-        c = MicroChallenge.get_random('en', age_group='toddler')
-        self.assertEqual(c.age_group, 'toddler')
+        c = MicroChallenge.get_random('en', age_group='3-6')
+        self.assertEqual(c.age_group, '3-6')
 
 
 class WYRQuestionTest(TestCase):
@@ -70,7 +70,7 @@ class SoundGameViewTest(TestCase):
         Genre.objects.create(name='MM', slug='mimic-mayhem', game_module='mimic_mayhem')
         Genre.objects.create(name='LL', slug='lip-sync-legends', game_module='lip_sync_legends')
         MicroChallenge.objects.create(genre=self.genre, text_en='test', text_fr='test', text_es='test',
-                                       age_group='toddler', energy_level='calm')
+                                        age_group='3-6', energy_level='calm')
         WYRQuestion.objects.create(genre=Genre.objects.get(slug='choice-chaos'), category='silly',
                                     option_a_en='a', option_a_fr='a', option_a_es='a',
                                     option_b_en='b', option_b_fr='b', option_b_es='b')

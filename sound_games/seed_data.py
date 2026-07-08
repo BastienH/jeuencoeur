@@ -7,12 +7,12 @@ from sound_games.models import MicroChallenge, WYRQuestion, SoundFX, LipSyncSoun
 
 def seed_micro_challenges(genre, stdout):
     challenges = [
-        {'age_group': 'toddler', 'energy_level': 'calm', 'text_en': 'Make a quiet mouse sound', 'text_fr': 'Fais un bruit de souris tout doux', 'text_es': 'Haz un sonido de ratón muy suave'},
-        {'age_group': 'toddler', 'energy_level': 'wild', 'text_en': 'Roar like a tiny dinosaur!', 'text_fr': 'Rugis comme un tout petit dinosaure!', 'text_es': 'Ruge como un dinosaurio pequeño!'},
-        {'age_group': 'prek', 'energy_level': 'calm', 'text_en': 'Whisper a secret to the wind', 'text_fr': 'Chuchote un secret au vent', 'text_es': 'Susurra un secreto al viento'},
-        {'age_group': 'prek', 'energy_level': 'wild', 'text_en': 'Make the loudest animal sound you can', 'text_fr': 'Fais le bruit d\'animal le plus fort possible', 'text_es': 'Haz el sonido de animal más fuerte que puedas'},
-        {'age_group': 'elementary', 'energy_level': 'calm', 'text_en': 'Hum a tune and have others guess it', 'text_fr': 'Chante une mélodie en fredonnant et laisse les autres deviner', 'text_es': 'Tararea una melodía y deja que los demás adivinen'},
-        {'age_group': 'elementary', 'energy_level': 'wild', 'text_en': 'Imitate a machine sound for 10 seconds', 'text_fr': 'Imite le bruit d\'une machine pendant 10 secondes', 'text_es': 'Imita el sonido de una máquina durante 10 segundos'},
+        {'age_group': '3-6', 'energy_level': 'calm', 'text_en': 'Make a quiet mouse sound', 'text_fr': 'Fais un bruit de souris tout doux', 'text_es': 'Haz un sonido de ratón muy suave'},
+        {'age_group': '3-6', 'energy_level': 'wild', 'text_en': 'Roar like a tiny dinosaur!', 'text_fr': 'Rugis comme un tout petit dinosaure!', 'text_es': 'Ruge como un dinosaurio pequeño!'},
+        {'age_group': '3-6', 'energy_level': 'calm', 'text_en': 'Whisper a secret to the wind', 'text_fr': 'Chuchote un secret au vent', 'text_es': 'Susurra un secreto al viento'},
+        {'age_group': '3-6', 'energy_level': 'wild', 'text_en': 'Make the loudest animal sound you can', 'text_fr': 'Fais le bruit d\'animal le plus fort possible', 'text_es': 'Haz el sonido de animal más fuerte que puedas'},
+        {'age_group': '7-10', 'energy_level': 'calm', 'text_en': 'Hum a tune and have others guess it', 'text_fr': 'Chante une mélodie en fredonnant et laisse les autres deviner', 'text_es': 'Tararea una melodía y deja que los demás adivinen'},
+        {'age_group': '7-10', 'energy_level': 'wild', 'text_en': 'Imitate a machine sound for 10 seconds', 'text_fr': 'Imite le bruit d\'une machine pendant 10 secondes', 'text_es': 'Imita el sonido de una máquina durante 10 segundos'},
     ]
     count = 0
     for c in challenges:

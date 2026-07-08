@@ -6,9 +6,10 @@ from django.utils.translation import gettext_lazy as _
 
 class MicroChallenge(models.Model):
     AGE_GROUPS = [
-        ('toddler', _('Toddler')),
-        ('prek', _('Pre-K')),
-        ('elementary', _('Elementary')),
+        ('all', _('All Ages')),
+        ('3-6', _('3-6')),
+        ('7-10', _('7-10')),
+        ('11+', _('11+')),
     ]
     ENERGY_LEVELS = [
         ('calm', _('Calm')),
