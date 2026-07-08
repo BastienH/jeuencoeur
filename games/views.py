@@ -232,7 +232,7 @@ def get_printable_entries(game_module, lang):
         return [{'text': s.get_description(lang) or s.name} for s in LipSyncSound.objects.all()[:50]]
     if game_module == 'highway_hijinks':
         from active_games.models import CarGame
-        return [{'text': c.instructions_en[:200], 'meta': c.name_en} for c in CarGame.objects.all()[:50]]
+        return [{'text': c.get_instructions(lang)[:200], 'meta': c.get_name(lang)} for c in CarGame.objects.all()[:50]]
     if game_module == 'doodle_dash':
         subs = list(DoodleSubject.objects.all()[:20])
         from creative_games.models import DoodleAccessory, DoodleEmotion, DoodleSubject

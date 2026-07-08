@@ -68,6 +68,12 @@ class CarGame(models.Model):
     def __str__(self):
         return self.name_en
 
+    def get_name(self, lang):
+        return getattr(self, f'name_{lang}', self.name_en) or self.name_en
+
+    def get_instructions(self, lang):
+        return getattr(self, f'instructions_{lang}', self.instructions_en) or self.instructions_en
+
 
 class TripSession(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
