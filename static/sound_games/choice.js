@@ -1,5 +1,14 @@
 (function() {
     const questionContainer = document.getElementById('question-container');
+
+    function showError(msg) {
+        var el = document.createElement('div');
+        el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm font-medium';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3000);
+    }
+
     let promptCount = parseInt(sessionStorage.getItem('choice-chaos-count') || '0');
 
     function getCsrf() {
@@ -39,7 +48,7 @@
                 sessionStorage.setItem('choice-chaos-count', String(promptCount));
                 checkPlayLimit('choice_chaos');
             })
-            .catch(() => {});
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     document.addEventListener('htmx:afterSwap', (e) => {
@@ -78,7 +87,7 @@
                 'X-CSRFToken': getCsrf(),
             },
             body: JSON.stringify({ vote, question_id: questionId })
-        }).catch(() => {});
+        }).catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
 
         document.querySelectorAll('.vote-btn').forEach(b => b.style.pointerEvents = 'none');
         setTimeout(advanceQuestion, 2800);

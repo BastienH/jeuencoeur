@@ -3,6 +3,15 @@
     const saveBtn = document.getElementById('save-btn');
     const clearBtn = document.getElementById('clear-btn');
     const phaseIndicator = document.getElementById('phase-indicator');
+
+    function showError(msg) {
+        var el = document.createElement('div');
+        el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm font-medium';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3000);
+    }
+
     let promptCount = parseInt(sessionStorage.getItem('tale-twisters-count') || '0');
 
     function countPrompt() {
@@ -35,7 +44,7 @@
                 updatePhaseIndicator(0);
                 attachListeners();
             })
-            .catch(() => {});
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     function loadState() {
@@ -53,7 +62,7 @@
                     attachListeners();
                 }
             })
-            .catch(() => {});
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     function attachListeners() {
@@ -69,7 +78,7 @@
                 .then(data => {
                     if (data.status === 'ok') { countPrompt(); loadTwistOptions(); }
                 })
-                .catch(() => {});
+                .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
             });
         });
 
@@ -85,7 +94,7 @@
                 .then(data => {
                     if (data.status === 'ok') { countPrompt(); loadEndingOptions(); }
                 })
-                .catch(() => {});
+                .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
             });
         });
 
@@ -101,7 +110,7 @@
                 .then(data => {
                     if (data.status === 'ok') { countPrompt(); loadState(); }
                 })
-                .catch(() => {});
+                .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
             });
         });
     }
@@ -113,7 +122,8 @@
                 if (storyPhase) storyPhase.innerHTML = html;
                 updatePhaseIndicator(1);
                 attachListeners();
-            });
+            })
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     function loadEndingOptions() {
@@ -123,7 +133,8 @@
                 if (storyPhase) storyPhase.innerHTML = html;
                 updatePhaseIndicator(2);
                 attachListeners();
-            });
+            })
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     function checkPlayLimit(currentModule) {
@@ -173,6 +184,8 @@
 
     if (saveBtn) {
         saveBtn.addEventListener('click', () => {
+            var title = window.prompt(document.documentElement.lang === 'fr' ? 'Titre de ton histoire:' : document.documentElement.lang === 'es' ? 'Título de tu historia:' : 'Title for your story:', '');
+            if (title === null) return;
             const contentEls = storyPhase?.querySelectorAll('.rounded-xl p');
             const content = contentEls ? Array.from(contentEls).map(p => p.textContent).join('\n\n') : '';
             saveBtn.disabled = true;
@@ -180,7 +193,7 @@
             fetch(baseUrl() + '/save/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
-                body: JSON.stringify({ content, title: '' })
+                body: JSON.stringify({ content, title: title || '' })
             })
             .then(r => r.json())
             .then(data => {

@@ -10,6 +10,14 @@
     const basePath = window.location.pathname.replace(/\/+$/, '');
     const CIRCUMFERENCE = 263.89;
 
+    function showError(msg) {
+        var el = document.createElement('div');
+        el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm font-medium';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3000);
+    }
+
     let timerInterval = null;
     let timeLeft = 0;
     let promptCount = parseInt(sessionStorage.getItem('wild-roles-count') || '0');
@@ -25,6 +33,8 @@
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 timerInterval = null;
+                if (timerContainer) timerContainer.classList.add('hidden');
+                if (spinBtn && !spinBtn.disabled) spinBtn.click();
             }
         }, 1000);
     }
@@ -56,7 +66,7 @@
                 sessionStorage.setItem('wild-roles-count', String(promptCount));
                 checkPlayLimit('wild_roles');
             })
-            .catch(() => {});
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
     }
 
     if (spinBtn) {
@@ -85,13 +95,31 @@
                 .catch(() => {
                     spinBtn.disabled = false;
                     spinBtn.textContent = document.documentElement.lang === 'fr' ? 'Tourner!' : document.documentElement.lang === 'es' ? '¡Girar!' : 'Spin!';
+                    showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error');
                 });
         });
     }
 
     if (switchBtn) {
         switchBtn.addEventListener('click', () => {
-            if (spinBtn) spinBtn.click();
+            fetch(spinUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(r => r.text())
+                .then(html => {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var newResults = doc.querySelector('#result-container');
+                    if (newResults && resultContainer) {
+                        resultContainer.innerHTML = newResults.innerHTML;
+                    }
+                    if (timerContainer) timerContainer.classList.remove('hidden');
+                    startTimer(30);
+                    if (reactions) reactions.classList.remove('hidden');
+                    promptCount++;
+                    sessionStorage.setItem('wild-roles-count', String(promptCount));
+                    checkPlayLimit('wild_roles');
+                    attachRerollListeners();
+                })
+                .catch(function() { showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'); });
         });
     }
 
@@ -118,7 +146,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '' },
                 body: JSON.stringify({ reaction })
-            }).catch(() => {});
+            }).catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
         });
     });
 

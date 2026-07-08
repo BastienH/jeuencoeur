@@ -7,6 +7,14 @@
     const ttsToggle = document.getElementById('tts-toggle');
     const shakeToggle = document.getElementById('shake-toggle');
 
+    function showError(msg) {
+        var el = document.createElement('div');
+        el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm font-medium';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3000);
+    }
+
     const CIRCUMFERENCE = 263.89;
     const DURATION = 10;
     let interval = null;
@@ -28,7 +36,7 @@
                     sessionStorage.setItem('giggle-generators-count', String(promptCount));
                     checkPlayLimit();
                 })
-                .catch(() => {});
+                .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
         }
     }
 
@@ -57,6 +65,9 @@
                 if (triggerBtn) triggerBtn.disabled = false;
                 hideSkip();
                 if (timerRing) timerRing.style.strokeDashoffset = '0';
+                promptCount++;
+                sessionStorage.setItem('giggle-generators-count', String(promptCount));
+                checkPlayLimit();
             }
         }, 1000);
     }

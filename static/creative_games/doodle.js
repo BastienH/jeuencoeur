@@ -133,7 +133,22 @@
             promptCount++;
             sessionStorage.setItem('doodle-dash-count', String(promptCount));
             checkPlayLimit('doodle_dash');
-            if (promptCount < 7) window.location.reload();
+            if (promptCount < 7) {
+                fetch(window.location.pathname.replace(/\/+$/, '') + '/next/', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(r => r.text())
+                    .then(html => {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(html, 'text/html');
+                        var newPrompt = doc.querySelector('.bg-white.rounded-2xl');
+                        if (newPrompt) {
+                            var oldPrompt = document.querySelector('.bg-white.rounded-2xl.shadow-lg.p-6');
+                            if (oldPrompt && oldPrompt.id !== 'result-container') oldPrompt.replaceWith(newPrompt);
+                        }
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    })
+                    .catch(function() {});
+            }
         });
     }
 

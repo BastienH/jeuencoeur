@@ -130,8 +130,9 @@ def tale_save(request, lang):
 def tale_vault(request, lang):
     activate(lang)
     sessions = StorySession.objects.filter(user=request.user) if request.user.is_authenticated else StorySession.objects.none()
+    genre = get_object_or_404(Genre, slug='tale-twisters')
     return render(request, 'creative_games/tale_vault.html', {
-        'sessions': sessions, 'lang': lang,
+        'sessions': sessions, 'lang': lang, 'genre': genre,
     })
 
 

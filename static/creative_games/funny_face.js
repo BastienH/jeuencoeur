@@ -74,6 +74,19 @@
                 if (savePhotoLink) {
                     savePhotoLink.href = capturedDataUrl;
                     savePhotoLink.download = 'silly-face-' + Date.now() + '.png';
+                    savePhotoLink.onclick = function(e) {
+                        e.preventDefault();
+                        var link = this;
+                        resultCanvas.toBlob(function(blob) {
+                            var url = URL.createObjectURL(blob);
+                            var a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'silly-face-' + Date.now() + '.png';
+                            document.body.appendChild(a);
+                            a.click();
+                            setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+                        });
+                    };
                 }
             };
             img.src = capturedDataUrl;

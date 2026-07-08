@@ -26,6 +26,7 @@
         const utterance = new SpeechSynthesisUtterance(name);
         utterance.lang = 'en';
         utterance.onend = () => {
+            stopMeter();
             if (playBtn) {
                 playBtn.disabled = false;
                 playBtn.textContent = document.documentElement.lang === 'fr' ? 'Jouer le son' : document.documentElement.lang === 'es' ? 'Reproducir sonido' : 'Play Sound';

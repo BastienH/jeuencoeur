@@ -81,8 +81,12 @@ def highway_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='highway-hijinks')
     car_game = CarGame.objects.order_by('?').first()
+    trip_active = TripSession.objects.filter(
+        user=request.user if request.user.is_authenticated else None,
+        active=True,
+    ).exists()
     return render(request, 'active_games/highway.html', {
-        'genre': genre, 'car_game': car_game, 'lang': lang,
+        'genre': genre, 'car_game': car_game, 'lang': lang, 'trip_active': trip_active,
     })
 
 
@@ -135,7 +139,8 @@ def highway_update_progress(request, lang):
     data = json.loads(request.body) if request.body else request.POST
     trip = TripSession.objects.filter(id=data.get('trip_id'), active=True).first()
     if trip:
-        trip.progress_pct = min(int(data.get('progress', trip.progress_pct)), 100)
+        pct = int(data.get('progress', trip.progress_pct))
+        trip.progress_pct = max(0, min(pct, 100))
         trip.save()
     return JsonResponse({'status': 'ok'})
 

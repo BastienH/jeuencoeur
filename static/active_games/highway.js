@@ -12,6 +12,14 @@
     let tripId = null;
     let promptCount = parseInt(sessionStorage.getItem('highway-hijinks-count') || '0');
 
+    function showError(msg) {
+        var el = document.createElement('div');
+        el.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm font-medium';
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3000);
+    }
+
     function updateProgressUI(pct) {
         pct = Math.min(100, Math.max(0, pct));
         if (progressBar) progressBar.style.width = pct + '%';
@@ -47,20 +55,27 @@
                     }
                 }
             })
-            .catch(() => {});
+            .catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
         });
     }
 
     if (updateProgressBtn) {
         updateProgressBtn.addEventListener('click', () => {
             const val = parseInt(progressInput?.value);
-            if (!isNaN(val) && tripId) {
+            if (isNaN(val) || val < 0 || val > 100) {
+                if (progressInput) {
+                    progressInput.style.borderColor = '#ef4444';
+                    setTimeout(() => { if (progressInput) progressInput.style.borderColor = ''; }, 2000);
+                }
+                return;
+            }
+            if (tripId) {
                 updateProgressUI(val);
                 fetch(getBaseUrl() + '/update-progress/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
                     body: JSON.stringify({ trip_id: tripId, progress: val })
-                }).catch(() => {});
+                }).catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
             }
         });
     }
@@ -72,7 +87,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
                     body: JSON.stringify({ trip_id: tripId })
-                }).catch(() => {});
+                }).catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
                 tripId = null;
             }
             if (tripActive) tripActive.classList.add('hidden');

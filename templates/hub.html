@@ -16,7 +16,7 @@
         href="{% url genre.game_module|add:'_play' lang=lang %}"
         class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
     >
-        <span class="text-4xl mb-3">{{ genre.icon }}</span>
+        <span class="text-8xl mb-3">{{ genre.icon }}</span>
         <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
         {% with tagline=genre|genre_tagline:lang %}{% if tagline %}
         <p class="text-sm text-gray-400 mt-1">{{ tagline }}</p>
