@@ -8,6 +8,7 @@
     var cameraToggleBtn = document.getElementById('camera-toggle-btn');
     var cameraSection = document.getElementById('camera-section');
     var cameraContainer = document.getElementById('camera-container');
+    var cameraUnavailable = document.getElementById('camera-unavailable');
     var video = document.getElementById('camera-feed');
     var canvas = document.getElementById('face-canvas');
     var resultCanvas = document.getElementById('result-canvas');
@@ -15,13 +16,11 @@
     var snapBtn = document.getElementById('snap-btn');
     var retryBtn = document.getElementById('retry-btn');
     var savePhotoLink = document.getElementById('save-photo-link');
-    var fallbackInput = document.getElementById('camera-fallback-input');
 
     var promptCount = 0;
     var cameraStream = null;
     var cameraActive = false;
     var capturedDataUrl = null;
-    var cameraSupported = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 
     function updateCounter() {
         if (faceCounter) faceCounter.textContent = promptCount;
@@ -79,14 +78,14 @@
         }
         cameraActive = false;
         if (video) video.srcObject = null;
+        if (cameraContainer) cameraContainer.classList.add('hidden');
+        if (cameraUnavailable) cameraUnavailable.classList.add('hidden');
     }
 
     function startCamera() {
-        if (!cameraSupported) {
-            if (fallbackInput) fallbackInput.click();
-            return;
-        }
         if (cameraActive) return;
+        if (cameraContainer) cameraContainer.classList.remove('hidden');
+        if (cameraUnavailable) cameraUnavailable.classList.add('hidden');
         navigator.mediaDevices.getUserMedia({ video: true, audio: false })
             .then(function(stream) {
                 cameraStream = stream;
@@ -97,8 +96,8 @@
                 cameraActive = true;
             })
             .catch(function() {
-                cameraSupported = false;
-                if (fallbackInput) fallbackInput.click();
+                if (cameraContainer) cameraContainer.classList.add('hidden');
+                if (cameraUnavailable) cameraUnavailable.classList.remove('hidden');
             });
     }
 
@@ -118,19 +117,6 @@
                 if (retryBtn) retryBtn.classList.add('hidden');
                 capturedDataUrl = null;
             }
-        });
-    }
-
-    if (fallbackInput) {
-        fallbackInput.addEventListener('change', function(e) {
-            var file = e.target.files && e.target.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-                processImage(ev.target.result);
-            };
-            reader.readAsDataURL(file);
-            fallbackInput.value = '';
         });
     }
 

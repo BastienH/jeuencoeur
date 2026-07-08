@@ -44,11 +44,11 @@
     </div>
 
     <div id="camera-section" class="hidden">
-        <div id="camera-container" class="bg-black rounded-2xl overflow-hidden mb-3 relative aspect-[4/3]">
+        <div id="camera-container" class="bg-black rounded-2xl overflow-hidden mb-3 relative aspect-[4/3] hidden">
             <video id="camera-feed" class="w-full h-full object-cover" autoplay playsinline muted></video>
             <canvas id="face-canvas" class="hidden"></canvas>
         </div>
-        <input type="file" id="camera-fallback-input" accept="image/*" capture="user" class="hidden">
+        <p id="camera-unavailable" class="text-gray-400 text-sm py-4 hidden">{% trans "Camera not available" %}</p>
 
         <div class="flex flex-wrap gap-3 justify-center mb-4">
             <button id="snap-btn"

@@ -175,3 +175,65 @@ class AnalyticsEvent(models.Model):
 
     def __str__(self):
         return f"[{self.created_at:%Y-%m-%d %H:%M}] {self.event_type}"
+
+
+class ContactMessage(models.Model):
+    email = models.EmailField()
+    message = models.TextField()
+    dealt_with = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.email}: {self.message[:60]}"
+
+
+class GameSuggestion(models.Model):
+    TARGET_CHOICES = [
+        ('prompt', 'Generic Prompt'),
+        ('story_seed', 'Tale Twisters — Story Starter'),
+        ('story_twist', 'Tale Twisters — Twist'),
+        ('story_ending', 'Tale Twisters — Ending'),
+        ('face_prompt', 'Funny Face Factory — Prompt'),
+        ('micro_challenge', 'Giggle Generators — Challenge'),
+    ]
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('denied', 'Denied'),
+    ]
+    AGE_GROUPS = [
+        ('', '---------'),
+        ('toddler', 'Toddler'),
+        ('prek', 'Pre-K'),
+        ('elementary', 'Elementary'),
+    ]
+    ENERGY_LEVELS = [
+        ('', '---------'),
+        ('calm', 'Calm'),
+        ('wild', 'Wild'),
+    ]
+
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    email = models.EmailField()
+    suggestion_text = models.TextField(help_text='Original suggestion from user')
+    text_en = models.TextField(blank=True, help_text='English version (fill when accepting)')
+    text_fr = models.TextField(blank=True, help_text='French version (fill when accepting)')
+    text_es = models.TextField(blank=True, help_text='Spanish version (fill when accepting)')
+    target_model = models.CharField(max_length=30, choices=TARGET_CHOICES, default='prompt')
+    category = models.CharField(max_length=50, blank=True, help_text='For Prompt / Story Seed')
+    age_group = models.CharField(max_length=20, blank=True, choices=AGE_GROUPS, help_text='For MicroChallenge')
+    energy_level = models.CharField(max_length=20, blank=True, choices=ENERGY_LEVELS, help_text='For MicroChallenge')
+    duration_seconds = models.IntegerField(null=True, blank=True, help_text='For MicroChallenge (default 20)')
+    admin_notes = models.TextField(blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    prompt_created = models.BooleanField(default=False, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"[{self.get_status_display()}] {self.genre}: {self.suggestion_text[:50]}"
