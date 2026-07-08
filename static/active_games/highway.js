@@ -89,10 +89,41 @@
         });
     }
 
+    var ttsToggle = document.getElementById('tts-toggle');
+
+    function speakGameContent() {
+        if (ttsToggle && ttsToggle.checked) {
+            var container = document.getElementById('boredom-container');
+            if (!container) return;
+            var nameEl = container.querySelector('h3');
+            var instrEl = container.querySelector('p');
+            var text = '';
+            if (nameEl) text += nameEl.textContent + '. ';
+            if (instrEl) text += instrEl.textContent;
+            if (text) {
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = document.documentElement.lang || 'en';
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
+        }
+    }
+
+    if (ttsToggle) {
+        ttsToggle.addEventListener('change', function() {
+            if (this.checked) {
+                speakGameContent();
+            } else {
+                speechSynthesis.cancel();
+            }
+        });
+    }
+
     if (boredomBusterBtn) {
-        boredomBusterBtn.addEventListener('htmx:afterSwap', () => {
+        boredomBusterBtn.addEventListener('htmx:afterSwap', function() {
             promptCount++;
             checkPlayLimit('highway_hijinks');
+            if (ttsToggle && ttsToggle.checked) speakGameContent();
         });
     }
 
