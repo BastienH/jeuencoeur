@@ -80,7 +80,7 @@
         }).catch(() => showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'));
 
         document.querySelectorAll('.vote-btn').forEach(b => b.style.pointerEvents = 'none');
-        setTimeout(advanceQuestion, 2800);
+        setTimeout(advanceQuestion, 2000);
     });
 
     function checkPlayLimit(currentModule) {

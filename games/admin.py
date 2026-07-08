@@ -1,10 +1,14 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import AnalyticsEvent, Favorite, Genre, Prompt, SoundEffect, StorySeed, UserProfile
+from .resources import (GenreResource, PromptResource, SoundEffectResource,
+                        StorySeedResource)
 
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(ImportExportModelAdmin):
+    resource_class = GenreResource
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'slug', 'icon', 'order', 'is_active')
     list_editable = ('order', 'is_active')
@@ -13,7 +17,8 @@ class GenreAdmin(admin.ModelAdmin):
 
 
 @admin.register(Prompt)
-class PromptAdmin(admin.ModelAdmin):
+class PromptAdmin(ImportExportModelAdmin):
+    resource_class = PromptResource
     list_display = ('id', 'genre', 'category', 'text_en_preview')
     list_filter = ('genre', 'category')
     search_fields = ('text_en', 'text_fr', 'text_es')
@@ -48,7 +53,8 @@ class PromptAdmin(admin.ModelAdmin):
 
 
 @admin.register(StorySeed)
-class StorySeedAdmin(admin.ModelAdmin):
+class StorySeedAdmin(ImportExportModelAdmin):
+    resource_class = StorySeedResource
     list_display = ('id', 'genre', 'category', 'text_en_preview')
     list_filter = ('genre', 'category')
     search_fields = ('text_en', 'text_fr', 'text_es')
@@ -83,7 +89,8 @@ class StorySeedAdmin(admin.ModelAdmin):
 
 
 @admin.register(SoundEffect)
-class SoundEffectAdmin(admin.ModelAdmin):
+class SoundEffectAdmin(ImportExportModelAdmin):
+    resource_class = SoundEffectResource
     list_display = ('name', 'audio_file_display', 'genre_list')
     list_filter = ('genres',)
     search_fields = ('name', 'description_en')

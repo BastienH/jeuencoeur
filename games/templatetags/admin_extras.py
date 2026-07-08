@@ -2,15 +2,29 @@ from django import template
 
 register = template.Library()
 
+MODEL_MOVES = {
+    'userprofile': {'from_app': 'games', 'to_app': 'auth'},
+    'prompt': {'from_app': 'games', 'to_app': 'sound_games'},
+    'storyseed': {'from_app': 'games', 'to_app': 'creative_games'},
+    'soundeffect': {'from_app': 'games', 'to_app': 'sound_games'},
+}
+
+APP_RENAME = {
+    'auth': 'User Management',
+}
+
 GAME_GROUPS = {
+    'games': [
+        (None, ['genre', 'favorite', 'analyticsevent']),
+    ],
     'sound_games': [
-        ('Giggle Generators', ['microchallenge']),
+        ('Giggle Generators', ['microchallenge', 'prompt']),
         ('Choice Chaos', ['wyrquestion']),
         ('Mimic Mayhem', ['soundfx']),
-        ('Lip-Sync Legends', ['lipsyncsound']),
+        ('Lip-Sync Legends', ['lipsyncsound', 'soundeffect']),
     ],
     'creative_games': [
-        ('Tale Twisters', ['storytwist', 'storyending', 'storysession']),
+        ('Tale Twisters', ['storytwist', 'storyending', 'storysession', 'storyseed']),
         ('Funny Face Factory', ['faceprompt']),
         ('Doodle Dash', ['doodlesubject', 'doodleemotion', 'doodleaccessory', 'doodledrawing']),
     ],
@@ -19,6 +33,40 @@ GAME_GROUPS = {
         ('Highway Hijinks', ['cargame', 'tripsession']),
     ],
 }
+
+
+@register.filter
+def reorganize_app_list(app_list):
+    app_list = list(app_list)
+
+    for model_lower, move in MODEL_MOVES.items():
+        found_model = None
+        src_idx = None
+        model_idx = None
+
+        for ai, app in enumerate(app_list):
+            if app['app_label'] == move['from_app']:
+                for mi, m in enumerate(app['models']):
+                    if m['object_name'].lower() == model_lower:
+                        found_model = m
+                        src_idx = ai
+                        model_idx = mi
+                        break
+            if found_model:
+                break
+
+        if found_model:
+            app_list[src_idx]['models'].pop(model_idx)
+            for ai, app in enumerate(app_list):
+                if app['app_label'] == move['to_app']:
+                    app_list[ai]['models'].append(found_model)
+                    break
+
+    for app in app_list:
+        if app['app_label'] in APP_RENAME:
+            app['name'] = APP_RENAME[app['app_label']]
+
+    return app_list
 
 
 @register.filter

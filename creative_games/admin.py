@@ -1,11 +1,16 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import (DoodleAccessory, DoodleDrawing, DoodleEmotion,
                      DoodleSubject, FacePrompt, StoryEnding, StorySession, StoryTwist)
+from games.resources import (DoodleAccessoryResource, DoodleEmotionResource,
+                             DoodleSubjectResource, FacePromptResource,
+                             StoryEndingResource, StoryTwistResource)
 
 
 @admin.register(StoryTwist)
-class StoryTwistAdmin(admin.ModelAdmin):
+class StoryTwistAdmin(ImportExportModelAdmin):
+    resource_class = StoryTwistResource
     list_display = ('id', 'text_en_preview', 'genre')
     list_filter = ('genre',)
     search_fields = ('text_en',)
@@ -16,7 +21,8 @@ class StoryTwistAdmin(admin.ModelAdmin):
 
 
 @admin.register(StoryEnding)
-class StoryEndingAdmin(admin.ModelAdmin):
+class StoryEndingAdmin(ImportExportModelAdmin):
+    resource_class = StoryEndingResource
     list_display = ('id', 'text_en_preview', 'genre')
     list_filter = ('genre',)
     search_fields = ('text_en',)
@@ -35,7 +41,8 @@ class StorySessionAdmin(admin.ModelAdmin):
 
 
 @admin.register(FacePrompt)
-class FacePromptAdmin(admin.ModelAdmin):
+class FacePromptAdmin(ImportExportModelAdmin):
+    resource_class = FacePromptResource
     list_display = ('id', 'text_en_preview', 'genre')
     list_filter = ('genre',)
     search_fields = ('text_en',)
@@ -46,7 +53,8 @@ class FacePromptAdmin(admin.ModelAdmin):
 
 
 @admin.register(DoodleSubject)
-class DoodleSubjectAdmin(admin.ModelAdmin):
+class DoodleSubjectAdmin(ImportExportModelAdmin):
+    resource_class = DoodleSubjectResource
     list_display = ('id', 'text_en_preview')
     search_fields = ('text_en',)
 
@@ -55,7 +63,8 @@ class DoodleSubjectAdmin(admin.ModelAdmin):
 
 
 @admin.register(DoodleEmotion)
-class DoodleEmotionAdmin(admin.ModelAdmin):
+class DoodleEmotionAdmin(ImportExportModelAdmin):
+    resource_class = DoodleEmotionResource
     list_display = ('id', 'text_en_preview')
     search_fields = ('text_en',)
 
@@ -64,7 +73,8 @@ class DoodleEmotionAdmin(admin.ModelAdmin):
 
 
 @admin.register(DoodleAccessory)
-class DoodleAccessoryAdmin(admin.ModelAdmin):
+class DoodleAccessoryAdmin(ImportExportModelAdmin):
+    resource_class = DoodleAccessoryResource
     list_display = ('id', 'text_en_preview')
     search_fields = ('text_en',)
 

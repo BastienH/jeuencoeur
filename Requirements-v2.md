@@ -107,7 +107,7 @@ Goal: Foster conversation. The app is a prop, not the main focus.
 
     Curated Question Engine: 200+ questions, sorted by "Silly", "Deep", and "Food" categories.
 
-    Reroll Function: An "I don't like this one" button that instantly fetches a new question without resetting the app state.
+    Reroll Function: An "Go next" button that instantly fetches a new question without resetting the app state.
 
     Voice-Changer Read-Aloud: Integrated text-to-speech audio player with three distinct voice filters: Deep/Scary, Helium/High-Pitched, and Robot, to make reading prompts hilarious for the kids.
 
