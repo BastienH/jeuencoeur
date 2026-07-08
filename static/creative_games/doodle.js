@@ -4,6 +4,13 @@
     const saveBtn = document.getElementById('save-doodle-btn');
     const printBtn = document.getElementById('print-doodle-btn');
     const rerollBtn = document.getElementById('reroll-prompt-btn');
+    const modeGuided = document.getElementById('mode-guided');
+    const modeFree = document.getElementById('mode-free');
+    const guidedContent = document.getElementById('guided-content');
+    const timerToggle = document.getElementById('timer-toggle');
+    const timerDuration = document.getElementById('timer-duration');
+    const timerBadge = document.getElementById('doodle-timer-badge');
+    const timerText = document.getElementById('doodle-timer-text');
     let promptCount = 0;
 
     if (!canvas) return;
@@ -11,6 +18,9 @@
     let drawing = false;
     let brushSize = 4;
     let brushColor = '#000000';
+    let isGuided = true;
+    let timerInterval = null;
+    let timeLeft = 0;
 
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -77,6 +87,72 @@
     document.querySelector('.brush-size-btn')?.click();
     document.querySelector('.color-btn')?.click();
 
+    function setMode(guided) {
+        isGuided = guided;
+        if (guidedContent) guidedContent.classList.toggle('hidden', !guided);
+        if (modeGuided) {
+            modeGuided.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500');
+        }
+        if (modeFree) {
+            modeFree.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-gray-200 text-gray-500' : 'bg-purple-600 text-white');
+        }
+    }
+
+    if (modeGuided) modeGuided.addEventListener('click', () => setMode(true));
+    if (modeFree) modeFree.addEventListener('click', () => setMode(false));
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        if (timerBadge) timerBadge.classList.add('hidden');
+    }
+
+    function startTimer(seconds) {
+        stopTimer();
+        timeLeft = seconds;
+        if (timerText) timerText.textContent = timeLeft;
+        if (timerBadge) {
+            timerBadge.classList.remove('hidden');
+            timerBadge.className = 'absolute top-3 right-3 z-10 bg-white/90 backdrop-blur rounded-lg px-3 py-1.5 shadow text-sm font-bold text-red-500 border border-red-200';
+        }
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            if (timerText) timerText.textContent = Math.max(0, timeLeft);
+            if (timeLeft <= 3 && timeLeft > 0 && timerBadge) {
+                timerBadge.className = 'absolute top-3 right-3 z-10 bg-red-500/90 backdrop-blur rounded-lg px-3 py-1.5 shadow text-sm font-bold text-white border border-red-300 animate-pulse';
+            }
+            if (timeLeft <= 0) {
+                stopTimer();
+                if (saveBtn) saveBtn.click();
+            }
+        }, 1000);
+    }
+
+    function resetTimer() {
+        if (timerToggle && timerToggle.checked) {
+            var sec = parseInt(timerDuration?.value) || 20;
+            if (sec < 5) sec = 5;
+            startTimer(sec);
+        } else {
+            stopTimer();
+        }
+    }
+
+    if (timerToggle) {
+        timerToggle.addEventListener('change', resetTimer);
+    }
+    if (timerDuration) {
+        timerDuration.addEventListener('input', function() {
+            if (timerToggle && timerToggle.checked) {
+                var sec = parseInt(this.value) || 20;
+                if (sec < 5) sec = 5;
+                startTimer(sec);
+            }
+        });
+    }
+
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
             ctx.fillStyle = '#ffffff';
@@ -121,7 +197,7 @@
         printBtn.addEventListener('click', () => {
             const w = window.open('', '_blank');
             if (!w) return;
-            w.document.write(`<img src="${canvas.toDataURL()}" style="max-width:100%">`);
+            w.document.write('<img src="' + canvas.toDataURL() + '" style="max-width:100%">');
             w.document.close();
             w.focus();
             w.print();
@@ -145,6 +221,7 @@
                         }
                         ctx.fillStyle = '#ffffff';
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        resetTimer();
                     })
                     .catch(function() { showError(document.documentElement.lang === 'fr' ? 'Erreur de connexion' : document.documentElement.lang === 'es' ? 'Error de conexión' : 'Connection error'); });
             }
@@ -158,5 +235,8 @@
         }
     }
 
+    window.resetCurrentGameCounter = function() { promptCount = 0; };
+
+    resetTimer();
 
 })();
