@@ -16,6 +16,7 @@ APP_RENAME = {
 GAME_GROUPS = {
     'games': [
         (None, ['genre', 'favorite', 'analyticsevent']),
+        ('Communications', ['contactmessage', 'gamesuggestion']),
     ],
     'sound_games': [
         ('Giggle Generators', ['microchallenge', 'prompt']),

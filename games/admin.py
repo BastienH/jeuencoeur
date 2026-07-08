@@ -1,7 +1,8 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
-from .models import AnalyticsEvent, Favorite, Genre, Prompt, SoundEffect, StorySeed, UserProfile
+from .models import (AnalyticsEvent, ContactMessage, Favorite, GameSuggestion,
+                     Genre, Prompt, SoundEffect, StorySeed, UserProfile)
 from .resources import (GenreResource, PromptResource, SoundEffectResource,
                         StorySeedResource)
 
@@ -137,3 +138,112 @@ class AnalyticsEventAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('email', 'message_preview', 'dealt_with', 'created_at')
+    list_filter = ('dealt_with',)
+    search_fields = ('email', 'message')
+    actions = ['mark_dealt_with']
+    date_hierarchy = 'created_at'
+
+    def message_preview(self, obj):
+        return obj.message[:80]
+    message_preview.short_description = 'Message'
+
+    @admin.action(description='Mark selected as dealt with')
+    def mark_dealt_with(self, request, queryset):
+        queryset.update(dealt_with=True)
+
+
+@admin.register(GameSuggestion)
+class GameSuggestionAdmin(admin.ModelAdmin):
+    list_display = ('genre', 'suggestion_preview', 'email', 'status_colored', 'target_model', 'created_at')
+    list_filter = ('status', 'genre', 'target_model')
+    search_fields = ('suggestion_text', 'email', 'text_en', 'text_fr', 'text_es')
+    autocomplete_fields = ['genre']
+    date_hierarchy = 'created_at'
+    fieldsets = (
+        (None, {
+            'fields': ('genre', 'email', 'suggestion_text', 'target_model'),
+        }),
+        ('Translations (fill when accepting)', {
+            'fields': ('text_en', 'text_fr', 'text_es'),
+            'classes': ('wide',),
+        }),
+        ('Extra fields', {
+            'fields': ('category', ('age_group', 'energy_level'), 'duration_seconds'),
+            'classes': ('wide',),
+            'description': 'For Prompt/Story Seed: category. For MicroChallenge: age_group, energy_level, duration_seconds.',
+        }),
+        ('Review', {
+            'fields': ('status', 'admin_notes'),
+        }),
+    )
+
+    def suggestion_preview(self, obj):
+        return obj.suggestion_text[:60]
+    suggestion_preview.short_description = 'Suggestion'
+
+    def status_colored(self, obj):
+        colors = {'pending': 'orange', 'accepted': 'green', 'denied': 'red'}
+        c = colors.get(obj.status, 'gray')
+        from django.utils.html import format_html
+        return format_html('<span style="color:{};font-weight:600">{}</span>', c, obj.get_status_display())
+    status_colored.short_description = 'Status'
+
+    def save_model(self, request, obj, form, change):
+        if obj.pk:
+            old = self.model.objects.get(pk=obj.pk)
+            was_accepted = old.status == 'accepted'
+        else:
+            was_accepted = False
+        super().save_model(request, obj, form, change)
+        if obj.status == 'accepted' and not was_accepted and not obj.prompt_created:
+            _create_target_model_record(obj)
+            obj.prompt_created = True
+            obj.save(update_fields=['prompt_created'])
+
+
+def _create_target_model_record(suggestion):
+    from creative_games.models import FacePrompt, StoryEnding, StoryTwist
+    from sound_games.models import MicroChallenge
+    from .models import Prompt, StorySeed
+
+    text_en = suggestion.text_en or suggestion.suggestion_text
+    text_fr = suggestion.text_fr or text_en
+    text_es = suggestion.text_es or text_en
+
+    creators = {
+        'prompt': lambda: Prompt.objects.create(
+            genre=suggestion.genre, category=suggestion.category or '',
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+        ),
+        'story_seed': lambda: StorySeed.objects.create(
+            genre=suggestion.genre, category=suggestion.category or '',
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+        ),
+        'story_twist': lambda: StoryTwist.objects.create(
+            genre=suggestion.genre,
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+        ),
+        'story_ending': lambda: StoryEnding.objects.create(
+            genre=suggestion.genre,
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+        ),
+        'face_prompt': lambda: FacePrompt.objects.create(
+            genre=suggestion.genre,
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+        ),
+        'micro_challenge': lambda: MicroChallenge.objects.create(
+            genre=suggestion.genre,
+            text_en=text_en, text_fr=text_fr, text_es=text_es,
+            age_group=suggestion.age_group or 'elementary',
+            energy_level=suggestion.energy_level or 'calm',
+            duration_seconds=suggestion.duration_seconds or 20,
+        ),
+    }
+    creator = creators.get(suggestion.target_model)
+    if creator:
+        creator()

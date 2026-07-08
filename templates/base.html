@@ -111,6 +111,8 @@
     </main>
 
     <footer class="text-center text-gray-400 text-sm py-6">
+        <a href="{% if genre %}/{{ lang }}/contribute/?game={{ genre.slug }}{% else %}/{{ lang }}/contribute/{% endif %}" class="hover:text-purple-600">{% trans "Contribute" %}</a>
+        <span class="mx-2">·</span>
         &copy; {% now "Y" %} {% trans "Jeu en coeur" %}
     </footer>
 

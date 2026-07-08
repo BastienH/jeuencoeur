@@ -5,6 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-08 21:17+0000\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -12,263 +13,652 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "Jeu en coeur"
-msgstr "Jeu en coeur"
+#: active_games/models.py:49 creative_games/models.py:64
+#: sound_games/models.py:9
+msgid "Toddler"
+msgstr ""
 
-msgid "Language"
-msgstr "Langue"
+#: active_games/models.py:50 creative_games/models.py:65
+#: sound_games/models.py:10
+msgid "Pre-K"
+msgstr ""
 
-msgid "Silly ideas for connecting with your kids"
-msgstr "Des idées amusantes pour créer des liens avec vos enfants"
+#: active_games/models.py:51 creative_games/models.py:66
+#: sound_games/models.py:11
+msgid "Elementary"
+msgstr ""
 
-msgid "Back to Hub"
-msgstr "Retour à l'accueil"
+#: active_games/models.py:52 creative_games/models.py:67
+msgid "All Ages"
+msgstr ""
 
-msgid "Next Prompt"
-msgstr "Nouvelle idée"
+#: creative_games/models.py:51 sound_games/models.py:56
+#: templates/sound_games/choice.html:53
+msgid "Silly"
+msgstr "Idiot"
 
-msgid "No prompts found in this category"
-msgstr "Aucune idée trouvée dans cette catégorie"
+#: creative_games/models.py:52
+msgid "Happy"
+msgstr ""
 
-msgid "3...2...1... ACTION!"
-msgstr "3...2...1... ACTION!"
+#: creative_games/models.py:53
+msgid "Sad"
+msgstr ""
 
-msgid "Activity"
-msgstr "Activité"
+#: creative_games/models.py:54
+msgid "Angry"
+msgstr ""
 
-msgid "All"
-msgstr "Tout"
+#: creative_games/models.py:55
+msgid "Surprised"
+msgstr ""
 
-msgid "Already have an account?"
-msgstr "Vous avez déjà un compte?"
+#: creative_games/models.py:56
+msgid "Scared"
+msgstr ""
 
-msgid "Back to Drawing"
-msgstr "Retour au dessin"
+#: creative_games/models.py:57
+msgid "Sleepy"
+msgstr ""
 
-msgid "Back to Story"
-msgstr "Retour à l'histoire"
+#: creative_games/models.py:58
+msgid "Brave"
+msgstr ""
 
-msgid "Beginning"
-msgstr "Début"
+#: creative_games/models.py:59
+msgid "Grumpy"
+msgstr ""
 
-msgid "Character"
-msgstr "Personnage"
+#: creative_games/models.py:60
+msgid "Funny"
+msgstr ""
 
-msgid "Choose a game to generate and print a physical card deck."
-msgstr "Choisissez un jeu pour générer et imprimer un jeu de cartes physique."
+#: games/views.py:261
+msgid "Thank you for your suggestion!"
+msgstr ""
 
-msgid "Choose a plot twist..."
-msgstr "Choisis un rebondissement..."
+#: games/views.py:267
+msgid "Thank you for your message!"
+msgstr ""
 
-msgid "Choose an ending..."
-msgstr "Choisis une fin..."
+#: sound_games/models.py:14
+msgid "Calm"
+msgstr ""
 
-msgid "Choose how your story begins..."
-msgstr "Choisis comment ton histoire commence..."
+#: sound_games/models.py:15
+msgid "Wild"
+msgstr ""
 
-msgid "Clear"
-msgstr "Effacer"
-
-msgid "Create an Account"
-msgstr "Créer un Compte"
-
+#: sound_games/models.py:57 templates/sound_games/choice.html:54
 msgid "Deep"
 msgstr "Profond"
 
-msgid "Don't have an account?"
-msgstr "Vous n'avez pas de compte?"
-
-msgid "Doodle Gallery"
-msgstr "Galerie de dessins"
-
-msgid "Draw..."
-msgstr "Dessine..."
-
-msgid "End Trip"
-msgstr "Terminer le voyage"
-
-msgid "Ending"
-msgstr "Fin"
-
-msgid "Filter:"
-msgstr "Filtrer:"
-
+#: sound_games/models.py:58 templates/sound_games/choice.html:55
 msgid "Food"
 msgstr "Nourriture"
 
-msgid "Gallery"
-msgstr "Galerie"
+#: templates/active_games/highway.html:8 templates/active_games/wild.html:8
+#: templates/contribute.html:8 templates/creative_games/doodle.html:8
+#: templates/creative_games/funny_face.html:7
+#: templates/creative_games/tale.html:9 templates/detail.html:10
+#: templates/print_deck_list.html:7 templates/profile.html:7
+#: templates/sound_games/choice.html:26 templates/sound_games/giggle.html:7
+#: templates/sound_games/lip_sync.html:7 templates/sound_games/mimic.html:7
+msgid "Back to Hub"
+msgstr "Retour à l'accueil"
 
-msgid "Go!"
-msgstr "Go!"
+#: templates/active_games/highway.html:20
+msgid "Start Your Trip"
+msgstr "Commencer votre voyage"
 
-msgid "Next"
-msgstr "Suivante"
+#: templates/active_games/highway.html:21
+msgid "Total distance (km/miles):"
+msgstr "Distance totale (km/miles):"
 
-msgid "Imitate the sound to fill the bar!"
-msgstr "Imitez le son pour remplir la barre!"
+#: templates/active_games/highway.html:25
+msgid "Start Trip!"
+msgstr "Commencer le voyage!"
 
-msgid "Loading..."
-msgstr "Chargement..."
+#: templates/active_games/highway.html:47
+msgid "Progress"
+msgstr "Progression"
 
-msgid "Log In"
-msgstr "Connexion"
+#: templates/active_games/highway.html:55
+#, python-format
+msgid "%% complete"
+msgstr ""
 
-msgid "Log in"
-msgstr "Connectez-vous"
+#: templates/active_games/highway.html:58
+msgid "Update"
+msgstr "Mettre à jour"
 
-msgid "Login"
-msgstr "Connexion"
+#: templates/active_games/highway.html:64
+msgid "End Trip"
+msgstr "Terminer le voyage"
 
-msgid "Logout"
-msgstr "Déconnexion"
+#: templates/active_games/partials/highway_game.html:6
+msgid "Tap the button for a car game!"
+msgstr "Appuie sur le bouton pour un jeu de voiture!"
 
-msgid "Make some noise!"
-msgstr "Fais du bruit!"
+#: templates/active_games/partials/wild_results.html:5
+msgid "Character"
+msgstr "Personnage"
 
-msgid "My Favorites"
-msgstr "Mes Favoris"
+#: templates/active_games/partials/wild_results.html:8
+#, fuzzy
+#| msgid "Character"
+msgid "Reroll character"
+msgstr "Personnage"
 
+#: templates/active_games/partials/wild_results.html:17
+msgid "Setting"
+msgstr "Cadre"
+
+#: templates/active_games/partials/wild_results.html:20
+msgid "Reroll setting"
+msgstr ""
+
+#: templates/active_games/partials/wild_results.html:29
+msgid "Activity"
+msgstr "Activité"
+
+#: templates/active_games/partials/wild_results.html:32
+#, fuzzy
+#| msgid "Activity"
+msgid "Reroll activity"
+msgstr "Activité"
+
+#: templates/active_games/partials/wild_results.html:37
+msgid "Tap Spin to get started!"
+msgstr "Appuie sur Tourner pour commencer!"
+
+#: templates/active_games/wild.html:38
+msgid "Spin!"
+msgstr "Tourner!"
+
+#: templates/active_games/wild.html:42
+msgid "Laugh"
+msgstr ""
+
+#: templates/active_games/wild.html:43
+msgid "Heart"
+msgstr ""
+
+#: templates/active_games/wild.html:44
+msgid "Clap"
+msgstr ""
+
+#: templates/active_games/wild.html:48
+msgid "Switch Roles"
+msgstr "Changer de rôles"
+
+#: templates/admin/app_list.html:8
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: templates/admin/app_list.html:12
+msgid "Model name"
+msgstr ""
+
+#: templates/admin/app_list.html:13
+msgid "Add link"
+msgstr ""
+
+#: templates/admin/app_list.html:14
+msgid "Change or view list link"
+msgstr ""
+
+#: templates/admin/app_list.html:34
+msgid "Add"
+msgstr ""
+
+#: templates/admin/app_list.html:40
+msgid "View"
+msgstr ""
+
+#: templates/admin/app_list.html:42
+msgid "Change"
+msgstr ""
+
+#: templates/admin/app_list.html:55
+msgid "You don\\u2019t have permission to view or edit anything."
+msgstr ""
+
+#: templates/base.html:7 templates/base.html:65 templates/base.html:116
+#: templates/hub.html:6
+msgid "Jeu en coeur"
+msgstr "Jeu en coeur"
+
+#: templates/base.html:70 templates/profile.html:11
 msgid "My Profile"
 msgstr "Mon Profil"
 
-msgid "My Chest"
-msgstr "Mon Coffre"
+#: templates/base.html:73
+msgid "Logout"
+msgstr "Déconnexion"
 
-msgid "New Story"
-msgstr "Nouvelle Histoire"
+#: templates/base.html:77
+msgid "Login"
+msgstr "Connexion"
 
-msgid "Next Sound"
-msgstr "Son suivant"
+#: templates/base.html:80 templates/registration/signup.html:22
+msgid "Sign Up"
+msgstr "S'inscrire"
 
-msgid "No challenges yet!"
-msgstr "Pas encore de défis!"
+#: templates/base.html:84
+msgid "Language"
+msgstr "Langue"
 
+#: templates/base.html:114
+msgid "Contribute"
+msgstr "Contribuer"
+
+#: templates/contribute.html:12
+msgid "Contribute to Jeu en coeur"
+msgstr "Contribuer à Jeu en coeur"
+
+#: templates/contribute.html:14
+msgid ""
+"Jeu en coeur is a collection of silly, fun ideas for connecting with your "
+"kids. You can help make it better by suggesting new prompts, reporting "
+"issues, or just saying hello!"
+msgstr ""
+"Jeu en coeur est une collection d'idées amusantes pour créer des liens avec "
+"vos enfants. Vous pouvez aider à l'améliorer en suggérant de nouvelles idées, "
+"en signalant des problèmes, ou simplement en disant bonjour!"
+
+#: templates/contribute.html:18
+msgid "Suggest a Prompt"
+msgstr "Suggérer une idée"
+
+#: templates/contribute.html:19
+msgid ""
+"Have an idea for a new prompt? Let us know which game it's for and what the "
+"prompt should say."
+msgstr ""
+"Vous avez une idée pour une nouvelle idée de jeu? Dites-nous pour quel jeu "
+"c'est et ce que l'idée devrait dire."
+
+#: templates/contribute.html:23
+msgid "Game"
+msgstr "Jeu"
+
+#: templates/contribute.html:31
+msgid "Your suggestion"
+msgstr "Votre suggestion"
+
+#: templates/contribute.html:35
+msgid "Your email (optional)"
+msgstr "Votre email (optionnel)"
+
+#: templates/contribute.html:39
+msgid "Submit Suggestion"
+msgstr "Envoyer la suggestion"
+
+#: templates/contribute.html:45
+msgid "Contact the Developer"
+msgstr "Contacter le développeur"
+
+#: templates/contribute.html:46
+msgid "Have a question, bug report, or just want to say something?"
+msgstr "Une question, un rapport de bug, ou juste envie de dire quelque chose?"
+
+#: templates/contribute.html:50
+msgid "Your email"
+msgstr "Votre email"
+
+#: templates/contribute.html:54
+msgid "Message"
+msgstr "Message"
+
+#: templates/contribute.html:58
+msgid "Send Message"
+msgstr "Envoyer le message"
+
+#: templates/creative_games/doodle.html:20
+msgid "Guided"
+msgstr ""
+
+#: templates/creative_games/doodle.html:21
+msgid "Free Draw"
+msgstr ""
+
+#: templates/creative_games/doodle.html:27
+msgid "Timer"
+msgstr ""
+
+#: templates/creative_games/doodle.html:31
+msgid "sec"
+msgstr ""
+
+#: templates/creative_games/doodle.html:36
+msgid "Draw..."
+msgstr "Dessine..."
+
+#: templates/creative_games/doodle.html:49
+msgid "Not inspired? Reroll"
+msgstr "Pas inspiré? Nouvelle idée"
+
+#: templates/creative_games/doodle.html:71
+msgid "Clear"
+msgstr "Effacer"
+
+#: templates/creative_games/doodle.html:79
+msgid "Save Drawing"
+msgstr "Enregistrer le dessin"
+
+#: templates/creative_games/doodle.html:83
+msgid "Print"
+msgstr "Imprimer"
+
+#: templates/creative_games/doodle.html:86
+msgid "Gallery"
+msgstr "Galerie"
+
+#: templates/creative_games/doodle_gallery.html:7
+msgid "Back to Drawing"
+msgstr "Retour au dessin"
+
+#: templates/creative_games/doodle_gallery.html:11
+msgid "Doodle Gallery"
+msgstr "Galerie de dessins"
+
+#: templates/creative_games/doodle_gallery.html:24
+#, fuzzy
+#| msgid "Doodle Gallery"
+msgid "Doodle"
+msgstr "Galerie de dessins"
+
+#: templates/creative_games/doodle_gallery.html:30
 msgid "No drawings yet!"
 msgstr "Pas encore de dessins!"
 
-msgid ""
-"No favorites yet. Browse genres and tap the heart icon to save prompts."
+#: templates/creative_games/funny_face.html:25
+msgid "I did it!"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:29
+msgid "Another"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:34
+msgid "Faces made:"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:35
+msgid "Reset"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:42
+msgid "Take a photo (optional)"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:51
+msgid "Camera not available"
+msgstr ""
+
+#: templates/creative_games/funny_face.html:56
+msgid "Snap!"
+msgstr "Photo!"
+
+#: templates/creative_games/funny_face.html:59
+msgid "Retry"
+msgstr "Recommencer"
+
+#: templates/creative_games/funny_face.html:64
+msgid "Your Silly Face"
+msgstr "Ton Visage Drôle"
+
+#: templates/creative_games/funny_face.html:67
+msgid "Save to Device"
+msgstr "Sauvegarder sur l'appareil"
+
+#: templates/creative_games/partials/funny_face_prompt.html:5
+msgid "No prompts yet!"
+msgstr "Pas encore d'idées!"
+
+#: templates/creative_games/partials/tale_ending_options.html:2
+msgid "Choose an ending..."
+msgstr "Choisis une fin..."
+
+#: templates/creative_games/partials/tale_ending_options.html:7
+#: templates/creative_games/partials/tale_story_display.html:19
+msgid "Ending"
+msgstr "Fin"
+
+#: templates/creative_games/partials/tale_start.html:2
+msgid "Choose how your story begins..."
+msgstr "Choisis comment ton histoire commence..."
+
+#: templates/creative_games/partials/tale_story_display.html:5
+msgid "Beginning"
+msgstr "Début"
+
+#: templates/creative_games/partials/tale_story_display.html:12
+msgid "Plot Twist"
+msgstr "Rebondissement"
+
+#: templates/creative_games/partials/tale_story_display.html:25
+msgid "No story started yet."
+msgstr "Pas encore d'histoire commencée."
+
+#: templates/creative_games/partials/tale_twist.html:3
+msgid "Plot Twist!"
+msgstr "Rebondissement!"
+
+#: templates/creative_games/partials/tale_twist_options.html:2
+msgid "Choose a plot twist..."
+msgstr "Choisis un rebondissement..."
+
+#: templates/creative_games/partials/tale_twist_options.html:7
+msgid "Twist"
+msgstr "Rebondissement"
+
+#: templates/creative_games/tale.html:12
+msgid "My Chest"
+msgstr "Mon Coffre"
+
+#: templates/creative_games/tale.html:24
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: templates/creative_games/tale.html:31
+msgid "Save & Share"
+msgstr "Enregistrer & Partager"
+
+#: templates/creative_games/tale.html:35
+msgid "New Story"
+msgstr "Nouvelle Histoire"
+
+#: templates/creative_games/tale_chest.html:5
+msgid "Untitled"
+msgstr ""
+
+#: templates/creative_games/tale_chest.html:8
+msgid "Back to Story"
+msgstr "Retour à l'histoire"
+
+#: templates/creative_games/tale_chest.html:12
+msgid "Story Chest"
+msgstr "Coffre à histoires"
+
+#: templates/creative_games/tale_chest.html:19
+#, python-format
+msgid "%(sec)ss"
+msgstr ""
+
+#: templates/creative_games/tale_chest.html:24
+msgid "Read story"
+msgstr "Lire l'histoire"
+
+#: templates/creative_games/tale_chest.html:31
+msgid "No stories saved yet. Go create one!"
+msgstr "Pas encore d'histoires. Va en créer une!"
+
+#: templates/detail.html:33
+msgid "Next Prompt"
+msgstr "Nouvelle idée"
+
+#: templates/hub.html:9
+msgid "Silly ideas for connecting with your kids"
+msgstr "Des idées amusantes pour créer des liens avec vos enfants"
+
+#: templates/hub.html:30
+msgid "Coming soon"
+msgstr ""
+
+#: templates/hub.html:50 templates/print_deck_list.html:11
+msgid "Printable Card Decks"
+msgstr "Jeux de cartes imprimables"
+
+#: templates/hub.html:56 templates/profile.html:36
+msgid "My Favorites"
+msgstr "Mes Favoris"
+
+#: templates/hub.html:60
+#, python-format
+msgid "%(fav_count)s saved prompts"
+msgstr ""
+
+#: templates/hub.html:63
+msgid "Save prompts by tapping the heart icon"
+msgstr "Sauvegardez les idées en appuyant sur le coeur"
+
+#: templates/partials/favorite_heart.html:8 templates/profile.html:54
+msgid "Remove from favorites"
+msgstr ""
+
+#: templates/partials/favorite_heart.html:8
+#, fuzzy
+#| msgid "My Favorites"
+msgid "Add to favorites"
+msgstr "Mes Favoris"
+
+#: templates/partials/prompt_card.html:18
+msgid "No prompts found in this category"
+msgstr "Aucune idée trouvée dans cette catégorie"
+
+#: templates/print_deck_list.html:12
+msgid "Choose a game to generate and print a physical card deck."
+msgstr "Choisissez un jeu pour générer et imprimer un jeu de cartes physique."
+
+#: templates/profile.html:17
+msgid "My Game Order"
+msgstr ""
+
+#: templates/profile.html:18
+msgid "Drag or reorder to customise your hub."
+msgstr ""
+
+#: templates/profile.html:30
+#, fuzzy
+#| msgid "Save & Share"
+msgid "Save Order"
+msgstr "Enregistrer & Partager"
+
+#: templates/profile.html:62
+msgid "No favorites yet. Browse genres and tap the heart icon to save prompts."
 msgstr ""
 "Pas encore de favoris. Parcourez les genres et appuyez sur le coeur pour "
 "sauvegarder."
 
-msgid "No prompts yet!"
-msgstr "Pas encore d'idées!"
+#: templates/registration/login.html:6 templates/registration/login.html:25
+msgid "Log In"
+msgstr "Connexion"
 
-msgid "No questions yet!"
-msgstr "Pas encore de questions!"
+#: templates/registration/login.html:29
+msgid "Don't have an account?"
+msgstr "Vous n'avez pas de compte?"
 
-msgid "No sounds yet!"
-msgstr "Pas encore de sons!"
-
-msgid "No stories saved yet. Go create one!"
-msgstr "Pas encore d'histoires. Va en créer une!"
-
-msgid "No story started yet."
-msgstr "Pas encore d'histoire commencée."
-
-msgid "Not inspired? Reroll"
-msgstr "Pas inspiré? Nouvelle idée"
-
-msgid "Play Sound"
-msgstr "Jouer le son"
-
-msgid "Plot Twist"
-msgstr "Rebondissement"
-
-msgid "Plot Twist!"
-msgstr "Rebondissement!"
-
-msgid "Print"
-msgstr "Imprimer"
-
-msgid "Printable Card Decks"
-msgstr "Jeux de cartes imprimables"
-
-msgid "Progress"
-msgstr "Progression"
-
-msgid "Read aloud"
-msgstr "Lire à haute voix"
-
-msgid "Read story"
-msgstr "Lire l'histoire"
-
-msgid "Retry"
-msgstr "Recommencer"
-
-msgid "Reverse Mode: OFF"
-msgstr "Mode inversé: OFF"
-
-msgid "Save & Share"
-msgstr "Enregistrer & Partager"
-
-msgid "Save Drawing"
-msgstr "Enregistrer le dessin"
-
-msgid "Save prompts by tapping the heart icon"
-msgstr "Sauvegardez les idées en appuyant sur le coeur"
-
-msgid "Save to Device"
-msgstr "Sauvegarder sur l'appareil"
-
-msgid "Setting"
-msgstr "Cadre"
-
-msgid "Shake to refresh"
-msgstr "Secouer pour actualiser"
-
-msgid "Sign Up"
-msgstr "S'inscrire"
-
+#: templates/registration/login.html:30
 msgid "Sign up"
 msgstr "Inscrivez-vous"
 
-msgid "Silly"
-msgstr "Idiot"
+#: templates/registration/signup.html:6
+msgid "Create an Account"
+msgstr "Créer un Compte"
 
+#: templates/registration/signup.html:26
+msgid "Already have an account?"
+msgstr "Vous avez déjà un compte?"
+
+#: templates/registration/signup.html:27
+msgid "Log in"
+msgstr "Connectez-vous"
+
+#: templates/sound_games/choice.html:44
+msgid "Can't choose, go next"
+msgstr ""
+
+#: templates/sound_games/choice.html:49
+msgid "Filter:"
+msgstr "Filtrer:"
+
+#: templates/sound_games/choice.html:52
+msgid "All"
+msgstr "Tout"
+
+#: templates/sound_games/giggle.html:33
+msgid "Go!"
+msgstr "Go!"
+
+#: templates/sound_games/giggle.html:37
 msgid "Skip"
 msgstr "Passer"
 
-msgid "Snap!"
-msgstr "Photo!"
+#: templates/sound_games/giggle.html:42
+msgid "Read aloud"
+msgstr "Lire à haute voix"
 
-msgid "Spin!"
-msgstr "Tourner!"
+#: templates/sound_games/giggle.html:47
+msgid "Shake to refresh"
+msgstr "Secouer pour actualiser"
 
-msgid "Start Trip!"
-msgstr "Commencer le voyage!"
+#: templates/sound_games/lip_sync.html:26
+msgid "3...2...1... ACTION!"
+msgstr "3...2...1... ACTION!"
 
-msgid "Start Your Trip"
-msgstr "Commencer votre voyage"
+#: templates/sound_games/lip_sync.html:31
+msgid "Reverse Mode: OFF"
+msgstr "Mode inversé: OFF"
 
-msgid "Story Chest"
-msgstr "Coffre à histoires"
+#: templates/sound_games/lip_sync.html:38 templates/sound_games/mimic.html:42
+msgid "Next Sound"
+msgstr "Son suivant"
 
-msgid "Switch Roles"
-msgstr "Changer de rôles"
+#: templates/sound_games/mimic.html:14
+msgid "Imitate the sound to fill the bar!"
+msgstr "Imitez le son pour remplir la barre!"
 
-msgid "Tap Spin to get started!"
-msgstr "Appuie sur Tourner pour commencer!"
-
-msgid "Tap the button for a car game!"
-msgstr "Appuie sur le bouton pour un jeu de voiture!"
-
-msgid "Total distance (km/miles):"
-msgstr "Distance totale (km/miles):"
-
-msgid "Twist"
-msgstr "Rebondissement"
-
-msgid "Update"
-msgstr "Mettre à jour"
-
+#: templates/sound_games/mimic.html:24
 msgid "Volume"
 msgstr "Volume"
 
+#: templates/sound_games/mimic.html:30
+msgid "Make some noise!"
+msgstr "Fais du bruit!"
+
+#: templates/sound_games/mimic.html:35
+msgid "Play Sound"
+msgstr "Jouer le son"
+
+#: templates/sound_games/partials/choice_question.html:4
 msgid "Would you rather..."
 msgstr "Tu préfères..."
 
-msgid "Your Silly Face"
-msgstr "Ton Visage Drôle"
+#: templates/sound_games/partials/choice_question.html:18
+msgid "No questions yet!"
+msgstr "Pas encore de questions!"
+
+#: templates/sound_games/partials/giggle_challenge.html:10
+msgid "No challenges yet!"
+msgstr "Pas encore de défis!"
+
+#: templates/sound_games/partials/lip_sync_sound.html:6
+#: templates/sound_games/partials/mimic_sound.html:8
+msgid "No sounds yet!"
+msgstr "Pas encore de sons!"
+
+#~ msgid "Next"
+#~ msgstr "Suivante"

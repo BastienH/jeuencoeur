@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import activate
+from django.utils.translation import activate, gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -241,3 +241,31 @@ def get_printable_entries(game_module, lang):
         accs = [a.get_text(lang) for a in DoodleAccessory.objects.all()[:20]]
         return [{'text': f'{s} + {e} + {a}'} for s, e, a in zip(subs, emos, accs)]
     return []
+
+
+from .models import ContactMessage, GameSuggestion
+
+
+def contribute(request, lang):
+    activate(lang)
+    genres = Genre.objects.all()
+    selected_game = request.GET.get('game', '')
+    if request.method == 'POST':
+        if 'suggestion_submit' in request.POST:
+            genre_id = request.POST.get('genre_id')
+            GameSuggestion.objects.create(
+                genre_id=genre_id,
+                email=request.POST.get('email', ''),
+                suggestion_text=request.POST.get('suggestion_text', ''),
+            )
+            messages.success(request, _('Thank you for your suggestion!'))
+        elif 'contact_submit' in request.POST:
+            ContactMessage.objects.create(
+                email=request.POST.get('email', ''),
+                message=request.POST.get('message', ''),
+            )
+            messages.success(request, _('Thank you for your message!'))
+        return redirect('contribute', lang=lang)
+    return render(request, 'contribute.html', {
+        'genres': genres, 'selected_game': selected_game, 'lang': lang,
+    })

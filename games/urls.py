@@ -71,6 +71,9 @@ urlpatterns = [
     path('doodle-dash/save/', creative_views.doodle_save, name='doodle_dash_save'),
     path('doodle-dash/gallery/', creative_views.doodle_gallery, name='doodle_dash_gallery'),
 
+    # Contribute
+    path('contribute/', views.contribute, name='contribute'),
+
     # Generic fallback
     path('<slug:genre_slug>/', views.detail, name='detail'),
 ]

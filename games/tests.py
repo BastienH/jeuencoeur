@@ -104,6 +104,77 @@ class AnalyticsEventTest(TestCase):
         self.assertEqual(event.language, 'en')
 
 
+class ContributePageTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.genre = Genre.objects.create(name='Test Genre', slug='test-genre', icon='🎯')
+
+    def test_contribute_page_returns_200(self):
+        response = self.client.get('/en/contribute/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Contribute')
+        self.assertContains(response, 'Suggest a Prompt')
+        self.assertContains(response, 'Contact the Developer')
+
+    def test_contribute_page_pre_selects_game(self):
+        response = self.client.get('/en/contribute/', {'game': 'test-genre'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'selected')
+
+    def test_suggestion_form_creates_gamesuggestion(self):
+        from .models import GameSuggestion
+        response = self.client.post('/en/contribute/', {
+            'suggestion_submit': '1',
+            'genre_id': self.genre.id,
+            'suggestion_text': 'My awesome prompt idea',
+            'email': 'user@example.com',
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(GameSuggestion.objects.count(), 1)
+        suggestion = GameSuggestion.objects.first()
+        self.assertEqual(suggestion.suggestion_text, 'My awesome prompt idea')
+        self.assertEqual(suggestion.email, 'user@example.com')
+        self.assertEqual(suggestion.genre, self.genre)
+        self.assertEqual(suggestion.status, 'pending')
+
+    def test_suggestion_form_redirects_post(self):
+        from .models import GameSuggestion
+        response = self.client.post('/en/contribute/', {
+            'suggestion_submit': '1',
+            'genre_id': self.genre.id,
+            'suggestion_text': 'Some idea',
+            'email': '',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/en/contribute/', response.url)
+        self.assertEqual(GameSuggestion.objects.count(), 1)
+
+    def test_contact_form_creates_contactmessage(self):
+        from .models import ContactMessage
+        response = self.client.post('/en/contribute/', {
+            'contact_submit': '1',
+            'email': 'user@example.com',
+            'message': 'Hello, I love this site!',
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ContactMessage.objects.count(), 1)
+        msg = ContactMessage.objects.first()
+        self.assertEqual(msg.message, 'Hello, I love this site!')
+        self.assertEqual(msg.email, 'user@example.com')
+        self.assertFalse(msg.dealt_with)
+
+    def test_contact_form_redirects_post(self):
+        from .models import ContactMessage
+        response = self.client.post('/en/contribute/', {
+            'contact_submit': '1',
+            'email': 'test@example.com',
+            'message': 'Hi there',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/en/contribute/', response.url)
+        self.assertEqual(ContactMessage.objects.count(), 1)
+
+
 class ViewStatusTest(TestCase):
     def setUp(self):
         self.genre = Genre.objects.create(name='Test Genre', slug='test-genre', icon='🎯')
