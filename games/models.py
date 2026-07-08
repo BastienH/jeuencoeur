@@ -30,6 +30,7 @@ class Genre(models.Model):
                                    help_text='e.g. giggle_generators, choice_chaos — blank uses generic detail view')
 
     class Meta:
+        verbose_name_plural = 'Games'
         ordering = ['name']
 
     def __str__(self):

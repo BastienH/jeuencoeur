@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load i18n %}
+{% load i18n static %}
 <html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
@@ -113,5 +113,9 @@
     <footer class="text-center text-gray-400 text-sm py-6">
         &copy; {% now "Y" %} {% trans "Jeu en coeur" %}
     </footer>
+
+    <script id="genres-data" type="application/json">{{ genres_json|safe }}</script>
+    <script src="{% static 'shared.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

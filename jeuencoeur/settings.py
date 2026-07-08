@@ -53,6 +53,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'games.context_processors.analytics',
+                'games.context_processors.all_genres_data',
             ],
         },
     },

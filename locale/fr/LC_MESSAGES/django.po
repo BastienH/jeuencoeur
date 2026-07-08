@@ -102,8 +102,8 @@ msgstr "Galerie"
 msgid "Go!"
 msgstr "Go!"
 
-msgid "I don't like this one"
-msgstr "Je n'aime pas celle-ci"
+msgid "Next"
+msgstr "Suivante"
 
 msgid "Imitate the sound to fill the bar!"
 msgstr "Imitez le son pour remplir la barre!"

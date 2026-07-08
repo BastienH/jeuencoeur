@@ -68,6 +68,8 @@ class WYRQuestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        verbose_name = 'Choice'
+        verbose_name_plural = 'Choices'
         ordering = ['?']
         indexes = [
             models.Index(fields=['category']),
