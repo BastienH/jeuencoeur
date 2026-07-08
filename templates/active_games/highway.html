@@ -42,28 +42,6 @@
                     id="boredom-buster-btn">
                 Changer de jeu
             </button>
-        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
-            <div class="flex justify-between text-sm text-gray-500 mb-1">
-                <span>{% trans "Progress" %}</span>
-                <span id="progress-pct">0%</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
-                <div id="progress-bar" class="bg-purple-600 h-full rounded-full transition-all duration-500" style="width:0%"></div>
-            </div>
-        </div>
-            <div class="flex gap-3">
-                <input type="number" id="progress-input" class="w-full border border-gray-300 rounded-lg px-4 py-3 min-h-[44px] text-center" placeholder="{% trans '% complete' %}">
-                <button id="update-progress-btn"
-                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-3 rounded-xl min-h-[44px] whitespace-nowrap">
-                    {% trans "Update" %}
-                </button>
-            </div>
-
-            <button id="end-trip-btn"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
-                {% trans "End Trip" %}
-            </button>
-        </div>
     </div>
 </div>
 
