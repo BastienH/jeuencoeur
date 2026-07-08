@@ -1,3 +1,6 @@
+import json
+
+from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
 from games.models import Genre
@@ -68,8 +71,69 @@ class CreativeGameViewTest(TestCase):
         r = self.client.get('/en/doodle-dash/')
         self.assertEqual(r.status_code, 200)
 
-    def test_tale_save_post(self):
+    def test_tale_save_anonymous_returns_login_required(self):
         r = self.client.post('/en/tale-twisters/save/',
-                             {'content': 'story', 'title': 'Test'},
+                             json.dumps({'content': 'story', 'title': 'Test'}),
                              content_type='application/json')
         self.assertEqual(r.status_code, 200)
+        data = json.loads(r.content)
+        self.assertEqual(data['status'], 'login_required')
+        self.assertIn('/en/login/', data['login_url'])
+        self.assertIn('/en/tale-twisters/claim-story/', data['login_url'])
+
+    def test_tale_save_authenticated(self):
+        User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        r = self.client.post('/en/tale-twisters/save/',
+                             json.dumps({'content': 'story', 'title': 'Test'}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        data = json.loads(r.content)
+        self.assertEqual(data['status'], 'ok')
+        self.assertTrue(StorySession.objects.filter(user__username='testuser', title='Test').exists())
+
+    def test_tale_claim_story(self):
+        User.objects.create_user(username='testuser', password='pass')
+        session = self.client.session
+        session['pending_story'] = {
+            'title': 'My Saved Story',
+            'content': 'Once upon a time...',
+            'duration_seconds': 0,
+            'language': 'en',
+        }
+        session.save()
+        self.client.login(username='testuser', password='pass')
+        r = self.client.get('/en/tale-twisters/claim-story/')
+        self.assertRedirects(r, '/en/tale-twisters/chest/')
+        self.assertTrue(StorySession.objects.filter(user__username='testuser', title='My Saved Story').exists())
+        # pending_story should be cleared
+        session = self.client.session
+        self.assertNotIn('pending_story', session)
+
+    def test_tale_claim_story_no_pending(self):
+        User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        r = self.client.get('/en/tale-twisters/claim-story/')
+        self.assertRedirects(r, '/en/tale-twisters/chest/')
+        self.assertEqual(StorySession.objects.count(), 0)
+
+    def test_tale_chest_redirects_anonymous(self):
+        r = self.client.get('/en/tale-twisters/chest/')
+        self.assertRedirects(r, '/en/login/?next=/en/tale-twisters/chest/')
+
+    def test_tale_chest_authenticated(self):
+        User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        r = self.client.get('/en/tale-twisters/chest/')
+        self.assertEqual(r.status_code, 200)
+
+    def test_tale_save_strips_html_from_title(self):
+        User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        r = self.client.post('/en/tale-twisters/save/',
+                             json.dumps({'content': 'story', 'title': '<script>alert("xss")</script>My Story'}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        session = StorySession.objects.get(user__username='testuser')
+        self.assertNotIn('<script>', session.title)
+        self.assertIn('My Story', session.title)

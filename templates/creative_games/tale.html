@@ -3,12 +3,13 @@
 
 {% block content %}
 {% csrf_token %}
+<div id="auth-status" data-authenticated="{{ user.is_authenticated|yesno:'true,false' }}"></div>
 <div class="mb-6 flex justify-between">
     <a href="{% url 'hub' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
         &larr; {% trans "Back to Hub" %}
     </a>
-    <a href="{% url 'tale_twisters_vault' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
-        {% trans "My Vault" %} 📂
+    <a href="{% url 'tale_twisters_chest' lang=lang %}" class="text-purple-600 hover:text-purple-800 font-medium min-h-[44px] inline-flex items-center">
+        {% trans "My Chest" %}
     </a>
 </div>
 

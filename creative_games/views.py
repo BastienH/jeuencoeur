@@ -3,6 +3,9 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils.html import strip_tags
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
@@ -122,10 +125,25 @@ def tale_state(request, lang):
 @require_active_game('tale-twisters')
 def tale_save(request, lang):
     data = json.loads(request.body) if request.body else request.POST
+    title = strip_tags(data.get('title', ''))
+    content = strip_tags(data.get('content', ''))
+    if not request.user.is_authenticated:
+        request.session['pending_story'] = {
+            'title': title,
+            'content': content,
+            'duration_seconds': int(data.get('duration', 0)),
+            'language': lang,
+        }
+        login_url = reverse('login', kwargs={'lang': lang})
+        next_url = reverse('tale_twisters_claim_story', kwargs={'lang': lang})
+        return JsonResponse({
+            'status': 'login_required',
+            'login_url': f'{login_url}?next={next_url}',
+        })
     session = StorySession.objects.create(
-        user=request.user if request.user.is_authenticated else None,
-        title=data.get('title', ''),
-        content=data.get('content', ''),
+        user=request.user,
+        title=title,
+        content=content,
         duration_seconds=int(data.get('duration', 0)),
         language=lang,
     )
@@ -136,13 +154,32 @@ def tale_save(request, lang):
 
 
 @require_active_game('tale-twisters')
-def tale_vault(request, lang):
+def tale_chest(request, lang):
     activate(lang)
-    sessions = StorySession.objects.filter(user=request.user) if request.user.is_authenticated else StorySession.objects.none()
+    if not request.user.is_authenticated:
+        login_url = reverse('login', kwargs={'lang': lang})
+        next_url = reverse('tale_twisters_chest', kwargs={'lang': lang})
+        return redirect(f'{login_url}?next={next_url}')
+    sessions = StorySession.objects.filter(user=request.user)
     genre = get_object_or_404(Genre, slug='tale-twisters')
-    return render(request, 'creative_games/tale_vault.html', {
+    return render(request, 'creative_games/tale_chest.html', {
         'sessions': sessions, 'lang': lang, 'genre': genre,
     })
+
+
+@require_active_game('tale-twisters')
+def tale_claim_story(request, lang):
+    activate(lang)
+    pending = request.session.pop('pending_story', None)
+    if pending and request.user.is_authenticated:
+        StorySession.objects.create(
+            user=request.user,
+            title=pending.get('title', ''),
+            content=pending.get('content', ''),
+            duration_seconds=pending.get('duration_seconds', 0),
+            language=pending.get('language', lang),
+        )
+    return redirect('tale_twisters_chest', lang=lang)
 
 
 @require_active_game('funny-face-factory')

@@ -102,8 +102,8 @@ msgstr "Galería"
 msgid "Go!"
 msgstr "¡Vamos!"
 
-msgid "I don't like this one"
-msgstr "No me gusta esta"
+msgid "Can't choose, go next"
+msgstr "No puedo decidir, siguiente!"
 
 msgid "Imitate the sound to fill the bar!"
 msgstr "¡Imita el sonido para llenar la barra!"
@@ -132,7 +132,7 @@ msgstr "Mis Favoritos"
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-msgid "My Vault"
+msgid "My Chest"
 msgstr "Mi Cofre"
 
 msgid "New Story"
@@ -242,7 +242,7 @@ msgstr "¡Iniciar viaje!"
 msgid "Start Your Trip"
 msgstr "Iniciar tu viaje"
 
-msgid "Storytime Vault"
+msgid "Story Chest"
 msgstr "Cofre de historias"
 
 msgid "Switch Roles"

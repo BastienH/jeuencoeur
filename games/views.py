@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import activate
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -73,6 +75,9 @@ def signup(request, lang):
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             messages.success(request, 'Account created!')
+            next_url = request.GET.get('next') or request.POST.get('next') or ''
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts=None):
+                return redirect(next_url)
             return redirect('hub', lang=lang)
     else:
         form = UserCreationForm()
@@ -86,6 +91,9 @@ def login_view(request, lang):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            next_url = request.POST.get('next') or request.GET.get('next') or ''
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts=None):
+                return redirect(next_url)
             return redirect('hub', lang=lang)
     else:
         form = AuthenticationForm()

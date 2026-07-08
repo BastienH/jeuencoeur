@@ -132,7 +132,7 @@ msgstr "Mes Favoris"
 msgid "My Profile"
 msgstr "Mon Profil"
 
-msgid "My Vault"
+msgid "My Chest"
 msgstr "Mon Coffre"
 
 msgid "New Story"
@@ -243,7 +243,7 @@ msgstr "Commencer le voyage!"
 msgid "Start Your Trip"
 msgstr "Commencer votre voyage"
 
-msgid "Storytime Vault"
+msgid "Story Chest"
 msgstr "Coffre à histoires"
 
 msgid "Switch Roles"

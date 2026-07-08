@@ -35,7 +35,8 @@ urlpatterns = [
     path('tale-twisters/pick-ending/', creative_views.tale_pick_ending, name='tale_twisters_pick_ending'),
     path('tale-twisters/state/', creative_views.tale_state, name='tale_twisters_state'),
     path('tale-twisters/save/', creative_views.tale_save, name='tale_twisters_save'),
-    path('tale-twisters/vault/', creative_views.tale_vault, name='tale_twisters_vault'),
+    path('tale-twisters/claim-story/', creative_views.tale_claim_story, name='tale_twisters_claim_story'),
+    path('tale-twisters/chest/', creative_views.tale_chest, name='tale_twisters_chest'),
 
     # Mimic Mayhem
     path('mimic-mayhem/', sound_views.mimic_play, name='mimic_mayhem_play'),

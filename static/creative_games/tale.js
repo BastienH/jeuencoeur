@@ -145,10 +145,16 @@
         });
     }
 
+    var isAuthenticated = document.getElementById('auth-status')?.dataset?.authenticated === 'true';
     if (saveBtn) {
         saveBtn.addEventListener('click', () => {
             var title = window.prompt(document.documentElement.lang === 'fr' ? 'Titre de ton histoire:' : document.documentElement.lang === 'es' ? 'Título de tu historia:' : 'Title for your story:', '');
             if (title === null) return;
+            if (!isAuthenticated) {
+                if (!window.confirm(document.documentElement.lang === 'fr' ? 'Connecte-toi pour enregistrer ton histoire. Se connecter maintenant?' : document.documentElement.lang === 'es' ? 'Inicia sesión para guardar tu historia. ¿Iniciar sesión ahora?' : 'Log in to save your story. Log in now?')) {
+                    return;
+                }
+            }
             const contentEls = storyPhase?.querySelectorAll('.rounded-xl p');
             const content = contentEls ? Array.from(contentEls).map(p => p.textContent).join('\n\n') : '';
             saveBtn.disabled = true;
@@ -166,6 +172,8 @@
                         saveBtn.textContent = document.documentElement.lang === 'fr' ? 'Enregistrer & Partager' : document.documentElement.lang === 'es' ? 'Guardar & Compartir' : 'Save & Share';
                         saveBtn.disabled = false;
                     }, 2000);
+                } else if (data.status === 'login_required') {
+                    window.location.href = data.login_url;
                 }
             });
         });
