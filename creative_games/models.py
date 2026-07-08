@@ -49,15 +49,13 @@ class StorySession(models.Model):
 
 CATEGORIES = [
     ('silly', _('Silly')),
-    ('happy', _('Happy')),
-    ('sad', _('Sad')),
-    ('angry', _('Angry')),
-    ('surprised', _('Surprised')),
-    ('scared', _('Scared')),
-    ('sleepy', _('Sleepy')),
-    ('brave', _('Brave')),
-    ('grumpy', _('Grumpy')),
-    ('funny', _('Funny')),
+    ('emotions', _('Emotions')),
+    ('animals', _('Animals')),
+    ('sensations', _('Sensations')),
+    ('technical', _('Technical')),
+    ('situations', _('Situations')),
+    ('absurd', _('Absurd')),
+    ('characters', _('Characters')),
 ]
 
 AGE_GROUPS = [
