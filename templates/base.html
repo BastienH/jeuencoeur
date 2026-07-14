@@ -84,7 +84,7 @@
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="/{{ lang }}/" class="flex flex-col items-center text-primary-dark hover:text-primary-dark">
                 <img src="{% static 'icons/icon.svg' %}" alt="" class="h-10 w-10">
-                <span class="text-sm font-bold whitespace-nowrap">💕 {% trans "Jeu en coeur" %}</span>
+                <span class="text-sm font-bold whitespace-nowrap">{% trans "Jeu en coeur" %}</span>
             </a>
             <div class="flex items-center gap-3">
                 {% if user.is_authenticated %}
@@ -119,7 +119,7 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8">
+    <main class="max-w-4xl mx-auto px-4 py-2">
         {% if messages %}
         <div class="mb-4">
             {% for message in messages %}
@@ -133,6 +133,8 @@
     </main>
 
     <footer class="text-center text-gray-400 text-sm py-6">
+        <a href="/{{ lang }}/about/" class="hover:text-primary">{% trans "About" %}</a>
+        <span class="mx-2">·</span>
         <a href="{% if genre %}/{{ lang }}/contribute/?game={{ genre.slug }}{% else %}/{{ lang }}/contribute/{% endif %}" class="hover:text-primary">{% trans "Contribute" %}</a>
         <span class="mx-2">·</span>
         &copy; {% now "Y" %} {% trans "Jeu en coeur" %}
