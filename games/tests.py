@@ -5,6 +5,7 @@ from django.test import Client, TestCase
 
 from .models import (AnalyticsEvent, Favorite, Genre, Prompt, SoundEffect,
                      StorySeed, UserProfile)
+from .utils import get_shuffled_item
 
 
 class PromptManagerTest(TestCase):
@@ -261,3 +262,84 @@ class AuthFlowTest(TestCase):
         self.assertTrue(Favorite.objects.filter(user__username='testuser', prompt=self.prompt).exists())
         response = self.client.post(f'/en/toggle-favorite/{self.prompt.id}/')
         self.assertFalse(Favorite.objects.filter(user__username='testuser', prompt=self.prompt).exists())
+
+
+class ShuffledDeckTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.genre = Genre.objects.create(name='Test', slug='test-shuffle', icon='🎯')
+        self.prompts = []
+        for i in range(5):
+            p = Prompt.objects.create(
+                genre=self.genre,
+                text_en=f'Prompt {i}',
+                text_fr=f'Solliciter {i}',
+                text_es=f'Indicio {i}',
+            )
+            self.prompts.append(p)
+
+    def test_first_draw_returns_item(self):
+        request = self.client.get('/en/test-shuffle/').wsgi_request
+        item = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre))
+        self.assertIsNotNone(item)
+        self.assertIn(item, self.prompts)
+
+    def test_advance_draws_different_items(self):
+        request = self.client.get('/en/test-shuffle/').wsgi_request
+        ids = set()
+        for _ in range(5):
+            item = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre), advance=True)
+            ids.add(item.id)
+        self.assertEqual(len(ids), 5)
+
+    def test_exhaustion_reshuffles(self):
+        request = self.client.get('/en/test-shuffle/').wsgi_request
+        ids = []
+        for _ in range(10):
+            item = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre), advance=True)
+            ids.append(item.id)
+        self.assertEqual(len(ids), 10)
+
+    def test_empty_queryset_returns_none(self):
+        empty_genre = Genre.objects.create(name='Empty', slug='empty-deck', icon='❌')
+        request = self.client.get('/en/empty-deck/').wsgi_request
+        item = get_shuffled_item(request, 'deck_empty', Prompt.objects.filter(genre=empty_genre))
+        self.assertIsNone(item)
+
+    def test_current_id_persists_without_advance(self):
+        request = self.client.get('/en/test-shuffle/').wsgi_request
+        first = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre))
+        second = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre))
+        self.assertEqual(first.id, second.id)
+
+    def test_filter_change_reshuffles(self):
+        request = self.client.get('/en/test-shuffle/').wsgi_request
+        get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre), filters={'cat': 'a'})
+        item1 = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre), filters={'cat': 'a'}, advance=True)
+        item2 = get_shuffled_item(request, 'deck_test', Prompt.objects.filter(genre=self.genre), filters={'cat': 'b'}, advance=True)
+        self.assertIsNotNone(item1)
+        self.assertIsNotNone(item2)
+
+
+class PromptsAllDataTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.genre = Genre.objects.create(name='Test', slug='api-test', icon='🎯')
+        Prompt.objects.create(
+            genre=self.genre,
+            text_en='Hello', text_fr='Bonjour', text_es='Hola',
+        )
+
+    def test_api_returns_json(self):
+        response = self.client.get('/en/api/prompts/')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        self.assertIn('version', data)
+        self.assertIn('prompts', data)
+
+    def test_api_includes_prompts(self):
+        response = self.client.get('/en/api/prompts/')
+        data = json.loads(response.content)
+        self.assertIn('giggle_generators', data['prompts'])
+        self.assertIn('choice_chaos', data['prompts'])
+        self.assertIn('tale_twisters', data['prompts'])

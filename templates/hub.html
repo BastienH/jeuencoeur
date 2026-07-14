@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n genre_tags %}
+{% load i18n static genre_tags %}
 
 {% block content %}
 <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">
@@ -65,4 +65,8 @@
     {% endwith %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'prefetch.js' %}"></script>
 {% endblock %}

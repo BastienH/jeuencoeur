@@ -1,7 +1,69 @@
+import random
 from functools import wraps
 
 from django.shortcuts import redirect
 from django.utils.translation import activate
+
+
+def get_shuffled_item(request, session_key, queryset, filters=None, advance=False):
+    """
+    Get an item from a shuffled deck stored in the Django session.
+
+    Args:
+        request:        Django request object
+        session_key:    Unique key for this deck (e.g. 'deck_giggle')
+        queryset:       Base queryset to draw from
+        filters:        Optional dict of active filters; a change triggers reshuffle
+        advance:        If True, draw the next item; if False, return the current one
+
+    Returns:
+        A model instance or None if the queryset is empty.
+    """
+    current_filters = filters or {}
+    deck = request.session.get(session_key)
+    reshuffle = False
+
+    if not (deck and deck.get('filters') == current_filters):
+        reshuffle = True
+    elif advance:
+        index = deck['index']
+        if index >= len(deck['ids']):
+            reshuffle = True
+
+    if reshuffle:
+        ids = list(queryset.values_list('id', flat=True))
+        if not ids:
+            request.session.pop(session_key, None)
+            return None
+        random.shuffle(ids)
+        deck = {
+            'ids': ids,
+            'index': 0,
+            'filters': current_filters,
+            'current_id': None,
+        }
+
+    if advance or deck.get('current_id') is None:
+        index = deck['index']
+        if index >= len(deck['ids']):
+            ids = list(queryset.values_list('id', flat=True))
+            if not ids:
+                request.session.pop(session_key, None)
+                return None
+            random.shuffle(ids)
+            deck['ids'] = ids
+            index = 0
+
+        item_id = deck['ids'][index]
+        deck['index'] = index + 1
+        deck['current_id'] = item_id
+    else:
+        item_id = deck['current_id']
+
+    request.session[session_key] = deck
+    request.session.modified = True
+
+    return queryset.filter(id=item_id).first()
 
 
 def is_tester(user):

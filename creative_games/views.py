@@ -10,7 +10,7 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import Genre, StorySeed
-from games.utils import require_active_game
+from games.utils import get_shuffled_item, require_active_game
 
 from .models import (DoodleAccessory, DoodleDrawing, DoodleEmotion,
                      DoodleSubject, FacePrompt, StoryEnding, StorySession, StoryTwist)
@@ -20,7 +20,12 @@ from .models import (DoodleAccessory, DoodleDrawing, DoodleEmotion,
 def tale_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='tale-twisters')
-    twist = StoryTwist.get_random(lang)
+    twist = get_shuffled_item(
+        request, 'deck_tale_twist',
+        StoryTwist.objects.filter(genre__slug='tale-twisters'),
+    )
+    if twist:
+        twist.display_text = twist.get_text(lang)
     return render(request, 'creative_games/tale.html', {
         'genre': genre, 'twist': twist, 'lang': lang,
     })
@@ -29,7 +34,13 @@ def tale_play(request, lang):
 @require_active_game('tale-twisters')
 def tale_twist(request, lang):
     activate(lang)
-    twist = StoryTwist.get_random(lang)
+    twist = get_shuffled_item(
+        request, 'deck_tale_twist',
+        StoryTwist.objects.filter(genre__slug='tale-twisters'),
+        advance=True,
+    )
+    if twist:
+        twist.display_text = twist.get_text(lang)
     return render(request, 'creative_games/partials/tale_twist.html', {
         'twist': twist, 'lang': lang,
     })
@@ -46,13 +57,19 @@ def tale_start(request, lang):
             'seed_id': int(seed_id),
             'twist_id': None,
             'ending_id': None,
-            'used_twists': request.session.get(session_key, {}).get('used_twists', []),
         }
         request.session.modified = True
         return JsonResponse({'status': 'ok', 'phase': 'twist'})
-    seeds = list(StorySeed.objects.filter(genre__slug='tale-twisters').order_by('?')[:3])
-    for s in seeds:
-        s.display_text = s.get_text(lang)
+    seeds = []
+    for _ in range(3):
+        seed = get_shuffled_item(
+            request, 'deck_tale_seed',
+            StorySeed.objects.filter(genre__slug='tale-twisters'),
+            advance=True,
+        )
+        if seed:
+            seed.display_text = seed.get_text(lang)
+            seeds.append(seed)
     return render(request, 'creative_games/partials/tale_start.html', {
         'seeds': seeds, 'lang': lang,
     })
@@ -66,17 +83,20 @@ def tale_pick_twist(request, lang):
         twist_id = data.get('twist_id')
         session_key = f'tale_{lang}'
         state = request.session.get(session_key, {})
-        used = list(state.get('used_twists', []))
-        used.append(int(twist_id))
         state['twist_id'] = int(twist_id)
-        state['used_twists'] = used
         request.session[session_key] = state
         request.session.modified = True
         return JsonResponse({'status': 'ok', 'phase': 'ending'})
-    used = request.session.get(f'tale_{lang}', {}).get('used_twists', [])
-    twists = list(StoryTwist.objects.filter(genre__slug='tale-twisters').exclude(id__in=used).order_by('?')[:3])
-    for t in twists:
-        t.display_text = t.get_text(lang)
+    twists = []
+    for _ in range(3):
+        twist = get_shuffled_item(
+            request, 'deck_tale_twist',
+            StoryTwist.objects.filter(genre__slug='tale-twisters'),
+            advance=True,
+        )
+        if twist:
+            twist.display_text = twist.get_text(lang)
+            twists.append(twist)
     return render(request, 'creative_games/partials/tale_twist_options.html', {
         'twists': twists, 'lang': lang,
     })
@@ -94,9 +114,16 @@ def tale_pick_ending(request, lang):
         request.session[session_key] = state
         request.session.modified = True
         return JsonResponse({'status': 'ok', 'phase': 'complete'})
-    endings = list(StoryEnding.objects.filter(genre__slug='tale-twisters').order_by('?')[:3])
-    for e in endings:
-        e.display_text = e.get_text(lang)
+    endings = []
+    for _ in range(3):
+        ending = get_shuffled_item(
+            request, 'deck_tale_ending',
+            StoryEnding.objects.filter(genre__slug='tale-twisters'),
+            advance=True,
+        )
+        if ending:
+            ending.display_text = ending.get_text(lang)
+            endings.append(ending)
     return render(request, 'creative_games/partials/tale_ending_options.html', {
         'endings': endings, 'lang': lang,
     })
@@ -188,7 +215,22 @@ def funny_face_play(request, lang):
     genre = get_object_or_404(Genre, slug='funny-face-factory')
     age_group = request.GET.get('age')
     category = request.GET.get('cat')
-    prompt = FacePrompt.get_random(lang, age_group=age_group, category=category)
+    filters = {}
+    if age_group and age_group != 'all':
+        filters['age_group'] = age_group
+    if category:
+        filters['category'] = category
+    qs = FacePrompt.objects.all()
+    if age_group and age_group != 'all':
+        qs = qs.filter(age_group=age_group)
+    if category:
+        qs = qs.filter(category=category)
+    prompt = get_shuffled_item(
+        request, 'deck_funny', qs,
+        filters=filters or None,
+    )
+    if prompt:
+        prompt.display_text = prompt.get_text(lang)
     return render(request, 'creative_games/funny_face.html', {
         'genre': genre, 'prompt': prompt, 'lang': lang,
         'age_group': age_group, 'category': category,
@@ -200,7 +242,22 @@ def funny_face_next(request, lang):
     activate(lang)
     age_group = request.GET.get('age')
     category = request.GET.get('cat')
-    prompt = FacePrompt.get_random(lang, age_group=age_group, category=category)
+    filters = {}
+    if age_group and age_group != 'all':
+        filters['age_group'] = age_group
+    if category:
+        filters['category'] = category
+    qs = FacePrompt.objects.all()
+    if age_group and age_group != 'all':
+        qs = qs.filter(age_group=age_group)
+    if category:
+        qs = qs.filter(category=category)
+    prompt = get_shuffled_item(
+        request, 'deck_funny', qs,
+        filters=filters or None, advance=True,
+    )
+    if prompt:
+        prompt.display_text = prompt.get_text(lang)
     return render(request, 'creative_games/partials/funny_face_prompt.html', {
         'prompt': prompt, 'lang': lang,
     })
@@ -210,10 +267,18 @@ def funny_face_next(request, lang):
 def doodle_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='doodle-dash')
-    from .models import DoodleAccessory, DoodleEmotion, DoodleSubject
-    subj = DoodleSubject.objects.order_by('?').first()
-    emot = DoodleEmotion.objects.order_by('?').first()
-    acc = DoodleAccessory.objects.order_by('?').first()
+    subj = get_shuffled_item(
+        request, 'deck_doodle_subj',
+        DoodleSubject.objects.all(), advance=True,
+    )
+    emot = get_shuffled_item(
+        request, 'deck_doodle_emot',
+        DoodleEmotion.objects.all(), advance=True,
+    )
+    acc = get_shuffled_item(
+        request, 'deck_doodle_acc',
+        DoodleAccessory.objects.all(), advance=True,
+    )
     prompt = {
         'subject': subj.get_text(lang) if subj else '',
         'emotion': emot.get_text(lang) if emot else '',

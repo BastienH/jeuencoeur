@@ -7,7 +7,7 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import AnalyticsEvent, Genre
-from games.utils import require_active_game
+from games.utils import get_shuffled_item, require_active_game
 
 from .models import CarGame, RoleActivity, RoleCharacter, RoleSetting, TripSession
 
@@ -16,9 +16,18 @@ from .models import CarGame, RoleActivity, RoleCharacter, RoleSetting, TripSessi
 def wild_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='wild-roles')
-    character = RoleCharacter.objects.order_by('?').first()
-    setting = RoleSetting.objects.order_by('?').first()
-    activity = RoleActivity.objects.order_by('?').first()
+    character = get_shuffled_item(
+        request, 'deck_wild_char',
+        RoleCharacter.objects.all(), advance=True,
+    )
+    setting = get_shuffled_item(
+        request, 'deck_wild_set',
+        RoleSetting.objects.all(), advance=True,
+    )
+    activity = get_shuffled_item(
+        request, 'deck_wild_act',
+        RoleActivity.objects.all(), advance=True,
+    )
     return render(request, 'active_games/wild.html', {
         'genre': genre,
         'character': character.get_text(lang) if character else '',
@@ -31,9 +40,18 @@ def wild_play(request, lang):
 @require_active_game('wild-roles')
 def wild_spin(request, lang):
     activate(lang)
-    character = RoleCharacter.objects.order_by('?').first()
-    setting = RoleSetting.objects.order_by('?').first()
-    activity = RoleActivity.objects.order_by('?').first()
+    character = get_shuffled_item(
+        request, 'deck_wild_char',
+        RoleCharacter.objects.all(), advance=True,
+    )
+    setting = get_shuffled_item(
+        request, 'deck_wild_set',
+        RoleSetting.objects.all(), advance=True,
+    )
+    activity = get_shuffled_item(
+        request, 'deck_wild_act',
+        RoleActivity.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/wild_results.html', {
         'character': character.get_text(lang) if character else '',
         'setting': setting.get_text(lang) if setting else '',
@@ -45,7 +63,10 @@ def wild_spin(request, lang):
 @require_active_game('wild-roles')
 def wild_spin_character(request, lang):
     activate(lang)
-    character = RoleCharacter.objects.order_by('?').first()
+    character = get_shuffled_item(
+        request, 'deck_wild_char',
+        RoleCharacter.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/wild_character.html', {
         'character': character.get_text(lang) if character else '',
         'lang': lang,
@@ -55,7 +76,10 @@ def wild_spin_character(request, lang):
 @require_active_game('wild-roles')
 def wild_spin_setting(request, lang):
     activate(lang)
-    setting = RoleSetting.objects.order_by('?').first()
+    setting = get_shuffled_item(
+        request, 'deck_wild_set',
+        RoleSetting.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/wild_setting.html', {
         'setting': setting.get_text(lang) if setting else '',
         'lang': lang,
@@ -65,7 +89,10 @@ def wild_spin_setting(request, lang):
 @require_active_game('wild-roles')
 def wild_spin_activity(request, lang):
     activate(lang)
-    activity = RoleActivity.objects.order_by('?').first()
+    activity = get_shuffled_item(
+        request, 'deck_wild_act',
+        RoleActivity.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/wild_activity.html', {
         'activity': activity.get_text(lang) if activity else '',
         'lang': lang,
@@ -88,7 +115,10 @@ def wild_react(request, lang):
 def highway_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='highway-hijinks')
-    car_game = CarGame.objects.order_by('?').first()
+    car_game = get_shuffled_item(
+        request, 'deck_highway',
+        CarGame.objects.all(), advance=True,
+    )
     trip_active = TripSession.objects.filter(
         user=request.user if request.user.is_authenticated else None,
         active=True,
@@ -100,7 +130,10 @@ def highway_play(request, lang):
 
 @require_active_game('highway-hijinks')
 def highway_boredom_buster(request, lang):
-    car_game = CarGame.objects.order_by('?').first()
+    car_game = get_shuffled_item(
+        request, 'deck_highway',
+        CarGame.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/highway_game.html', {
         'car_game': car_game, 'lang': lang,
     })
@@ -109,24 +142,10 @@ def highway_boredom_buster(request, lang):
 @require_active_game('highway-hijinks')
 def highway_next_game(request, lang):
     activate(lang)
-    trip_id = request.GET.get('trip_id')
-    if trip_id:
-        trip = TripSession.objects.filter(id=trip_id, active=True).first()
-    else:
-        trip = None
-    shown = set(trip.games_shown) if trip else set()
-    qs = CarGame.objects.exclude(id__in=shown)
-    count = qs.count()
-    if count == 0:
-        qs = CarGame.objects.all()
-        if trip:
-            trip.games_shown = []
-            trip.save()
-    car_game = qs.order_by('?').first()
-    if trip and car_game:
-        shown.add(car_game.id)
-        trip.games_shown = list(shown)
-        trip.save()
+    car_game = get_shuffled_item(
+        request, 'deck_highway',
+        CarGame.objects.all(), advance=True,
+    )
     return render(request, 'active_games/partials/highway_game.html', {
         'car_game': car_game, 'lang': lang,
     })

@@ -15,6 +15,7 @@ urlpatterns = [
     path('next-prompt/', views.next_prompt, name='next_prompt'),
     path('toggle-favorite/<int:prompt_id>/', views.toggle_favorite, name='toggle_favorite'),
     path('analytics/track/', views.track_event, name='track_event'),
+    path('api/prompts/', views.prompts_all_data, name='prompts_all_data'),
     path('print-decks/', views.print_deck_list, name='print_deck_list'),
     path('print-decks/<slug:game_module>/', views.print_deck_pdf, name='print_deck_pdf'),
 

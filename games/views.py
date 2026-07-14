@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .models import AnalyticsEvent, Favorite, Genre, Prompt, UserProfile
-from .utils import is_tester
+from .utils import get_shuffled_item, is_tester
 
 
 def _favorited(prompt, request):
@@ -42,7 +42,12 @@ def detail(request, lang, genre_slug):
     genre = get_object_or_404(Genre, slug=genre_slug)
     if not genre.is_active and not is_tester(request.user):
         return redirect('hub', lang=lang)
-    prompt = Prompt.objects.get_random(genre, lang)
+    prompt = get_shuffled_item(
+        request, f'deck_{genre_slug}',
+        Prompt.objects.filter(genre=genre),
+    )
+    if prompt:
+        prompt.display_text = prompt.get_text(lang)
     return render(request, 'detail.html', {
         'genre': genre,
         'prompt': prompt,
@@ -55,7 +60,13 @@ def next_prompt(request, lang):
     activate(lang)
     genre_slug = request.GET.get('genre_slug')
     genre = get_object_or_404(Genre, slug=genre_slug)
-    prompt = Prompt.objects.get_random(genre, lang)
+    prompt = get_shuffled_item(
+        request, f'deck_{genre_slug}',
+        Prompt.objects.filter(genre=genre),
+        advance=True,
+    )
+    if prompt:
+        prompt.display_text = prompt.get_text(lang)
     return render(request, 'partials/prompt_card.html', {
         'prompt': prompt,
         'genre': genre,
@@ -149,6 +160,10 @@ def toggle_favorite(request, lang, prompt_id):
     })
 
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+
+
 @csrf_exempt
 @require_POST
 def track_event(request, lang):
@@ -174,6 +189,77 @@ def track_event(request, lang):
     )
     from django.http import JsonResponse
     return JsonResponse({'status': 'ok'})
+
+
+@require_GET
+def prompts_all_data(request, lang):
+    import hashlib
+    from django.utils import translation
+    from .models import StorySeed
+    from sound_games.models import MicroChallenge, SoundFX, LipSyncSound, WYRQuestion
+    from creative_games.models import (
+        StoryTwist, StoryEnding, FacePrompt,
+        DoodleSubject, DoodleEmotion, DoodleAccessory,
+    )
+    from active_games.models import (
+        RoleCharacter, RoleSetting, RoleActivity, CarGame,
+    )
+
+    activate(lang)
+
+    def _text(obj, lang):
+        if hasattr(obj, 'get_text'):
+            return obj.get_text(lang)
+        return ''
+
+    def _serialize(qs, field_fn):
+        return [{'id': o.id, 'text': field_fn(o)} for o in qs]
+
+    data = {
+        'giggle_generators': _serialize(
+            MicroChallenge.objects.all(), lambda o: _text(o, lang)),
+        'choice_chaos': _serialize(
+            WYRQuestion.objects.all(),
+            lambda o: f'{o.get_option_a(lang)} vs {o.get_option_b(lang)}'),
+        'mimic_mayhem': _serialize(
+            SoundFX.objects.all(), lambda o: o.name),
+        'lip_sync_legends': _serialize(
+            LipSyncSound.objects.all(),
+            lambda o: o.get_description(lang) or o.name),
+        'tale_twisters': {
+            'seeds': _serialize(
+                StorySeed.objects.all(), lambda o: _text(o, lang)),
+            'twists': _serialize(
+                StoryTwist.objects.all(), lambda o: _text(o, lang)),
+            'endings': _serialize(
+                StoryEnding.objects.all(), lambda o: _text(o, lang)),
+        },
+        'funny_face_factory': _serialize(
+            FacePrompt.objects.all(), lambda o: _text(o, lang)),
+        'doodle_dash': {
+            'subjects': _serialize(
+                DoodleSubject.objects.all(), lambda o: _text(o, lang)),
+            'emotions': _serialize(
+                DoodleEmotion.objects.all(), lambda o: _text(o, lang)),
+            'accessories': _serialize(
+                DoodleAccessory.objects.all(), lambda o: _text(o, lang)),
+        },
+        'wild_roles': {
+            'characters': _serialize(
+                RoleCharacter.objects.all(), lambda o: _text(o, lang)),
+            'settings': _serialize(
+                RoleSetting.objects.all(), lambda o: _text(o, lang)),
+            'activities': _serialize(
+                RoleActivity.objects.all(), lambda o: _text(o, lang)),
+        },
+        'highway_hijinks': _serialize(
+            CarGame.objects.all(), lambda o: o.get_name(lang)),
+    }
+
+    version_raw = json.dumps(data, sort_keys=True, default=str)
+    version = hashlib.md5(version_raw.encode()).hexdigest()
+
+    return JsonResponse({'version': version, 'prompts': data})
 
 
 def print_deck_list(request, lang):
