@@ -43,6 +43,9 @@
 
         <div class="flex flex-col gap-3">
             <button id="boredom-buster-btn"
+                    hx-get="{{ reroll_url }}"
+                    hx-target="#game-content"
+                    hx-swap="innerHTML"
                     class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-3 px-6 rounded-xl min-h-[44px]">
                 {% trans "Switch game" %}
             </button>
