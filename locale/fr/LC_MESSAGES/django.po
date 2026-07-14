@@ -589,7 +589,7 @@ msgstr "Connectez-vous"
 
 #: templates/sound_games/choice.html:44
 msgid "Can't choose, go next"
-msgstr ""
+msgstr "Impossible de choisir, au suivant !"
 
 #: templates/sound_games/choice.html:49
 msgid "Filter:"
