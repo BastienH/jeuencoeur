@@ -33,7 +33,7 @@ class WYRQuestionTest(TestCase):
     def setUp(self):
         self.genre = Genre.objects.create(name='Test', slug='test', icon='🎯')
         self.q = WYRQuestion.objects.create(
-            genre=self.genre, category='silly',
+            genre=self.genre, category='silly', age_group='3-6',
             option_a_en='A_en', option_a_fr='A_fr', option_a_es='A_es',
             option_b_en='B_en', option_b_fr='B_fr', option_b_es='B_es',
         )
@@ -41,6 +41,38 @@ class WYRQuestionTest(TestCase):
     def test_get_option(self):
         self.assertEqual(self.q.get_option_a('fr'), 'A_fr')
         self.assertEqual(self.q.get_option_b('de'), 'B_en')
+
+    def test_get_random(self):
+        q = WYRQuestion.get_random('en')
+        self.assertIsNotNone(q)
+        self.assertEqual(q.display_a, 'A_en')
+
+    def test_get_random_age_filter(self):
+        WYRQuestion.objects.create(
+            genre=self.genre, category='deep', age_group='7-10',
+            option_a_en='Older', option_a_fr='', option_a_es='',
+            option_b_en='Also', option_b_fr='', option_b_es='',
+        )
+        q = WYRQuestion.get_random('en', age_group='3-6')
+        self.assertEqual(q.age_group, '3-6')
+
+    def test_get_random_category_and_age_filter(self):
+        WYRQuestion.objects.create(
+            genre=self.genre, category='food', age_group='3-6',
+            option_a_en='Food', option_a_fr='', option_a_es='',
+            option_b_en='Yum', option_b_fr='', option_b_es='',
+        )
+        q = WYRQuestion.get_random('en', category='food', age_group='3-6')
+        self.assertEqual(q.category, 'food')
+        self.assertEqual(q.age_group, '3-6')
+
+    def test_default_age_group_is_all(self):
+        q = WYRQuestion.objects.create(
+            genre=self.genre, category='silly',
+            option_a_en='X', option_a_fr='', option_a_es='',
+            option_b_en='Y', option_b_fr='', option_b_es='',
+        )
+        self.assertEqual(q.age_group, 'all')
 
 
 class SoundFXTest(TestCase):
@@ -71,7 +103,7 @@ class SoundGameViewTest(TestCase):
         Genre.objects.create(name='LL', slug='lip-sync-legends', game_module='lip_sync_legends')
         MicroChallenge.objects.create(genre=self.genre, text_en='test', text_fr='test', text_es='test',
                                         age_group='3-6', energy_level='calm')
-        WYRQuestion.objects.create(genre=Genre.objects.get(slug='choice-chaos'), category='silly',
+        WYRQuestion.objects.create(genre=Genre.objects.get(slug='choice-chaos'), category='silly', age_group='all',
                                     option_a_en='a', option_a_fr='a', option_a_es='a',
                                     option_b_en='b', option_b_fr='b', option_b_es='b')
         SoundFX.objects.create(genre=Genre.objects.get(slug='mimic-mayhem'), name='Test')

@@ -72,13 +72,20 @@ def choice_play(request, lang):
 def choice_reroll(request, lang):
     activate(lang)
     category = request.GET.get('category')
-    filters = {'category': category} if category else None
+    age_group = request.GET.get('age_group')
     qs = WYRQuestion.objects.all()
     if category:
         qs = qs.filter(category=category)
+    if age_group and age_group != 'all':
+        qs = qs.filter(age_group=age_group)
+    filters = {}
+    if category:
+        filters['category'] = category
+    if age_group:
+        filters['age_group'] = age_group
     question = get_shuffled_item(
         request, 'deck_choice', qs,
-        filters=filters, advance=True,
+        filters=filters or None, advance=True,
     )
     if question:
         question.display_a = question.get_option_a(lang)

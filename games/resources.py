@@ -58,7 +58,7 @@ class WYRQuestionResource(_BaseResource):
 
     class Meta(_BaseResource.Meta):
         model = WYRQuestion
-        fields = ('genre', 'category',
+        fields = ('genre', 'category', 'age_group',
                   'option_a_en', 'option_b_en',
                   'option_a_fr', 'option_b_fr',
                   'option_a_es', 'option_b_es')

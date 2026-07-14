@@ -40,6 +40,7 @@
     <button hx-get="{% url 'choice_chaos_reroll' lang=lang %}"
             hx-target="#question-container"
             hx-swap="innerHTML"
+            hx-vals="js:{category: document.getElementById('category-filter')?.value || '', age_group: document.getElementById('age-filter')?.value || 'all'}"
             class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-8 rounded-xl min-h-[44px] transition-colors">
         {% trans "Can't choose, go next" %}
     </button>

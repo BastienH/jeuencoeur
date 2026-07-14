@@ -21,13 +21,13 @@ class MicroChallengeAdmin(ImportExportModelAdmin):
 @admin.register(WYRQuestion)
 class WYRQuestionAdmin(ImportExportModelAdmin):
     resource_class = WYRQuestionResource
-    list_display = ('id', 'category', 'genre', 'option_a_en_preview')
-    list_filter = ('category', 'genre')
+    list_display = ('id', 'category', 'age_group', 'genre', 'option_a_en_preview')
+    list_filter = ('category', 'age_group', 'genre')
     search_fields = ('option_a_en', 'option_b_en')
     autocomplete_fields = ['genre']
     fields = (
         'genre',
-        'category',
+        ('category', 'age_group'),
         ('option_a_en', 'option_b_en'),
         ('option_a_fr', 'option_b_fr'),
         ('option_a_es', 'option_b_es'),

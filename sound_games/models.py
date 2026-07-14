@@ -53,14 +53,26 @@ class MicroChallenge(models.Model):
 
 
 class WYRQuestion(models.Model):
+    AGE_GROUPS = [
+        ('all', _('All Ages')),
+        ('3-6', _('3-6')),
+        ('7-10', _('7-10')),
+        ('11+', _('11+')),
+    ]
     CATEGORIES = [
         ('silly', _('Silly')),
         ('deep', _('Deep')),
         ('food', _('Food')),
+        ('animals', _('Animals')),
+        ('superpower', _('Superpower')),
+        ('gross', _('Gross')),
+        ('adventure', _('Adventure')),
+        ('school', _('School')),
     ]
 
     genre = models.ForeignKey('games.Genre', on_delete=models.CASCADE, related_name='wyr_questions')
     category = models.CharField(max_length=20, choices=CATEGORIES, db_index=True)
+    age_group = models.CharField(max_length=20, choices=AGE_GROUPS, default='all', db_index=True)
     option_a_en = models.TextField()
     option_a_fr = models.TextField()
     option_a_es = models.TextField()
@@ -75,10 +87,11 @@ class WYRQuestion(models.Model):
         ordering = ['?']
         indexes = [
             models.Index(fields=['category']),
+            models.Index(fields=['age_group']),
         ]
 
     def __str__(self):
-        return f"[{self.category}] {self.option_a_en[:40]}... vs {self.option_b_en[:40]}..."
+        return f"[{self.category}/{self.age_group}] {self.option_a_en[:40]}... vs {self.option_b_en[:40]}..."
 
     def get_option_a(self, lang):
         return getattr(self, f'option_a_{lang}', self.option_a_en) or self.option_a_en
@@ -87,10 +100,12 @@ class WYRQuestion(models.Model):
         return getattr(self, f'option_b_{lang}', self.option_b_en) or self.option_b_en
 
     @staticmethod
-    def get_random(lang, category=None):
+    def get_random(lang, category=None, age_group=None):
         qs = WYRQuestion.objects.all()
         if category:
             qs = qs.filter(category=category)
+        if age_group and age_group != 'all':
+            qs = qs.filter(age_group=age_group)
         count = qs.count()
         if count == 0:
             return None

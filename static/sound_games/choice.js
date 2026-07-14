@@ -25,7 +25,13 @@
     }
 
     function advanceQuestion() {
-        const url = window.location.pathname.replace(/\/+$/, '') + '/reroll/';
+        const base = window.location.pathname.replace(/\/+$/, '') + '/reroll/';
+        const cat = document.getElementById('category-filter')?.value || '';
+        const age = document.getElementById('age-filter')?.value || '';
+        const params = new URLSearchParams();
+        if (cat) params.set('category', cat);
+        if (age) params.set('age_group', age);
+        const url = base + (params.toString() ? '?' + params.toString() : '');
         fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(r => r.text())
             .then(html => {
