@@ -182,7 +182,15 @@ msgstr ""
 
 #: templates/about.html:80
 msgid "Add Jeu en coeur to your home screen for one-tap access."
-msgstr ""
+msgstr "Ajoutez Jeu en coeur à votre écran d'accueil pour un accès en un tap."
+
+#: templates/about.html:88 templates/base.html:137 templates/contribute.html:18
+msgid "Install"
+msgstr "Installer"
+
+#: templates/about.html:87
+msgid "Install on your home screen"
+msgstr "Installer sur votre écran d'accueil"
 
 #: templates/about.html:88 templates/contribute.html:18
 msgid "Suggest a Prompt"

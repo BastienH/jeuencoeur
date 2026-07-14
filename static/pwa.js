@@ -48,6 +48,11 @@
                window.matchMedia('(display: fullscreen)').matches;
     }
 
+    function isMobileOrTablet() {
+        var ua = navigator.userAgent || '';
+        return /Android|iPhone|iPad|iPod/i.test(ua) || window.innerWidth < 1024;
+    }
+
     // --- Install State ---
 
     var STORAGE_KEYS = {
@@ -77,21 +82,26 @@
         localStorage.setItem(STORAGE_KEYS.REJECTED_AT, Date.now().toString());
     }
 
-    // --- UI Creation ---
+    // --- Button Visibility ---
 
-    function createInstallButton() {
-        var btn = document.createElement('button');
-        btn.id = 'pwa-install-btn';
-        btn.setAttribute('aria-label', 'Install Jeu en Coeur');
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M12 3v12m0 0l-4-4m4 4l4-4"/>' +
-            '<path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>' +
-            '</svg> <span>Install</span>';
-        btn.style.cssText = 'display:inline-flex;align-items:center;gap:4px;background:#26A69A;color:#fff;border:none;border-radius:9999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.2s;';
-        btn.addEventListener('mouseenter', function() { btn.style.background = '#00796B'; });
-        btn.addEventListener('mouseleave', function() { btn.style.background = '#26A69A'; });
-        return btn;
+    function updateButtonVisibility(buttons, state) {
+        for (var i = 0; i < buttons.length; i++) {
+            var btn = buttons[i];
+            var alwaysShow = btn.hasAttribute('data-pwa-always-show');
+
+            if (state === 'installed') {
+                btn.style.display = 'none';
+            } else if (alwaysShow) {
+                btn.style.display = '';
+            } else if (state === 'rejected') {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = '';
+            }
+        }
     }
+
+    // --- Modal Dialog ---
 
     function createDialog(platform) {
         var overlay = document.createElement('div');
@@ -106,8 +116,10 @@
 
         if (platform === 'ios') {
             body = '<p style="color:#666;font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem;">' +
+                'Add this app to your home screen for quick access.</p>' +
+                '<p style="color:#666;font-size:0.85rem;line-height:1.5;margin-bottom:1rem;">' +
                 'Tap the <strong>Share</strong> button in Safari, then choose <strong>"Add to Home Screen"</strong>.</p>' +
-                '<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.5rem;">' +
+                '<div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:1.5rem;">' +
                 '<div style="text-align:center;">' +
                 '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#26A69A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:4px;">' +
                 '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>' +
@@ -119,6 +131,8 @@
                 '</div>';
         } else {
             body = '<p style="color:#666;font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem;">' +
+                'Add this app to your home screen for quick access.</p>' +
+                '<p style="color:#666;font-size:0.85rem;line-height:1.5;margin-bottom:1rem;">' +
                 'Open your browser menu, then tap <strong>"Add to Home Screen"</strong>.</p>' +
                 '<div style="text-align:center;margin-bottom:1.5rem;">' +
                 '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#26A69A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
@@ -166,56 +180,63 @@
 
         var platform = detectPlatform();
         var state = getState();
+        var mobile = isMobileOrTablet();
 
-        if (state === 'installed') return;
+        var buttons = document.querySelectorAll('[data-pwa-install-trigger]');
 
-        var headerNav = document.querySelector('header .flex.items-center');
-        if (!headerNav) return;
+        if (!mobile || state === 'installed') {
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'none';
+            }
+            return;
+        }
+
+        updateButtonVisibility(buttons, state);
 
         if (platform === 'android-chrome' || platform === 'desktop-chrome') {
             var deferredPrompt = null;
-            var btn = createInstallButton();
-            btn.style.display = 'none';
-            headerNav.insertBefore(btn, headerNav.firstChild);
 
             window.addEventListener('beforeinstallprompt', function(e) {
                 e.preventDefault();
                 deferredPrompt = e;
-                if (state === 'new') {
-                    btn.style.display = 'inline-flex';
-                } else if (state === 'rejected') {
-                    btn.style.display = 'inline-flex';
-                }
+                updateButtonVisibility(buttons, state);
             });
 
-            btn.addEventListener('click', function() {
-                if (!deferredPrompt) return;
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(function(result) {
-                    if (result.outcome === 'accepted') {
-                        markInstalled();
-                        btn.remove();
-                    } else {
-                        markRejected();
-                    }
-                    deferredPrompt = null;
-                });
-            });
+            for (var j = 0; j < buttons.length; j++) {
+                (function(btn) {
+                    btn.addEventListener('click', function() {
+                        if (!deferredPrompt) return;
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then(function(result) {
+                            if (result.outcome === 'accepted') {
+                                markInstalled();
+                                for (var k = 0; k < buttons.length; k++) {
+                                    buttons[k].style.display = 'none';
+                                }
+                            } else {
+                                markRejected();
+                                updateButtonVisibility(buttons, getState());
+                            }
+                            deferredPrompt = null;
+                        });
+                    });
+                })(buttons[j]);
+            }
 
             window.addEventListener('appinstalled', function() {
                 markInstalled();
-                btn.remove();
+                for (var k = 0; k < buttons.length; k++) {
+                    buttons[k].style.display = 'none';
+                }
             });
-        } else if (platform !== 'other' && state === 'new') {
-            createDialog(platform);
-        } else if (platform !== 'other' && state === 'rejected') {
-            var retryBtn = createInstallButton();
-            retryBtn.style.display = 'inline-flex';
-            retryBtn.querySelector('span').textContent = 'Install';
-            headerNav.insertBefore(retryBtn, headerNav.firstChild);
-            retryBtn.addEventListener('click', function() {
-                createDialog(platform);
-            });
+        } else if (platform !== 'other') {
+            for (var m = 0; m < buttons.length; m++) {
+                (function(btn) {
+                    btn.addEventListener('click', function() {
+                        createDialog(platform);
+                    });
+                })(buttons[m]);
+            }
         }
     }
 

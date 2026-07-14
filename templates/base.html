@@ -133,6 +133,16 @@
     </main>
 
     <footer class="text-center text-gray-400 text-sm py-6">
+        <div id="pwa-install-footer" class="mb-3 lg:hidden">
+            <button data-pwa-install-trigger
+                class="inline-flex items-center gap-1.5 bg-primary text-white rounded-full px-4 py-2 text-sm font-semibold shadow-md hover:bg-primary-dark transition-colors min-h-[44px]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4"/>
+                    <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+                </svg>
+                <span>{% trans "Install" %}</span>
+            </button>
+        </div>
         <a href="/{{ lang }}/about/" class="hover:text-primary">{% trans "About" %}</a>
         <span class="mx-2">·</span>
         <a href="{% if genre %}/{{ lang }}/contribute/?game={{ genre.slug }}{% else %}/{{ lang }}/contribute/{% endif %}" class="hover:text-primary">{% trans "Contribute" %}</a>
@@ -142,6 +152,7 @@
 
     <script id="genres-data" type="application/json">{{ genres_json|safe }}</script>
     <script src="{% static 'shared.js' %}"></script>
+    <script src="{% static 'shared-filters.js' %}"></script>
     <script src="{% static 'pwa.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
