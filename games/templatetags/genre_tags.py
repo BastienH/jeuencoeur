@@ -21,8 +21,7 @@ def genre_description(genre, lang):
 
 @register.filter
 def markdown(text):
-    return markdown(text, #extensions=['extra']
-    )
+    return markdown(text, lang)
 
 
 @register.filter

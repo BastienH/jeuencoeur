@@ -51,7 +51,7 @@
                     <p class="text-sm text-gray-400 mt-1">{{ tagline }}</p>
                     {% endif %}{% endwith %}
                     {% with description=genre|genre_description:lang %}{% if description %}
-                    <div class="text-sm text-gray-600 mt-2 prose prose-sm">{{ description|markdown|safe }}</div>
+                    <div class="text-sm text-gray-600 mt-2 prose prose-sm">{{ description|markdown:lang|safe }}</div>
                     {% endif %}{% endwith %}
                 </div>
             </div>
