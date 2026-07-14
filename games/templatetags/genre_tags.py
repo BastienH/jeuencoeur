@@ -1,5 +1,5 @@
 from django import template
-from markdown import markdown
+from markdown import markdown as render_markdown
 
 register = template.Library()
 
@@ -21,7 +21,7 @@ def genre_description(genre, lang):
 
 @register.filter
 def markdown(text):
-    return markdown(text)
+    return render_markdown(text)
 
 
 @register.filter
