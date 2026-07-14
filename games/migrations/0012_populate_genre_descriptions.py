@@ -5,7 +5,7 @@ Each description includes: 1 paragraph + tip + timeframe.
 from django.db import migrations
 
 DESCRIPTIONS = {
-    'giggle_generators': {
+    'giggle-generators': {
         'en': (
             "Tap to get an easy, quick, silly moment to share with your kids. "
             "The app acts as a rapid-fire silly prompt generator — with a single tap, "
@@ -40,7 +40,7 @@ DESCRIPTIONS = {
             "**Tiempo:** Se vuelve hilarante en los primeros 2 minutos."
         ),
     },
-    'choice_chaos': {
+    'choice-chaos': {
         'en': (
             "Silly either-or questions to build connection through conversation. "
             "The app provides age-appropriate \"Would You Rather\" questions with a voice "
@@ -72,7 +72,7 @@ DESCRIPTIONS = {
             "**Tiempo:** Se vuelve divertido después de 5-6 preguntas cuando todos se relajan."
         ),
     },
-    'tale_twisters': {
+    'tale-twisters': {
         'en': (
             "Create a family story together with title prompts, twists, and an easy way "
             "to record and save the magic. The app provides the opening line and a "
@@ -110,7 +110,7 @@ DESCRIPTIONS = {
             "**Tiempo:** La magia sucede después del primer giro — generalmente a los 5 minutos."
         ),
     },
-    'mimic_mayhem': {
+    'mimic-mayhem': {
         'en': (
             "Fun, random noise prompts that redirect loud kiddo energy into lighthearted "
             "play. The app acts as a soundboard that fires off random, goofy audio clips — "
@@ -145,7 +145,7 @@ DESCRIPTIONS = {
             "**Tiempo:** Se vuelve hilarante inmediatamente — mira su cara cuando suena el shh."
         ),
     },
-    'wild_roles': {
+    'wild-roles': {
         'en': (
             "Spin, act, and laugh! The app randomly combines a character, a setting, and an "
             "activity — like \"You are a very clumsy ninja trying to make a sandwich\" or "
@@ -181,7 +181,7 @@ DESCRIPTIONS = {
             "en personaje."
         ),
     },
-    'funny_face_factory': {
+    'funny-face-factory': {
         'en': (
             "Facial expression challenges that turn quiet play into a hilarious reveal party. "
             "The app shows a prompt for a specific, difficult expression — like \"A dinosaur "
@@ -216,7 +216,7 @@ DESCRIPTIONS = {
             "**Tiempo:** Se vuelve divertido inmediatamente, especialmente con la revelación del filtro."
         ),
     },
-    'lip_sync_legends': {
+    'lip-sync-legends': {
         'en': (
             "Surprise sound effects to lip sync and act out for a little dose of silly fun. "
             "One player reads the sound prompt aloud or makes the noise, while the other "
@@ -246,7 +246,7 @@ DESCRIPTIONS = {
             "**Tiempo:** Se vuelve competitivo e hilarante alrededor del minuto 5."
         ),
     },
-    'highway_hijinks': {
+    'highway-hijinks': {
         'en': (
             "Beat backseat boredom with 20+ car games for connection. The app suggests "
             "games based on your surroundings — \"Spot 5 blue cars,\" \"Next time you see "
@@ -281,7 +281,7 @@ DESCRIPTIONS = {
             "perfecto para viajes de más de 30 minutos."
         ),
     },
-    'doodle_dash': {
+    'doodle-dash': {
         'en': (
             "Mix and match silly prompts for hilarious family doodling fun. The app generates "
             "prompts by randomly combining a subject, an emotion, and a color palette — like "
