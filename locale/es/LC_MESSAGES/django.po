@@ -380,23 +380,23 @@ msgstr "Hecho!"
 
 #: templates/creative_games/funny_face.html:29
 msgid "Another"
-msgstr ""
+msgstr "¡Otra!"
 
 #: templates/creative_games/funny_face.html:34
 msgid "Faces made:"
-msgstr ""
+msgstr "Caras creadas:"
 
 #: templates/creative_games/funny_face.html:35
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: templates/creative_games/funny_face.html:42
 msgid "Take a photo (optional)"
-msgstr ""
+msgstr "Tomar una foto (opcional)"
 
 #: templates/creative_games/funny_face.html:51
 msgid "Camera not available"
-msgstr ""
+msgstr "Cámara no disponible"
 
 #: templates/creative_games/funny_face.html:56
 msgid "Snap!"
