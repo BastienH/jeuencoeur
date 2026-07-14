@@ -21,10 +21,13 @@
 
 {% block content %}
 {% csrf_token %}
-<div class="mb-6">
+<div class="mb-6 flex justify-between items-center">
     <a href="{% url 'hub' lang=lang %}" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
         &larr; {% trans "Back to Hub" %}
     </a>
+    <button onclick="document.getElementById('info-modal').classList.remove('hidden')" class="text-gray-400 hover:text-gray-600 min-h-[44px] inline-flex items-center justify-center w-11 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg>
+    </button>
 </div>
 
 <div class="text-center mb-6">
@@ -32,59 +35,24 @@
     <h1 class="text-2xl font-bold text-gray-800 mt-2">{{ genre|genre_name:lang }}</h1>
 </div>
 
-<div id="question-container" class="max-w-2xl mx-auto">
+<div id="game-content" class="max-w-2xl mx-auto">
     {% include 'sound_games/partials/choice_question.html' %}
 </div>
 
 <div class="text-center mt-6">
-    <button hx-get="{% url 'choice_chaos_reroll' lang=lang %}"
-            hx-target="#question-container"
+    <button hx-get="{{ reroll_url }}"
+            hx-target="#game-content"
             hx-swap="innerHTML"
-            hx-vals="js:{category: document.getElementById('category-filter')?.value || '', age_group: document.getElementById('age-filter')?.value || 'all'}"
+            hx-vals="js:{category: document.getElementById('filter-category')?.value || '', age_group: document.getElementById('filter-age')?.value || 'all'}"
             class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-8 rounded-xl min-h-[44px] transition-colors">
         {% trans "Can't choose, go next" %}
     </button>
 </div>
 
-<div class="text-center mt-4 flex flex-wrap justify-center gap-2">
-    <div>
-        <label class="text-sm text-gray-500">{% trans "Category:" %}</label>
-        <select id="category-filter"
-                onchange="updateChoiceFilter()"
-                class="border border-gray-300 rounded-lg px-3 py-2 text-sm ml-2">
-            <option value="">{% trans "All" %}</option>
-            <option value="silly">{% trans "Silly" %}</option>
-            <option value="deep">{% trans "Deep" %}</option>
-            <option value="food">{% trans "Food" %}</option>
-            <option value="animals">{% trans "Animals" %}</option>
-            <option value="superpower">{% trans "Superpower" %}</option>
-            <option value="gross">{% trans "Gross" %}</option>
-            <option value="adventure">{% trans "Adventure" %}</option>
-            <option value="school">{% trans "School" %}</option>
-        </select>
-    </div>
-    <div>
-        <label class="text-sm text-gray-500">{% trans "Age:" %}</label>
-        <select id="age-filter"
-                onchange="updateChoiceFilter()"
-                class="border border-gray-300 rounded-lg px-3 py-2 text-sm ml-2">
-            <option value="all">{% trans "All Ages" %}</option>
-            <option value="3-6">3-6</option>
-            <option value="7-10">7-10</option>
-            <option value="11+">11+</option>
-        </select>
-    </div>
-</div>
-
-<script>
-function updateChoiceFilter() {
-    var cat = document.getElementById('category-filter').value;
-    var age = document.getElementById('age-filter').value;
-    var url = '{% url "choice_chaos_reroll" lang=lang %}?category=' + cat + '&age_group=' + age;
-    htmx.ajax('GET', url, {target:'#question-container', swap:'innerHTML'});
-}
-</script>
+{% include 'partials/game_filters.html' with category_choices=category_choices age_filter=True reroll_url=reroll_url %}
 
 {% endblock %}
+
+{% include 'partials/game_info_modal.html' %}
 
 {% block extra_js %}<script src="{% static 'sound_games/choice.js' %}"></script>{% endblock %}

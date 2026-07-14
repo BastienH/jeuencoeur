@@ -25,7 +25,9 @@ class GenreResource(_BaseResource):
     class Meta(_BaseResource.Meta):
         model = Genre
         fields = ('name', 'name_fr', 'name_es', 'slug', 'icon',
-                  'tagline', 'tagline_fr', 'tagline_es', 'order', 'is_active')
+                  'tagline', 'tagline_fr', 'tagline_es',
+                  'description', 'description_fr', 'description_es',
+                  'order', 'is_active')
 
 
 class PromptResource(_BaseResource):

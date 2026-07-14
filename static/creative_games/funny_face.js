@@ -30,8 +30,19 @@
         return window.location.pathname.replace(/\/+$/, '');
     }
 
+    function getFilterParams() {
+        var params = {};
+        if (window.gameFilters) {
+            var filters = window.gameFilters.getAll();
+            if (filters.age_group) params.age = filters.age_group;
+            if (filters.category) params.cat = filters.category;
+        }
+        return new URLSearchParams(params).toString();
+    }
+
     function loadNextPrompt() {
-        fetch(baseUrl() + '/next/', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        var qs = getFilterParams();
+        fetch(baseUrl() + '/next/' + (qs ? '?' + qs : ''), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(function(r) { return r.text(); })
             .then(function(html) {
                 var promptText = document.getElementById('prompt-text');

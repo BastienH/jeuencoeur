@@ -1,0 +1,15 @@
+{% load i18n genre_tags %}
+{% with description=genre|genre_description:lang %}{% if description %}
+<div id="info-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick="if(event.target===this)this.classList.add('hidden')">
+    <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6">
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">{{ genre.icon }}</span>
+                <h2 class="text-xl font-bold text-gray-800">{{ genre|genre_name:lang }}</h2>
+            </div>
+            <button onclick="document.getElementById('info-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 text-2xl leading-none min-h-[44px] min-w-[44px] flex items-center justify-center">&times;</button>
+        </div>
+        <div class="prose prose-sm text-gray-600">{{ description|markdown|safe }}</div>
+    </div>
+</div>
+{% endif %}{% endwith %}

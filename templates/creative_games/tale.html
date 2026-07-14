@@ -4,13 +4,18 @@
 {% block content %}
 {% csrf_token %}
 <div id="auth-status" data-authenticated="{{ user.is_authenticated|yesno:'true,false' }}"></div>
-<div class="mb-6 flex justify-between">
+<div class="mb-6 flex justify-between items-center">
     <a href="{% url 'hub' lang=lang %}" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
         &larr; {% trans "Back to Hub" %}
     </a>
-    <a href="{% url 'tale_twisters_chest' lang=lang %}" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
-        {% trans "My Chest" %}
-    </a>
+    <div class="flex items-center gap-2">
+        <button onclick="document.getElementById('info-modal').classList.remove('hidden')" class="text-gray-400 hover:text-gray-600 min-h-[44px] inline-flex items-center justify-center w-11 rounded-full hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg>
+        </button>
+        <a href="{% url 'tale_twisters_chest' lang=lang %}" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
+            {% trans "My Chest" %}
+        </a>
+    </div>
 </div>
 
 <div class="text-center mb-6">
@@ -46,5 +51,7 @@
 </div>
 
 {% endblock %}
+
+{% include 'partials/game_info_modal.html' %}
 
 {% block extra_js %}<script src="{% static 'creative_games/tale.js' %}"></script>{% endblock %}

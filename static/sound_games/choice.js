@@ -1,5 +1,5 @@
 (function() {
-    const questionContainer = document.getElementById('question-container');
+    const gameContent = document.getElementById('game-content');
 
     let promptCount = 0;
 
@@ -26,21 +26,17 @@
 
     function advanceQuestion() {
         const base = window.location.pathname.replace(/\/+$/, '') + '/reroll/';
-        const cat = document.getElementById('category-filter')?.value || '';
-        const age = document.getElementById('age-filter')?.value || '';
-        const params = new URLSearchParams();
-        if (cat) params.set('category', cat);
-        if (age) params.set('age_group', age);
-        const url = base + (params.toString() ? '?' + params.toString() : '');
+        const filters = window.gameFilters ? window.gameFilters.readDOM() : {};
+        const url = window.gameFilters ? window.gameFilters.buildURL(base, filters) : base;
         fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(r => r.text())
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const newContent = doc.querySelector('[class*="bg-white rounded-2xl shadow-lg"]') ||
-                                   doc.querySelector('#question-container') || doc.body;
-                if (questionContainer) {
-                    questionContainer.innerHTML = newContent.innerHTML || html;
+                                   doc.querySelector('#game-content') || doc.body;
+                if (gameContent) {
+                    gameContent.innerHTML = newContent.innerHTML || html;
                 }
                 promptCount++;
                 checkPlayLimit('choice_chaos');
@@ -49,7 +45,7 @@
     }
 
     document.addEventListener('htmx:afterSwap', (e) => {
-        if (e.detail.target?.id === 'question-container') {
+        if (e.detail.target?.id === 'game-content') {
             promptCount++;
             checkPlayLimit('choice_chaos');
         }

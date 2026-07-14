@@ -91,3 +91,23 @@ def require_active_game(genre_slug):
             return view_func(request, *args, **kwargs)
         return wrapper
     return decorator
+
+
+AGE_ORDER = ['3-6', '7-10', '11+']
+
+
+def get_default_age(request):
+    if request.user.is_authenticated:
+        from .models import UserProfile
+        profile, _ = UserProfile.objects.get_or_create(user=request.user)
+        return profile.settings.get('default_age', 'all')
+    return 'all'
+
+
+def apply_age_filter(qs, age_value, age_field='age_group'):
+    """Apply min_age filtering: show content for this age AND younger."""
+    if not age_value or age_value == 'all':
+        return qs
+    idx = AGE_ORDER.index(age_value)
+    allowed = ['all'] + AGE_ORDER[:idx + 1]
+    return qs.filter(**{f'{age_field}__in': allowed})

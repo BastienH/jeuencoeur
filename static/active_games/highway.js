@@ -93,7 +93,7 @@
 
     function speakGameContent() {
         if (ttsToggle && ttsToggle.checked) {
-            var container = document.getElementById('boredom-container');
+            var container = document.getElementById('game-content');
             if (!container) return;
             var nameEl = container.querySelector('h3');
             var instrEl = container.querySelector('p');
@@ -120,6 +120,18 @@
     }
 
     if (boredomBusterBtn) {
+        boredomBusterBtn.addEventListener('htmx:beforeRequest', function(e) {
+            if (window.gameFilters) {
+                var filters = window.gameFilters.getAll();
+                var params = {};
+                if (filters.age_group) params.age_group = filters.age_group;
+                var qs = new URLSearchParams(params).toString();
+                if (qs) {
+                    var orig = e.detail.requestConfig;
+                    orig.path = orig.path + (orig.path.includes('?') ? '&' : '?') + qs;
+                }
+            }
+        });
         boredomBusterBtn.addEventListener('htmx:afterSwap', function() {
             promptCount++;
             checkPlayLimit('highway_hijinks');

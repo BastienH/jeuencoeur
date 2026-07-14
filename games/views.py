@@ -145,6 +145,11 @@ def profile(request, lang):
             settings['game_order'] = order_map
         else:
             settings.pop('game_order', None)
+        default_age = request.POST.get('default_age')
+        if default_age and default_age != 'all':
+            settings['default_age'] = default_age
+        else:
+            settings.pop('default_age', None)
         profile_obj.settings = settings
         profile_obj.save(update_fields=['settings'])
 
@@ -153,6 +158,7 @@ def profile(request, lang):
         'favorites': favorites,
         'profile': profile_obj,
         'genres': genres,
+        'default_age': profile_obj.settings.get('default_age', 'all'),
     })
 
 

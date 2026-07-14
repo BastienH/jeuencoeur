@@ -2,11 +2,12 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.translation import activate
+from django.urls import reverse
+from django.utils.translation import activate, gettext as _
 from django.views.decorators.http import require_POST
 
 from games.models import AnalyticsEvent, Genre
-from games.utils import get_shuffled_item, require_active_game
+from games.utils import apply_age_filter, get_default_age, get_shuffled_item, require_active_game
 
 from .models import LipSyncSound, MicroChallenge, SoundFX, WYRQuestion
 
@@ -15,14 +16,17 @@ from .models import LipSyncSound, MicroChallenge, SoundFX, WYRQuestion
 def giggle_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='giggle-generators')
+    age_group = request.GET.get('age_group')
+    qs = apply_age_filter(MicroChallenge.objects.all(), age_group)
     challenge = get_shuffled_item(
-        request, 'deck_giggle',
-        MicroChallenge.objects.all(),
+        request, 'deck_giggle', qs,
     )
     if challenge:
         challenge.display_text = challenge.get_text(lang)
     return render(request, 'sound_games/giggle.html', {
         'genre': genre, 'challenge': challenge, 'lang': lang,
+        'reroll_url': reverse('giggle_generators_next', kwargs={'lang': lang}),
+        'default_age': get_default_age(request),
     })
 
 
@@ -32,15 +36,13 @@ def giggle_next(request, lang):
     age_group = request.GET.get('age_group')
     energy_level = request.GET.get('energy_level')
     filters = {}
-    if age_group:
+    qs = MicroChallenge.objects.all()
+    qs = apply_age_filter(qs, age_group)
+    if age_group and age_group != 'all':
         filters['age_group'] = age_group
     if energy_level:
-        filters['energy_level'] = energy_level
-    qs = MicroChallenge.objects.all()
-    if age_group:
-        qs = qs.filter(age_group=age_group)
-    if energy_level:
         qs = qs.filter(energy_level=energy_level)
+        filters['energy_level'] = energy_level
     challenge = get_shuffled_item(
         request, 'deck_giggle', qs,
         filters=filters or None, advance=True,
@@ -50,6 +52,18 @@ def giggle_next(request, lang):
     return render(request, 'sound_games/partials/giggle_challenge.html', {
         'challenge': challenge, 'lang': lang,
     })
+
+
+CHOICE_CATEGORY_CHOICES = [
+    ('silly', _('Silly')),
+    ('deep', _('Deep')),
+    ('food', _('Food')),
+    ('animals', _('Animals')),
+    ('superpower', _('Superpower')),
+    ('gross', _('Gross')),
+    ('adventure', _('Adventure')),
+    ('school', _('School')),
+]
 
 
 @require_active_game('choice-chaos')
@@ -65,6 +79,9 @@ def choice_play(request, lang):
         question.display_b = question.get_option_b(lang)
     return render(request, 'sound_games/choice.html', {
         'genre': genre, 'question': question, 'lang': lang,
+        'category_choices': CHOICE_CATEGORY_CHOICES,
+        'reroll_url': reverse('choice_chaos_reroll', kwargs={'lang': lang}),
+        'default_age': get_default_age(request),
     })
 
 
@@ -76,12 +93,11 @@ def choice_reroll(request, lang):
     qs = WYRQuestion.objects.all()
     if category:
         qs = qs.filter(category=category)
-    if age_group and age_group != 'all':
-        qs = qs.filter(age_group=age_group)
+    qs = apply_age_filter(qs, age_group)
     filters = {}
     if category:
         filters['category'] = category
-    if age_group:
+    if age_group and age_group != 'all':
         filters['age_group'] = age_group
     question = get_shuffled_item(
         request, 'deck_choice', qs,

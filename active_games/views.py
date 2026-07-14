@@ -1,13 +1,13 @@
 import json
 
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, reverse
 from django.utils import timezone
 from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import AnalyticsEvent, Genre
-from games.utils import get_shuffled_item, require_active_game
+from games.utils import apply_age_filter, get_default_age, get_shuffled_item, require_active_game
 
 from .models import CarGame, RoleActivity, RoleCharacter, RoleSetting, TripSession
 
@@ -115,9 +115,10 @@ def wild_react(request, lang):
 def highway_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='highway-hijinks')
+    age_group = request.GET.get('age_group')
+    qs = apply_age_filter(CarGame.objects.all(), age_group, age_field='min_age')
     car_game = get_shuffled_item(
-        request, 'deck_highway',
-        CarGame.objects.all(), advance=True,
+        request, 'deck_highway', qs, advance=True,
     )
     trip_active = TripSession.objects.filter(
         user=request.user if request.user.is_authenticated else None,
@@ -125,6 +126,8 @@ def highway_play(request, lang):
     ).exists()
     return render(request, 'active_games/highway.html', {
         'genre': genre, 'car_game': car_game, 'lang': lang, 'trip_active': trip_active,
+        'reroll_url': reverse('highway_hijinks_next_game', kwargs={'lang': lang}),
+        'default_age': get_default_age(request),
     })
 
 
@@ -142,9 +145,14 @@ def highway_boredom_buster(request, lang):
 @require_active_game('highway-hijinks')
 def highway_next_game(request, lang):
     activate(lang)
+    age_group = request.GET.get('age_group')
+    filters = {}
+    qs = apply_age_filter(CarGame.objects.all(), age_group, age_field='min_age')
+    if age_group and age_group != 'all':
+        filters['age_group'] = age_group
     car_game = get_shuffled_item(
-        request, 'deck_highway',
-        CarGame.objects.all(), advance=True,
+        request, 'deck_highway', qs,
+        filters=filters or None, advance=True,
     )
     return render(request, 'active_games/partials/highway_game.html', {
         'car_game': car_game, 'lang': lang,

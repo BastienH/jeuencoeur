@@ -1,0 +1,43 @@
+{% load i18n %}
+<div id="game-filters" class="text-center mt-4 flex flex-wrap justify-center gap-2" data-reroll-url="{{ reroll_url }}" data-default-age="{{ default_age|default:'all' }}">
+    {% if category_choices %}
+    <div>
+        <label class="text-sm text-gray-500">{% trans "Category:" %}</label>
+        <select id="filter-category"
+                onchange="gameFilters.onChange()"
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm ml-2 transition-all">
+            <option value="">{% trans "All" %}</option>
+            {% for value, label in category_choices %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+
+    {% if age_filter %}
+    <div>
+        <label class="text-sm text-gray-500">{% trans "Age:" %}</label>
+        <select id="filter-age"
+                onchange="gameFilters.onChange()"
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm ml-2 transition-all">
+            <option value="all">{% trans "All" %}</option>
+            <option value="3-6">3-6</option>
+            <option value="7-10">7-10</option>
+            <option value="11+">11+</option>
+        </select>
+    </div>
+    {% endif %}
+
+    {% if energy_filter %}
+    <div>
+        <label class="text-sm text-gray-500">{% trans "Energy:" %}</label>
+        <select id="filter-energy"
+                onchange="gameFilters.onChange()"
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm ml-2 transition-all">
+            <option value="">{% trans "All" %}</option>
+            <option value="calm">{% trans "Calm" %}</option>
+            <option value="wild">{% trans "Wild" %}</option>
+        </select>
+    </div>
+    {% endif %}
+</div>

@@ -26,6 +26,9 @@ class Genre(models.Model):
     tagline = models.CharField(max_length=100, blank=True)
     tagline_fr = models.CharField(max_length=100, blank=True, default='')
     tagline_es = models.CharField(max_length=100, blank=True, default='')
+    description = models.TextField(blank=True, default='')
+    description_fr = models.TextField(blank=True, default='')
+    description_es = models.TextField(blank=True, default='')
     game_module = models.CharField(max_length=50, blank=True, db_index=True,
                                    help_text='e.g. giggle_generators, choice_chaos — blank uses generic detail view')
     is_active = models.BooleanField(default=True,
@@ -45,6 +48,9 @@ class Genre(models.Model):
 
     def get_tagline(self, lang):
         return getattr(self, f'tagline_{lang}', self.tagline) or self.tagline
+
+    def get_description(self, lang):
+        return getattr(self, f'description_{lang}', self.description) or self.description
 
 
 class Prompt(models.Model):

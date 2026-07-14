@@ -3,7 +3,7 @@
     const skipBtn = document.getElementById('skip-btn');
     const timerText = document.getElementById('timer-text');
     const timerRing = document.getElementById('timer-ring');
-    const challengeContainer = document.getElementById('challenge-container');
+    const gameContent = document.getElementById('game-content');
     const ttsToggle = document.getElementById('tts-toggle');
     const shakeToggle = document.getElementById('shake-toggle');
 
@@ -17,13 +17,25 @@
     function hideSkip() { if (skipBtn) skipBtn.classList.add('hidden'); }
     function showSkip() { if (skipBtn) skipBtn.classList.remove('hidden'); }
 
+    function getFilterParams() {
+        const params = {};
+        if (window.gameFilters) {
+            const filters = window.gameFilters.getAll();
+            if (filters.age_group) params.age_group = filters.age_group;
+            if (filters.energy_level) params.energy_level = filters.energy_level;
+        }
+        return new URLSearchParams(params).toString();
+    }
+
     function advancePrompt() {
         hideSkip();
-        if (challengeContainer) {
-            fetch(challengeContainer.dataset.nextUrl || window.location.pathname.replace(/\/+$/, '') + '/next/')
+        if (gameContent) {
+            const nextUrl = gameContent.dataset.nextUrl || window.location.pathname.replace(/\/+$/, '') + '/next/';
+            const qs = getFilterParams();
+            fetch(nextUrl + (qs ? '?' + qs : ''))
                 .then(r => r.text())
                 .then(html => {
-                    challengeContainer.innerHTML = html;
+                    gameContent.innerHTML = html;
                     promptCount++;
                     checkPlayLimit('giggle_generators');
                 })
@@ -39,7 +51,7 @@
         if (triggerBtn) triggerBtn.disabled = true;
         showSkip();
         if (ttsToggle && ttsToggle.checked) {
-            const txt = challengeContainer?.querySelector('#challenge-text')?.textContent;
+            const txt = gameContent?.querySelector('#challenge-text')?.textContent;
             if (txt) {
                 const utterance = new SpeechSynthesisUtterance(txt);
                 utterance.lang = document.documentElement.lang || 'en';

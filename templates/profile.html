@@ -26,8 +26,23 @@
         {% endfor %}
     </div>
     <input type="hidden" name="game_order" id="game-order-input" value="{% for genre in genres %}{{ genre.slug }}{% if not forloop.last %},{% endif %}{% endfor %}">
+
+    <h2 class="text-xl font-semibold text-gray-800 mt-8 mb-4">{% trans "Default Filters" %}</h2>
+    <p class="text-sm text-gray-400 mb-4">{% trans "Choose a default age filter for all games." %}</p>
+    <div class="max-w-md space-y-4">
+        <div>
+            <label class="block text-sm text-gray-500 mb-1">{% trans "Age:" %}</label>
+            <select name="default_age" class="w-full border border-gray-300 rounded-lg px-4 py-3 min-h-[44px]">
+                <option value="all" {% if default_age == 'all' %}selected{% endif %}>{% trans "All" %}</option>
+                <option value="3-6" {% if default_age == '3-6' %}selected{% endif %}>3-6</option>
+                <option value="7-10" {% if default_age == '7-10' %}selected{% endif %}>7-10</option>
+                <option value="11+" {% if default_age == '11+' %}selected{% endif %}>11+</option>
+            </select>
+        </div>
+    </div>
+
     <button type="submit" class="mt-4 bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
-        {% trans "Save Order" %}
+        {% trans "Save" %}
     </button>
 </form>
 {% endif %}

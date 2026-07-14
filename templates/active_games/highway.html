@@ -3,10 +3,13 @@
 
 {% block content %}
 {% csrf_token %}
-<div class="mb-6">
+<div class="mb-6 flex justify-between items-center">
     <a href="{% url 'hub' lang=lang %}" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
         &larr; {% trans "Back to Hub" %}
     </a>
+    <button onclick="document.getElementById('info-modal').classList.remove('hidden')" class="text-gray-400 hover:text-gray-600 min-h-[44px] inline-flex items-center justify-center w-11 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg>
+    </button>
 </div>
 
 <div class="text-center mb-6">
@@ -34,22 +37,22 @@
             {% trans "Read aloud" %}
         </label>
 
-        <div id="boredom-container" class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+        <div id="game-content" class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
             {% include 'active_games/partials/highway_game.html' %}
         </div>
 
         <div class="flex flex-col gap-3">
-            <button hx-get="{% url 'highway_hijinks_next_game' lang=lang %}"
-                    hx-target="#boredom-container"
-                    hx-swap="innerHTML"
-                    hx-vals='{"trip_id": ""}'
-                    class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-3 px-6 rounded-xl min-h-[44px]"
-                    id="boredom-buster-btn">
+            <button id="boredom-buster-btn"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-3 px-6 rounded-xl min-h-[44px]">
                 {% trans "Switch game" %}
             </button>
     </div>
+
+    {% include 'partials/game_filters.html' with age_filter=True reroll_url=reroll_url %}
 </div>
 
 {% endblock %}
+
+{% include 'partials/game_info_modal.html' %}
 
 {% block extra_js %}<script src="{% static 'active_games/highway.js' %}"></script>{% endblock %}
