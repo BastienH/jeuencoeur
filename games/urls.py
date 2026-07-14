@@ -7,6 +7,7 @@ from sound_games import views as sound_views
 from . import views
 
 urlpatterns = [
+    path('about/', views.about, name='about'),
     path('', views.hub, name='hub'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login_view, name='login'),

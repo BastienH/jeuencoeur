@@ -19,6 +19,12 @@ def offline(request):
     return render(request, 'offline.html')
 
 
+def about(request, lang):
+    activate(lang)
+    genres = Genre.objects.filter(is_active=True)
+    return render(request, 'about.html', {'lang': lang, 'genres': genres})
+
+
 def _favorited(prompt, request):
     if request.user.is_authenticated:
         return Favorite.objects.filter(user=request.user, prompt=prompt).exists()

@@ -40,3 +40,5 @@ Each game spans 4 layers:
 6. Create a Genre entry with `game_module` set to the app module string.
 7. Add tests in the app's `tests.py`.
 8. Run `python manage.py test` and verify all pass.
+9. Update `FEATURES.md` game table if the game is new.
+10. Append to `.opencode/skills/game-pattern/features/<game>.md` if the game has unique architecture.

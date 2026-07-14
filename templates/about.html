@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load i18n genre_tags %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        <a href="/{{ lang }}/" class="text-primary hover:text-primary-dark font-medium min-h-[44px] inline-flex items-center">
+            &larr; {% trans "Back to Hub" %}
+        </a>
+    </div>
+
+    <div class="text-center mb-10">
+        <span class="text-6xl block mb-4">💕</span>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">{% trans "Jeu en coeur" %}</h1>
+        <p class="text-gray-500 text-lg">
+            {% trans "Silly games that get families laughing together" %}
+        </p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 mb-8">
+        <h2 class="text-xl font-bold text-gray-800 mb-3">{% trans "How it works" %}</h2>
+        <p class="text-gray-600 mb-4">
+            {% trans "Pick a game, follow the prompt, and put the device down. The screen starts the fun — then you play together for real." %}
+        </p>
+        <div class="grid grid-cols-3 gap-4 text-center">
+            <div>
+                <span class="text-3xl block mb-1">🎲</span>
+                <p class="text-sm font-medium text-gray-700">{% trans "Pick a game" %}</p>
+            </div>
+            <div>
+                <span class="text-3xl block mb-1">😂</span>
+                <p class="text-sm font-medium text-gray-700">{% trans "Follow the prompt" %}</p>
+            </div>
+            <div>
+                <span class="text-3xl block mb-1">🎉</span>
+                <p class="text-sm font-medium text-gray-700">{% trans "Play together!" %}</p>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-gray-800 mb-4">{% trans "Our Games" %}</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-10">
+        {% for genre in genres %}
+        {% if genre.is_active %}
+        <div class="bg-white rounded-2xl shadow-md p-5 text-center border border-gray-100 min-h-[110px] flex flex-col items-center justify-center">
+            <span class="text-4xl mb-2">{{ genre.icon }}</span>
+            <h3 class="text-sm font-semibold text-gray-800">{{ genre|genre_name:lang }}</h3>
+            {% with tagline=genre|genre_tagline:lang %}{% if tagline %}
+            <p class="text-xs text-gray-400 mt-1">{{ tagline }}</p>
+            {% endif %}{% endwith %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="space-y-4 mb-10">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+            <div class="flex items-start gap-4">
+                <span class="text-3xl">🌍</span>
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-1">{% trans "3 Languages" %}</h3>
+                    <p class="text-sm text-gray-500">{% trans "Play in English, French, or Spanish. Switch anytime with one tap." %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+            <div class="flex items-start gap-4">
+                <span class="text-3xl">📴</span>
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-1">{% trans "Works offline" %}</h3>
+                    <p class="text-sm text-gray-500">{% trans "After the first visit, your favorite games work without internet." %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+            <div class="flex items-start gap-4">
+                <span class="text-3xl">📲</span>
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-1">{% trans "Install as an app" %}</h3>
+                    <p class="text-sm text-gray-500">{% trans "Add Jeu en coeur to your home screen for one-tap access." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'contribute' lang=lang %}" class="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
+            {% trans "Suggest a Prompt" %}
+        </a>
+    </div>
+</div>
+{% endblock %}
