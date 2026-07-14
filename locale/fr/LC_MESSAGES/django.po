@@ -46,7 +46,7 @@ msgstr ""
 #: creative_games/models.py:53 sound_games/models.py:66
 #: templates/sound_games/choice.html:59
 msgid "Animals"
-msgstr ""
+msgstr "Animaux"
 
 #: creative_games/models.py:54
 msgid "Sensations"
@@ -96,19 +96,19 @@ msgstr "Nourriture"
 
 #: sound_games/models.py:67 templates/sound_games/choice.html:60
 msgid "Superpower"
-msgstr ""
+msgstr "Super-pouvoir"
 
 #: sound_games/models.py:68 templates/sound_games/choice.html:61
 msgid "Gross"
-msgstr ""
+msgstr "Grossier"
 
 #: sound_games/models.py:69 templates/sound_games/choice.html:62
 msgid "Adventure"
-msgstr ""
+msgstr "Aventure"
 
 #: sound_games/models.py:70 templates/sound_games/choice.html:63
 msgid "School"
-msgstr ""
+msgstr "École"
 
 #: templates/about.html:8 templates/active_games/highway.html:8
 #: templates/active_games/wild.html:8 templates/contribute.html:8
