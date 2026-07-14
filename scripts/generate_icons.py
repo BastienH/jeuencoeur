@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate PNG icons from the source SVG using Inkscape."""
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -16,6 +17,8 @@ SIZES = {
 
 
 def generate():
+    shutil.copy2(SOURCE_SVG, ICONS_DIR / "favicon.svg")
+    print("  favicon.svg (copy of icon.svg)")
     for filename, size in SIZES.items():
         out = ICONS_DIR / filename
         subprocess.run(
