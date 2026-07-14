@@ -14,37 +14,40 @@
 </div>
 
 <div class="max-w-md mx-auto">
-    <div id="countdown-display" class="text-6xl font-bold text-center text-purple-600 mb-6 hidden">3</div>
+    <div class="bg-purple-50 border border-purple-200 rounded-2xl p-5 mb-6 text-center">
+        <p class="text-lg font-semibold text-purple-800">
+            {% trans "Player 1: Make the sound!" %}
+        </p>
+        <p class="text-lg font-semibold text-purple-800 mt-1">
+            {% trans "Player 2: Act it out silently!" %}
+        </p>
+    </div>
 
     <div id="sound-container" class="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 text-center">
         {% include 'sound_games/partials/lip_sync_sound.html' %}
     </div>
 
-    <div class="flex flex-col gap-3">
-        <button id="action-btn"
-                class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-md min-h-[56px]">
-            {% trans "3...2...1... ACTION!" %}
-        </button>
+    <button hx-get="{% url 'lip_sync_legends_next' lang=lang %}"
+            hx-target="#sound-container"
+            hx-swap="innerHTML"
+            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-md min-h-[56px]">
+        {% trans "Next Sound" %}
+    </button>
 
-        <button id="reverse-toggle"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-xl min-h-[44px] transition-colors">
-            {% trans "Reverse Mode: OFF" %}
-        </button>
+    <details class="mt-6 text-sm text-gray-500">
+        <summary class="cursor-pointer hover:text-gray-700 font-medium min-h-[44px] inline-flex items-center">
+            {% trans "How to play" %}
+        </summary>
+        <div class="mt-3 space-y-2 px-4">
+            <p>{% trans "One player reads the sound prompt aloud or makes the noise." %}</p>
+            <p>{% trans "The other player silently acts it out using only their face and body." %}</p>
+            <p>{% trans "No talking or mouthing words — just sounds and movement!" %}</p>
+        </div>
+    </details>
 
-        <button hx-get="{% url 'lip_sync_legends_next' lang=lang %}"
-                hx-target="#sound-container"
-                hx-swap="innerHTML"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-xl min-h-[44px]">
-            {% trans "Next Sound" %}
-        </button>
-    </div>
-
-    <div id="reverse-options" class="hidden mt-4 grid grid-cols-2 gap-3">
-        <button class="reverse-option bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-4 text-sm min-h-[60px]"></button>
-        <button class="reverse-option bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded-xl p-4 text-sm min-h-[60px]"></button>
-        <button class="reverse-option bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-4 text-sm min-h-[60px]"></button>
-        <button class="reverse-option bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 text-sm min-h-[60px]"></button>
-    </div>
+    <p class="text-center text-xs text-gray-400 mt-4">
+        {% trans "Tip: Use your hands, face, and body to bring the sound to life!" %}
+    </p>
 </div>
 
 {% endblock %}

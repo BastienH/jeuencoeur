@@ -1,7 +1,6 @@
 {% load i18n %}
 {% if sound %}
-<p class="text-2xl font-bold text-gray-700 mb-2">{{ sound.name }}</p>
-<p class="text-gray-500 text-sm">{{ sound.display_description }}</p>
+<p class="text-3xl font-bold text-gray-800">{{ sound.name }}</p>
 {% else %}
 <p class="text-gray-400">{% trans "No sounds yet!" %}</p>
 {% endif %}
