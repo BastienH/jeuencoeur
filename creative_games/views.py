@@ -1,4 +1,5 @@
 import json
+import uuid
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -10,9 +11,9 @@ from django.utils.translation import activate
 from django.views.decorators.http import require_POST
 
 from games.models import Genre, StorySeed
-from games.utils import get_shuffled_item, require_active_game
+from games.utils import apply_age_filter, get_default_age, get_shuffled_item, require_active_game
 
-from .models import (DoodleAccessory, DoodleDrawing, DoodleEmotion,
+from .models import (CATEGORIES, DoodleAccessory, DoodleDrawing, DoodleEmotion,
                      DoodleSubject, FacePrompt, StoryEnding, StorySession, StoryTwist)
 
 
@@ -213,16 +214,14 @@ def tale_claim_story(request, lang):
 def funny_face_play(request, lang):
     activate(lang)
     genre = get_object_or_404(Genre, slug='funny-face-factory')
-    age_group = request.GET.get('age')
-    category = request.GET.get('cat')
+    age_group = request.GET.get('age_group') or request.GET.get('age')
+    category = request.GET.get('category') or request.GET.get('cat')
     filters = {}
     if age_group and age_group != 'all':
         filters['age_group'] = age_group
     if category:
         filters['category'] = category
-    qs = FacePrompt.objects.all()
-    if age_group and age_group != 'all':
-        qs = qs.filter(age_group=age_group)
+    qs = apply_age_filter(FacePrompt.objects.all(), age_group)
     if category:
         qs = qs.filter(category=category)
     prompt = get_shuffled_item(
@@ -234,22 +233,23 @@ def funny_face_play(request, lang):
     return render(request, 'creative_games/funny_face.html', {
         'genre': genre, 'prompt': prompt, 'lang': lang,
         'age_group': age_group, 'category': category,
+        'category_choices': CATEGORIES,
+        'reroll_url': reverse('funny_face_factory_next', kwargs={'lang': lang}),
+        'default_age': get_default_age(request),
     })
 
 
 @require_active_game('funny-face-factory')
 def funny_face_next(request, lang):
     activate(lang)
-    age_group = request.GET.get('age')
-    category = request.GET.get('cat')
+    age_group = request.GET.get('age_group') or request.GET.get('age')
+    category = request.GET.get('category') or request.GET.get('cat')
     filters = {}
     if age_group and age_group != 'all':
         filters['age_group'] = age_group
     if category:
         filters['category'] = category
-    qs = FacePrompt.objects.all()
-    if age_group and age_group != 'all':
-        qs = qs.filter(age_group=age_group)
+    qs = apply_age_filter(FacePrompt.objects.all(), age_group)
     if category:
         qs = qs.filter(category=category)
     prompt = get_shuffled_item(
@@ -293,21 +293,53 @@ def doodle_play(request, lang):
 @require_POST
 def doodle_save(request, lang):
     data = json.loads(request.body) if request.body else request.POST
-    DoodleDrawing.objects.create(
+    anonymous_id = ''
+    if not request.user.is_authenticated:
+        anonymous_id = request.COOKIES.get('doodle_anon_id', '')
+        if not anonymous_id:
+            anonymous_id = uuid.uuid4().hex
+    drawing = DoodleDrawing.objects.create(
         user=request.user if request.user.is_authenticated else None,
+        anonymous_id=anonymous_id,
         prompt_subject=data.get('subject', ''),
         prompt_emotion=data.get('emotion', ''),
         prompt_accessory=data.get('accessory', ''),
         image=data.get('image', ''),
         language=lang,
     )
-    return JsonResponse({'status': 'ok'})
+    resp = JsonResponse({'status': 'ok', 'id': drawing.id, 'anonymous_id': anonymous_id})
+    if anonymous_id and not request.user.is_authenticated:
+        resp.set_cookie('doodle_anon_id', anonymous_id, max_age=60 * 60 * 24 * 365)
+    return resp
 
 
 @require_active_game('doodle-dash')
 def doodle_gallery(request, lang):
     activate(lang)
-    drawings = DoodleDrawing.objects.all().order_by('-created_at')[:20]
+    drawings = DoodleDrawing.objects.all()
+    if request.user.is_authenticated:
+        drawings = drawings.filter(user=request.user)
+    else:
+        anon_id = request.COOKIES.get('doodle_anon_id', '')
+        drawings = drawings.filter(anonymous_id=anon_id)
+    drawings = drawings.order_by('-created_at')[:20]
     return render(request, 'creative_games/doodle_gallery.html', {
         'drawings': drawings, 'lang': lang,
     })
+
+
+@require_active_game('doodle-dash')
+@require_POST
+def doodle_delete(request, lang):
+    data = json.loads(request.body) if request.body else request.POST
+    drawing_id = data.get('id')
+    if not drawing_id:
+        return JsonResponse({'status': 'error', 'message': 'Missing id'}, status=400)
+    drawing = DoodleDrawing.objects.filter(id=drawing_id).first()
+    if not drawing:
+        return JsonResponse({'status': 'error', 'message': 'Not found'}, status=404)
+    anon_id = request.COOKIES.get('doodle_anon_id', '')
+    if not drawing.owned_by(request.user, anon_id):
+        return JsonResponse({'status': 'error', 'message': 'Forbidden'}, status=403)
+    drawing.delete()
+    return JsonResponse({'status': 'ok'})

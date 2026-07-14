@@ -71,6 +71,7 @@ urlpatterns = [
     # Doodle Dash
     path('doodle-dash/', creative_views.doodle_play, name='doodle_dash_play'),
     path('doodle-dash/save/', creative_views.doodle_save, name='doodle_dash_save'),
+    path('doodle-dash/delete/', creative_views.doodle_delete, name='doodle_dash_delete'),
     path('doodle-dash/gallery/', creative_views.doodle_gallery, name='doodle_dash_gallery'),
 
     # Contribute

@@ -15,7 +15,7 @@ For user-facing descriptions, see `templates/about.html`.
 | Lip-Sync Legends | Sound | `lip_sync_legends` | Act out sounds without speaking |
 | Tale Twisters | Creative | `tale_twisters` | Collaborative story building |
 | Funny Face Factory | Creative | `funny_face_factory` | Silly face drawing prompts |
-| Doodle Dash | Creative | `doodle_dash` | Draw prompts with accessories |
+| Doodle Dash | Creative | `doodle_dash` | Draw prompts with accessories, gallery with delete & save-all |
 | Wild Roles | Active | `wild_roles` | Spin random character + setting + activity |
 | Highway Hijinks | Active | `highway_hijinks` | Backseat road trip games |
 

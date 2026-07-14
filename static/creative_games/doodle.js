@@ -186,6 +186,9 @@
             .then(r => r.json())
             .then(data => {
                 if (data.status === 'ok') {
+                    if (data.anonymous_id) {
+                        document.cookie = 'doodle_anon_id=' + data.anonymous_id + ';path=/;max-age=31536000';
+                    }
                     saveBtn.textContent = document.documentElement.lang === 'fr' ? 'Enregistré!' : document.documentElement.lang === 'es' ? '¡Guardado!' : 'Saved!';
                     setTimeout(() => { saveBtn.textContent = document.documentElement.lang === 'fr' ? 'Enregistrer le dessin' : document.documentElement.lang === 'es' ? 'Guardar dibujo' : 'Save Drawing'; saveBtn.disabled = false; }, 2000);
                 }

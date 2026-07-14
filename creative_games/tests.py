@@ -148,3 +148,110 @@ class CreativeGameViewTest(TestCase):
         session = StorySession.objects.get(user__username='testuser')
         self.assertNotIn('<script>', session.title)
         self.assertIn('My Story', session.title)
+
+    def test_doodle_save_creates_drawing_with_cookie(self):
+        r = self.client.post('/en/doodle-dash/save/',
+                             json.dumps({'image': 'data:image/png;base64,abc', 'subject': 'Cat', 'emotion': 'Happy', 'accessory': 'Hat'}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        data = json.loads(r.content)
+        self.assertEqual(data['status'], 'ok')
+        self.assertTrue(data['anonymous_id'])
+        drawing = DoodleDrawing.objects.get(id=data['id'])
+        self.assertEqual(drawing.anonymous_id, data['anonymous_id'])
+        self.assertIsNone(drawing.user)
+
+    def test_doodle_save_generates_anonymous_id(self):
+        r = self.client.post('/en/doodle-dash/save/',
+                             json.dumps({'image': 'data:image/png;base64,abc', 'subject': 'Cat'}),
+                             content_type='application/json')
+        data = json.loads(r.content)
+        self.assertTrue(len(data['anonymous_id']) == 32)
+
+    def test_doodle_save_reuses_cookie_anonymous_id(self):
+        self.client.cookies['doodle_anon_id'] = 'test-id-123'
+        r = self.client.post('/en/doodle-dash/save/',
+                             json.dumps({'image': 'data:image/png;base64,abc', 'subject': 'Cat'}),
+                             content_type='application/json')
+        data = json.loads(r.content)
+        self.assertEqual(data['anonymous_id'], 'test-id-123')
+        drawing = DoodleDrawing.objects.get(id=data['id'])
+        self.assertEqual(drawing.anonymous_id, 'test-id-123')
+
+    def test_doodle_save_authenticated_uses_user(self):
+        User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        r = self.client.post('/en/doodle-dash/save/',
+                             json.dumps({'image': 'data:image/png;base64,abc', 'subject': 'Cat'}),
+                             content_type='application/json')
+        data = json.loads(r.content)
+        self.assertEqual(data['status'], 'ok')
+        drawing = DoodleDrawing.objects.get(id=data['id'])
+        self.assertEqual(drawing.user.username, 'testuser')
+        self.assertEqual(drawing.anonymous_id, '')
+
+    def test_doodle_gallery_filters_by_cookie(self):
+        DoodleDrawing.objects.create(image='a', prompt_subject='Mine', anonymous_id='my-id')
+        DoodleDrawing.objects.create(image='b', prompt_subject='Theirs', anonymous_id='other-id')
+        self.client.cookies['doodle_anon_id'] = 'my-id'
+        r = self.client.get('/en/doodle-dash/gallery/')
+        self.assertEqual(r.status_code, 200)
+        drawings = r.context['drawings']
+        self.assertEqual(drawings.count(), 1)
+        self.assertEqual(drawings.first().prompt_subject, 'Mine')
+
+    def test_doodle_gallery_filters_by_user(self):
+        user = User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        DoodleDrawing.objects.create(image='a', prompt_subject='Mine', user=user)
+        DoodleDrawing.objects.create(image='b', prompt_subject='Theirs', anonymous_id='some-id')
+        r = self.client.get('/en/doodle-dash/gallery/')
+        drawings = r.context['drawings']
+        self.assertEqual(drawings.count(), 1)
+        self.assertEqual(drawings.first().prompt_subject, 'Mine')
+
+    def test_doodle_gallery_empty_without_cookie(self):
+        DoodleDrawing.objects.create(image='a', prompt_subject='Other', anonymous_id='other-id')
+        r = self.client.get('/en/doodle-dash/gallery/')
+        drawings = r.context['drawings']
+        self.assertEqual(drawings.count(), 0)
+
+    def test_doodle_delete_owner_can_delete(self):
+        self.client.cookies['doodle_anon_id'] = 'my-id'
+        drawing = DoodleDrawing.objects.create(image='a', prompt_subject='Mine', anonymous_id='my-id')
+        r = self.client.post('/en/doodle-dash/delete/',
+                             json.dumps({'id': drawing.id}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        self.assertFalse(DoodleDrawing.objects.filter(id=drawing.id).exists())
+
+    def test_doodle_delete_not_owner_returns_403(self):
+        self.client.cookies['doodle_anon_id'] = 'my-id'
+        drawing = DoodleDrawing.objects.create(image='a', prompt_subject='Theirs', anonymous_id='other-id')
+        r = self.client.post('/en/doodle-dash/delete/',
+                             json.dumps({'id': drawing.id}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 403)
+        self.assertTrue(DoodleDrawing.objects.filter(id=drawing.id).exists())
+
+    def test_doodle_delete_not_found_returns_404(self):
+        r = self.client.post('/en/doodle-dash/delete/',
+                             json.dumps({'id': 99999}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 404)
+
+    def test_doodle_delete_missing_id_returns_400(self):
+        r = self.client.post('/en/doodle-dash/delete/',
+                             json.dumps({}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 400)
+
+    def test_doodle_delete_authenticated_owner(self):
+        user = User.objects.create_user(username='testuser', password='pass')
+        self.client.login(username='testuser', password='pass')
+        drawing = DoodleDrawing.objects.create(image='a', prompt_subject='Mine', user=user)
+        r = self.client.post('/en/doodle-dash/delete/',
+                             json.dumps({'id': drawing.id}),
+                             content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        self.assertFalse(DoodleDrawing.objects.filter(id=drawing.id).exists())

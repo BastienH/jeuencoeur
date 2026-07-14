@@ -168,6 +168,7 @@ class DoodleAccessory(models.Model):
 
 class DoodleDrawing(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    anonymous_id = models.CharField(max_length=40, blank=True, db_index=True)
     prompt_subject = models.CharField(max_length=200, blank=True)
     prompt_emotion = models.CharField(max_length=200, blank=True)
     prompt_accessory = models.CharField(max_length=200, blank=True)
@@ -180,3 +181,8 @@ class DoodleDrawing(models.Model):
 
     def __str__(self):
         return f"Doodle #{self.id}"
+
+    def owned_by(self, user, anonymous_id=''):
+        if user and user.is_authenticated:
+            return self.user == user
+        return self.anonymous_id and self.anonymous_id == anonymous_id
