@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-14 10:26+0000\n"
+"POT-Creation-Date: 2026-07-14 10:33+0000\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgid "Back to Hub"
 msgstr "Retour à l'accueil"
 
 #: templates/about.html:14 templates/base.html:7 templates/base.html:87
-#: templates/base.html:138 templates/hub.html:6
+#: templates/base.html:140 templates/hub.html:6
 msgid "Jeu en coeur"
 msgstr "Jeu en coeur"
 
@@ -322,6 +322,10 @@ msgid "Language"
 msgstr "Langue"
 
 #: templates/base.html:136
+msgid "About"
+msgstr "A propos"
+
+#: templates/base.html:138
 msgid "Contribute"
 msgstr "Contribuer"
 
@@ -648,7 +652,7 @@ msgstr "Impossible de choisir, au suivant !"
 
 #: templates/sound_games/choice.html:51
 msgid "Category:"
-msgstr ""
+msgstr "Catégorie :"
 
 #: templates/sound_games/choice.html:55
 msgid "All"
@@ -656,7 +660,7 @@ msgstr "Tout"
 
 #: templates/sound_games/choice.html:67
 msgid "Age:"
-msgstr ""
+msgstr "Âge :"
 
 #: templates/sound_games/giggle.html:33
 msgid "Go!"
