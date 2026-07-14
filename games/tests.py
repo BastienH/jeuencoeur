@@ -3,8 +3,8 @@ import json
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
-from .models import (AnalyticsEvent, Favorite, Genre, Prompt, SoundEffect,
-                     StorySeed, UserProfile)
+from .models import (AnalyticsEvent, Favorite, Genre, Prompt, StorySeed,
+                     UserProfile)
 from .utils import get_shuffled_item
 
 
@@ -51,22 +51,6 @@ class StorySeedTest(TestCase):
         seed = StorySeed.objects.get_random(self.genre, 'es')
         self.assertIsNotNone(seed)
         self.assertEqual(seed.display_text, 'Story seed ES')
-
-
-class SoundEffectTest(TestCase):
-    def setUp(self):
-        self.genre = Genre.objects.create(name='Test', slug='test', icon='🎯')
-        self.effect = SoundEffect.objects.create(
-            name='Test sound',
-            audio_file='sounds/test.mp3',
-        )
-        self.effect.genres.add(self.genre)
-
-    def test_string(self):
-        self.assertEqual(str(self.effect), 'Test sound')
-
-    def test_genre_tagged(self):
-        self.assertIn(self.genre, self.effect.genres.all())
 
 
 class UserProfileTest(TestCase):

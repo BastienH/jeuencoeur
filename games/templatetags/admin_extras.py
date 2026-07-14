@@ -6,7 +6,6 @@ MODEL_MOVES = {
     'userprofile': {'from_app': 'games', 'to_app': 'auth'},
     'prompt': {'from_app': 'games', 'to_app': 'sound_games'},
     'storyseed': {'from_app': 'games', 'to_app': 'creative_games'},
-    'soundeffect': {'from_app': 'games', 'to_app': 'sound_games'},
 }
 
 APP_RENAME = {
@@ -22,7 +21,7 @@ GAME_GROUPS = {
         ('Giggle Generators', ['microchallenge', 'prompt']),
         ('Choice Chaos', ['wyrquestion']),
         ('Mimic Mayhem', ['soundfx']),
-        ('Lip-Sync Legends', ['lipsyncsound', 'soundeffect']),
+        ('Lip-Sync Legends', ['lipsyncsound']),
     ],
     'creative_games': [
         ('Tale Twisters', ['storytwist', 'storyending', 'storysession', 'storyseed']),

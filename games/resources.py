@@ -3,7 +3,7 @@ from import_export import resources, fields, widgets
 from active_games.models import CarGame, RoleActivity, RoleCharacter, RoleSetting
 from creative_games.models import (DoodleAccessory, DoodleEmotion, DoodleSubject,
                                     FacePrompt, StoryEnding, StoryTwist)
-from games.models import Genre, Prompt, SoundEffect, StorySeed
+from games.models import Genre, Prompt, StorySeed
 from sound_games.models import (LipSyncSound, MicroChallenge, SoundFX,
                                  WYRQuestion)
 
@@ -42,12 +42,6 @@ class StorySeedResource(_BaseResource):
     class Meta(_BaseResource.Meta):
         model = StorySeed
         fields = ('genre', 'category', 'text_en', 'text_fr', 'text_es')
-
-
-class SoundEffectResource(_BaseResource):
-    class Meta(_BaseResource.Meta):
-        model = SoundEffect
-        fields = ('name', 'description_en', 'description_fr', 'description_es', 'genres', 'audio_file')
 
 
 class MicroChallengeResource(_BaseResource):

@@ -99,23 +99,6 @@ class StorySeed(models.Model):
         return getattr(self, f'text_{lang}', self.text_en) or self.text_en
 
 
-class SoundEffect(models.Model):
-    name = models.CharField(max_length=100)
-    audio_file = models.FileField(upload_to='sounds/')
-    description_en = models.TextField(blank=True)
-    description_fr = models.TextField(blank=True)
-    description_es = models.TextField(blank=True)
-    genres = models.ManyToManyField(Genre, blank=True, related_name='sound_effects')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     settings = models.JSONField(default=dict, blank=True)

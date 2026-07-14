@@ -2,9 +2,8 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 from .models import (AnalyticsEvent, ContactMessage, Favorite, GameSuggestion,
-                     Genre, Prompt, SoundEffect, StorySeed, UserProfile)
-from .resources import (GenreResource, PromptResource, SoundEffectResource,
-                        StorySeedResource)
+                     Genre, Prompt, StorySeed, UserProfile)
+from .resources import GenreResource, PromptResource, StorySeedResource
 
 
 @admin.register(Genre)
@@ -87,23 +86,6 @@ class StorySeedAdmin(ImportExportModelAdmin):
         for field in ('text_en', 'text_fr', 'text_es'):
             form.base_fields[field].required = True
         return form
-
-
-@admin.register(SoundEffect)
-class SoundEffectAdmin(ImportExportModelAdmin):
-    resource_class = SoundEffectResource
-    list_display = ('name', 'audio_file_display', 'genre_list')
-    list_filter = ('genres',)
-    search_fields = ('name', 'description_en')
-    filter_horizontal = ('genres',)
-
-    def audio_file_display(self, obj):
-        return obj.audio_file.name if obj.audio_file else '-'
-    audio_file_display.short_description = 'Audio file'
-
-    def genre_list(self, obj):
-        return ', '.join(g.name for g in obj.genres.all())
-    genre_list.short_description = 'Genres'
 
 
 @admin.register(UserProfile)
