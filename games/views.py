@@ -15,6 +15,10 @@ from .models import AnalyticsEvent, Favorite, Genre, Prompt, UserProfile
 from .utils import get_shuffled_item, is_tester
 
 
+def offline(request):
+    return render(request, 'offline.html')
+
+
 def _favorited(prompt, request):
     if request.user.is_authenticated:
         return Favorite.objects.filter(user=request.user, prompt=prompt).exists()
