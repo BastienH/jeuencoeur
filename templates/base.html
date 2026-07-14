@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% trans "Jeu en coeur" %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FFF8F0',
+                        primary: { light: '#E0F2F1', DEFAULT: '#26A69A', dark: '#00796B' },
+                        coral: { light: '#FFE0D6', DEFAULT: '#E8836A', dark: '#D4654B' },
+                        sunshine: { light: '#FFF9E6', DEFAULT: '#FFD54F', dark: '#F9A825' },
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
     {% block extra_head %}{% endblock %}
     <script>
@@ -57,26 +71,26 @@
         });
     </script>
 </head>
-<body class="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen"
+<body class="bg-gradient-to-br from-cream to-pink-50 min-h-screen"
       {% if genre %}data-genre-id="{{ genre.id }}"{% endif %}>
     <header class="bg-white shadow-sm">
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="/{{ lang }}/" class="text-xl font-bold text-purple-700 hover:text-purple-900">
+            <a href="/{{ lang }}/" class="text-xl font-bold text-primary-dark hover:text-primary-dark">
                 💕 {% trans "Jeu en coeur" %}
             </a>
             <div class="flex items-center gap-3">
                 {% if user.is_authenticated %}
-                <a href="/{{ lang }}/profile/" class="text-purple-600 hover:text-purple-800 text-sm font-medium min-h-[44px] flex items-center">
+                <a href="/{{ lang }}/profile/" class="text-primary hover:text-primary-dark text-sm font-medium min-h-[44px] flex items-center">
                     {% trans "My Profile" %}
                 </a>
                 <a href="/{{ lang }}/logout/" class="text-gray-500 hover:text-red-600 text-sm font-medium min-h-[44px] flex items-center">
                     {% trans "Logout" %}
                 </a>
                 {% else %}
-                <a href="/{{ lang }}/login/" class="text-purple-600 hover:text-purple-800 text-sm font-medium min-h-[44px] flex items-center">
+                <a href="/{{ lang }}/login/" class="text-primary hover:text-primary-dark text-sm font-medium min-h-[44px] flex items-center">
                     {% trans "Login" %}
                 </a>
-                <a href="/{{ lang }}/signup/" class="bg-purple-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-purple-700 min-h-[44px] flex items-center">
+                <a href="/{{ lang }}/signup/" class="bg-primary text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-primary-dark min-h-[44px] flex items-center">
                     {% trans "Sign Up" %}
                 </a>
                 {% endif %}
@@ -86,7 +100,7 @@
                         id="lang-switcher"
                         name="lang"
                         onchange="window.location.href='/' + this.value + window.location.pathname.substring(3)"
-                        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-purple-400 min-h-[44px]"
+                        class="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-primary min-h-[44px]"
                     >
                         <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
                         <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
@@ -111,7 +125,7 @@
     </main>
 
     <footer class="text-center text-gray-400 text-sm py-6">
-        <a href="{% if genre %}/{{ lang }}/contribute/?game={{ genre.slug }}{% else %}/{{ lang }}/contribute/{% endif %}" class="hover:text-purple-600">{% trans "Contribute" %}</a>
+        <a href="{% if genre %}/{{ lang }}/contribute/?game={{ genre.slug }}{% else %}/{{ lang }}/contribute/{% endif %}" class="hover:text-primary">{% trans "Contribute" %}</a>
         <span class="mx-2">·</span>
         &copy; {% now "Y" %} {% trans "Jeu en coeur" %}
     </footer>

@@ -8,7 +8,7 @@
     }
 
     function spawnConfetti(btn) {
-        const colors = ['#7c3aed', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
+        const colors = ['#26A69A', '#E8836A', '#FFD54F', '#10b981', '#3b82f6', '#ef4444'];
         for (let i = 0; i < 25; i++) {
             const piece = document.createElement('div');
             piece.className = 'confetti-piece';
@@ -58,7 +58,7 @@
 
         document.querySelectorAll('.vote-btn').forEach(b => {
             if (b === btn) {
-                b.classList.add('ring-4', 'ring-purple-400', 'scale-[1.03]');
+                b.classList.add('ring-4', 'ring-primary', 'scale-[1.03]');
                 spawnConfetti(b);
             } else {
                 b.classList.add('opacity-40', 'pointer-events-none');

@@ -21,13 +21,13 @@
         {% if form.non_field_errors %}
         <p class="text-red-500 text-sm mb-4">{{ form.non_field_errors.0 }}</p>
         {% endif %}
-        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
+        <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 px-6 rounded-xl min-h-[44px]">
             {% trans "Log In" %}
         </button>
     </form>
     <p class="text-center text-sm text-gray-500 mt-4">
         {% trans "Don't have an account?" %}
-        <a href="{% url 'signup' lang=lang %}" class="text-purple-600 hover:text-purple-800">{% trans "Sign up" %}</a>
+        <a href="{% url 'signup' lang=lang %}" class="text-primary hover:text-primary-dark">{% trans "Sign up" %}</a>
     </p>
 </div>
 {% endblock %}

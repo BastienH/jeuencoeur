@@ -72,7 +72,7 @@
         btn.addEventListener('click', () => {
             brushSize = parseInt(btn.dataset.size);
             document.querySelectorAll('.brush-size-btn').forEach(b => b.style.borderColor = 'transparent');
-            btn.style.borderColor = '#7c3aed';
+            btn.style.borderColor = '#26A69A';
         });
     });
 
@@ -91,10 +91,10 @@
         isGuided = guided;
         if (guidedContent) guidedContent.classList.toggle('hidden', !guided);
         if (modeGuided) {
-            modeGuided.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-500');
+            modeGuided.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500');
         }
         if (modeFree) {
-            modeFree.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-gray-200 text-gray-500' : 'bg-purple-600 text-white');
+            modeFree.className = 'mode-btn px-5 py-2 rounded-lg font-semibold text-sm ' + (guided ? 'bg-gray-200 text-gray-500' : 'bg-primary text-white');
         }
     }
 

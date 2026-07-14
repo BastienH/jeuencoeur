@@ -23,7 +23,7 @@
         if (!phaseIndicator) return;
         phaseIndicator.querySelectorAll('[data-phase]').forEach((dot, i) => {
             const num = i + 1;
-            dot.className = 'w-3 h-3 rounded-full ' + (num <= phase ? 'bg-purple-600' : 'bg-gray-300');
+            dot.className = 'w-3 h-3 rounded-full ' + (num <= phase ? 'bg-primary' : 'bg-gray-300');
         });
     }
 

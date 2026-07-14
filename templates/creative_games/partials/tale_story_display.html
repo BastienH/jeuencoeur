@@ -1,8 +1,8 @@
 {% load i18n %}
 <div class="space-y-4" data-phase="{% if phase == 'complete' %}3{% elif phase == 'twist_locked' %}2{% elif phase == 'seed_locked' %}1{% else %}0{% endif %}">
     {% if seed %}
-    <div class="bg-purple-50 rounded-xl p-4 border border-purple-200">
-        <span class="text-xs text-purple-500 font-semibold uppercase tracking-wide">{% trans "Beginning" %}</span>
+    <div class="bg-primary-light rounded-xl p-4 border border-primary-light">
+        <span class="text-xs text-primary font-semibold uppercase tracking-wide">{% trans "Beginning" %}</span>
         <p class="text-gray-700 mt-1">{{ seed }}</p>
     </div>
     {% endif %}

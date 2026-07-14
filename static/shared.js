@@ -25,7 +25,7 @@ window.showSuggestionOverlay = function(currentModule) {
         '<h2 class="text-xl font-bold text-gray-800 mb-2">\uD83C\uDF89 ' + (lang === 'fr' ? 'Bien jou\u00e9!' : lang === 'es' ? '\u00a1Bien hecho!' : 'Well played!') + '</h2>' +
         '<p class="text-gray-500 mb-6">' + (lang === 'fr' ? 'Tu as jou\u00e9 quelques parties! Tu veux essayer autre chose?' : lang === 'es' ? '\u00bfHas jugado unas cuantas veces? \u00bfPruebas algo m\u00e1s?' : 'You have played a few rounds! Try something else?') + '</p>' +
         '<div class="space-y-3 mb-6">' +
-        shuffled.map(function(g) { return '<a href="/' + lang + '/' + g.slug + '/" class="block w-full bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 rounded-xl p-3 text-purple-700 font-medium transition-all">' + g.name + '</a>'; }).join('') +
+        shuffled.map(function(g) { return '<a href="/' + lang + '/' + g.slug + '/" class="block w-full bg-primary-light hover:bg-primary/10 border-2 border-primary-light rounded-xl p-3 text-primary-dark font-medium transition-all">' + g.name + '</a>'; }).join('') +
         '</div>' +
         '<button onclick="window.resetCurrentGameCounter();this.closest(\'#suggestion-overlay\').remove()" class="text-gray-400 hover:text-gray-600 text-sm underline">' + (lang === 'fr' ? 'Continuer \u00e0 jouer' : lang === 'es' ? 'Seguir jugando' : 'Keep playing') + '</button>' +
         '<br><br>' +

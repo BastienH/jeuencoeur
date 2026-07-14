@@ -15,7 +15,7 @@
         {% if genre.is_active or is_tester %}
         <a
             href="{% url genre.game_module|add:'_play' lang=lang %}"
-            class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
+            class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-primary-light min-h-[120px] flex flex-col items-center justify-center"
         >
             <span class="text-5xl mb-3">{{ genre.icon }}</span>
             <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
@@ -33,7 +33,7 @@
     {% else %}
     <a
         href="{% url 'detail' lang=lang genre_slug=genre.slug %}"
-        class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-purple-200 min-h-[120px] flex flex-col items-center justify-center"
+        class="block bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-6 text-center border border-gray-100 hover:border-primary-light min-h-[120px] flex flex-col items-center justify-center"
     >
         <span class="text-4xl mb-3">{{ genre.icon }}</span>
         <h2 class="text-lg font-semibold text-gray-800">{{ genre|genre_name:lang }}</h2>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="mt-8 text-center">
-    <a href="{% url 'print_deck_list' lang=lang %}" class="text-purple-600 hover:text-purple-800 text-sm underline">
+    <a href="{% url 'print_deck_list' lang=lang %}" class="text-primary hover:text-primary-dark text-sm underline">
         {% trans "Printable Card Decks" %}
     </a>
 </div>
@@ -56,7 +56,7 @@
     <h2 class="text-xl font-bold text-gray-800 mb-4">{% trans "My Favorites" %}</h2>
     {% with fav_count=user.favorites.count %}
     {% if fav_count > 0 %}
-    <a href="{% url 'profile' lang=lang %}" class="text-purple-600 hover:text-purple-800">
+    <a href="{% url 'profile' lang=lang %}" class="text-primary hover:text-primary-dark">
         {% blocktrans %}{{ fav_count }} saved prompts{% endblocktrans %}
     </a>
     {% else %}
