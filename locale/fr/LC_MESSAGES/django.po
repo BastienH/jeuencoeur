@@ -660,5 +660,9 @@ msgstr "Pas encore de défis!"
 msgid "No sounds yet!"
 msgstr "Pas encore de sons!"
 
+#: templates/active_games/highway.html:48
+msgid "Switch game"
+msgstr "Changer de jeu"
+
 #~ msgid "Next"
 #~ msgstr "Suivante"

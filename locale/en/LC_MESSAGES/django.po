@@ -641,3 +641,7 @@ msgstr ""
 #: templates/sound_games/partials/mimic_sound.html:8
 msgid "No sounds yet!"
 msgstr ""
+
+#: templates/active_games/highway.html:48
+msgid "Switch game"
+msgstr ""
