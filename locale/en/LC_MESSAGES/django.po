@@ -5,105 +5,178 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-08 21:17+0000\n"
+"POT-Creation-Date: 2026-07-14 10:26+0000\n"
 "Last-Translator: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: active_games/models.py:49 creative_games/models.py:64
-#: sound_games/models.py:9
-msgid "Toddler"
-msgstr ""
-
-#: active_games/models.py:50 creative_games/models.py:65
-#: sound_games/models.py:10
-msgid "Pre-K"
-msgstr ""
-
-#: active_games/models.py:51 creative_games/models.py:66
-#: sound_games/models.py:11
-msgid "Elementary"
-msgstr ""
-
-#: active_games/models.py:52 creative_games/models.py:67
+#: active_games/models.py:49 creative_games/models.py:62
+#: sound_games/models.py:9 sound_games/models.py:57
+#: templates/sound_games/choice.html:71
 msgid "All Ages"
 msgstr ""
 
-#: creative_games/models.py:51 sound_games/models.py:56
-#: templates/sound_games/choice.html:53
+#: active_games/models.py:50 creative_games/models.py:63
+#: sound_games/models.py:10 sound_games/models.py:58
+msgid "3-6"
+msgstr ""
+
+#: active_games/models.py:51 creative_games/models.py:64
+#: sound_games/models.py:11 sound_games/models.py:59
+msgid "7-10"
+msgstr ""
+
+#: active_games/models.py:52 creative_games/models.py:65
+#: sound_games/models.py:12 sound_games/models.py:60
+msgid "11+"
+msgstr ""
+
+#: creative_games/models.py:51 sound_games/models.py:63
+#: templates/sound_games/choice.html:56
 msgid "Silly"
 msgstr ""
 
 #: creative_games/models.py:52
-msgid "Happy"
+msgid "Emotions"
 msgstr ""
 
-#: creative_games/models.py:53
-msgid "Sad"
+#: creative_games/models.py:53 sound_games/models.py:66
+#: templates/sound_games/choice.html:59
+msgid "Animals"
 msgstr ""
 
 #: creative_games/models.py:54
-msgid "Angry"
+msgid "Sensations"
 msgstr ""
 
 #: creative_games/models.py:55
-msgid "Surprised"
+msgid "Technical"
 msgstr ""
 
 #: creative_games/models.py:56
-msgid "Scared"
+msgid "Situations"
 msgstr ""
 
 #: creative_games/models.py:57
-msgid "Sleepy"
+msgid "Absurd"
 msgstr ""
 
 #: creative_games/models.py:58
-msgid "Brave"
+msgid "Characters"
 msgstr ""
 
-#: creative_games/models.py:59
-msgid "Grumpy"
-msgstr ""
-
-#: creative_games/models.py:60
-msgid "Funny"
-msgstr ""
-
-#: games/views.py:261
+#: games/views.py:357
 msgid "Thank you for your suggestion!"
 msgstr ""
 
-#: games/views.py:267
+#: games/views.py:363
 msgid "Thank you for your message!"
 msgstr ""
 
-#: sound_games/models.py:14
+#: sound_games/models.py:15
 msgid "Calm"
 msgstr ""
 
-#: sound_games/models.py:15
+#: sound_games/models.py:16
 msgid "Wild"
 msgstr ""
 
-#: sound_games/models.py:57 templates/sound_games/choice.html:54
+#: sound_games/models.py:64 templates/sound_games/choice.html:57
 msgid "Deep"
 msgstr ""
 
-#: sound_games/models.py:58 templates/sound_games/choice.html:55
+#: sound_games/models.py:65 templates/sound_games/choice.html:58
 msgid "Food"
 msgstr ""
 
-#: templates/active_games/highway.html:8 templates/active_games/wild.html:8
-#: templates/contribute.html:8 templates/creative_games/doodle.html:8
+#: sound_games/models.py:67 templates/sound_games/choice.html:60
+msgid "Superpower"
+msgstr ""
+
+#: sound_games/models.py:68 templates/sound_games/choice.html:61
+msgid "Gross"
+msgstr ""
+
+#: sound_games/models.py:69 templates/sound_games/choice.html:62
+msgid "Adventure"
+msgstr ""
+
+#: sound_games/models.py:70 templates/sound_games/choice.html:63
+msgid "School"
+msgstr ""
+
+#: templates/about.html:8 templates/active_games/highway.html:8
+#: templates/active_games/wild.html:8 templates/contribute.html:8
+#: templates/creative_games/doodle.html:8
 #: templates/creative_games/funny_face.html:7
 #: templates/creative_games/tale.html:9 templates/detail.html:10
 #: templates/print_deck_list.html:7 templates/profile.html:7
 #: templates/sound_games/choice.html:26 templates/sound_games/giggle.html:7
 #: templates/sound_games/lip_sync.html:7 templates/sound_games/mimic.html:7
 msgid "Back to Hub"
+msgstr ""
+
+#: templates/about.html:14 templates/base.html:7 templates/base.html:87
+#: templates/base.html:138 templates/hub.html:6
+msgid "Jeu en coeur"
+msgstr "Heart Game"
+
+#: templates/about.html:16
+msgid "Silly games that get families laughing together"
+msgstr ""
+
+#: templates/about.html:21
+msgid "How it works"
+msgstr ""
+
+#: templates/about.html:23
+msgid "Pick a game, follow the prompt, and put the device down. The screen starts the fun — then you play together for real."
+msgstr ""
+
+#: templates/about.html:28
+msgid "Pick a game"
+msgstr ""
+
+#: templates/about.html:32
+msgid "Follow the prompt"
+msgstr ""
+
+#: templates/about.html:36
+msgid "Play together!"
+msgstr ""
+
+#: templates/about.html:41
+msgid "Our Games"
+msgstr ""
+
+#: templates/about.html:61
+msgid "3 Languages"
+msgstr ""
+
+#: templates/about.html:62
+msgid "Play in English, French, or Spanish. Switch anytime with one tap."
+msgstr ""
+
+#: templates/about.html:70
+msgid "Works offline"
+msgstr ""
+
+#: templates/about.html:71
+msgid "After the first visit, your favorite games work without internet."
+msgstr ""
+
+#: templates/about.html:79
+msgid "Install as an app"
+msgstr ""
+
+#: templates/about.html:80
+msgid "Add Jeu en coeur to your home screen for one-tap access."
+msgstr ""
+
+#: templates/about.html:88 templates/contribute.html:18
+msgid "Suggest a Prompt"
 msgstr ""
 
 #: templates/active_games/highway.html:20
@@ -118,21 +191,12 @@ msgstr ""
 msgid "Start Trip!"
 msgstr ""
 
-#: templates/active_games/highway.html:47
-msgid "Progress"
+#: templates/active_games/highway.html:34 templates/sound_games/giggle.html:42
+msgid "Read aloud"
 msgstr ""
 
-#: templates/active_games/highway.html:55
-#, python-format
-msgid "%% complete"
-msgstr ""
-
-#: templates/active_games/highway.html:58
-msgid "Update"
-msgstr ""
-
-#: templates/active_games/highway.html:64
-msgid "End Trip"
+#: templates/active_games/highway.html:48
+msgid "Switch game"
 msgstr ""
 
 #: templates/active_games/partials/highway_game.html:6
@@ -220,32 +284,31 @@ msgstr ""
 msgid "You don\\u2019t have permission to view or edit anything."
 msgstr ""
 
-#: templates/base.html:7 templates/base.html:65 templates/base.html:116
-#: templates/hub.html:6
-msgid "Jeu en coeur"
-msgstr "Heart Game"
+#: templates/base.html:14
+msgid "Playful games that spark laughter between parents and kids"
+msgstr ""
 
-#: templates/base.html:70 templates/profile.html:11
+#: templates/base.html:92 templates/profile.html:11
 msgid "My Profile"
 msgstr ""
 
-#: templates/base.html:73
+#: templates/base.html:95
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:77
+#: templates/base.html:99
 msgid "Login"
 msgstr ""
 
-#: templates/base.html:80 templates/registration/signup.html:22
+#: templates/base.html:102 templates/registration/signup.html:22
 msgid "Sign Up"
 msgstr ""
 
-#: templates/base.html:84
+#: templates/base.html:106
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:136
 msgid "Contribute"
 msgstr ""
 
@@ -254,20 +317,11 @@ msgid "Contribute to Jeu en coeur"
 msgstr ""
 
 #: templates/contribute.html:14
-msgid ""
-"Jeu en coeur is a collection of silly, fun ideas for connecting with your "
-"kids. You can help make it better by suggesting new prompts, reporting "
-"issues, or just saying hello!"
-msgstr ""
-
-#: templates/contribute.html:18
-msgid "Suggest a Prompt"
+msgid "Jeu en coeur is a collection of silly, fun ideas for connecting with your kids. You can help make it better by suggesting new prompts, reporting issues, or just saying hello!"
 msgstr ""
 
 #: templates/contribute.html:19
-msgid ""
-"Have an idea for a new prompt? Let us know which game it's for and what the "
-"prompt should say."
+msgid "Have an idea for a new prompt? Let us know which game it's for and what the prompt should say."
 msgstr ""
 
 #: templates/contribute.html:23
@@ -362,43 +416,43 @@ msgstr ""
 msgid "No drawings yet!"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:25
+#: templates/creative_games/funny_face.html:28
 msgid "Done!"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:29
+#: templates/creative_games/funny_face.html:32
 msgid "Another"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:34
+#: templates/creative_games/funny_face.html:37
 msgid "Faces made:"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:35
+#: templates/creative_games/funny_face.html:38
 msgid "Reset"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:42
+#: templates/creative_games/funny_face.html:45
 msgid "Take a photo (optional)"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:51
+#: templates/creative_games/funny_face.html:54
 msgid "Camera not available"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:56
+#: templates/creative_games/funny_face.html:59
 msgid "Snap!"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:59
+#: templates/creative_games/funny_face.html:62
 msgid "Retry"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:64
+#: templates/creative_games/funny_face.html:67
 msgid "Your Silly Face"
 msgstr ""
 
-#: templates/creative_games/funny_face.html:67
+#: templates/creative_games/funny_face.html:70
 msgid "Save to Device"
 msgstr ""
 
@@ -569,16 +623,20 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: templates/sound_games/choice.html:44
+#: templates/sound_games/choice.html:45
 msgid "Can't choose, go next"
 msgstr ""
 
-#: templates/sound_games/choice.html:49
-msgid "Filter:"
+#: templates/sound_games/choice.html:51
+msgid "Category:"
 msgstr ""
 
-#: templates/sound_games/choice.html:52
+#: templates/sound_games/choice.html:55
 msgid "All"
+msgstr ""
+
+#: templates/sound_games/choice.html:67
+msgid "Age:"
 msgstr ""
 
 #: templates/sound_games/giggle.html:33
@@ -589,24 +647,40 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
-#: templates/sound_games/giggle.html:42
-msgid "Read aloud"
-msgstr ""
-
 #: templates/sound_games/giggle.html:47
 msgid "Shake to refresh"
 msgstr ""
 
-#: templates/sound_games/lip_sync.html:26
-msgid "3...2...1... ACTION!"
+#: templates/sound_games/lip_sync.html:19
+msgid "Player 1: Make the sound!"
 msgstr ""
 
-#: templates/sound_games/lip_sync.html:31
-msgid "Reverse Mode: OFF"
+#: templates/sound_games/lip_sync.html:22
+msgid "Player 2: Act it out silently!"
 msgstr ""
 
-#: templates/sound_games/lip_sync.html:38 templates/sound_games/mimic.html:42
+#: templates/sound_games/lip_sync.html:34 templates/sound_games/mimic.html:42
 msgid "Next Sound"
+msgstr ""
+
+#: templates/sound_games/lip_sync.html:39
+msgid "How to play"
+msgstr ""
+
+#: templates/sound_games/lip_sync.html:42
+msgid "One player reads the sound prompt aloud or makes the noise."
+msgstr ""
+
+#: templates/sound_games/lip_sync.html:43
+msgid "The other player silently acts it out using only their face and body."
+msgstr ""
+
+#: templates/sound_games/lip_sync.html:44
+msgid "No talking or mouthing words — just sounds and movement!"
+msgstr ""
+
+#: templates/sound_games/lip_sync.html:49
+msgid "Tip: Use your hands, face, and body to bring the sound to life!"
 msgstr ""
 
 #: templates/sound_games/mimic.html:14
@@ -637,11 +711,7 @@ msgstr ""
 msgid "No challenges yet!"
 msgstr ""
 
-#: templates/sound_games/partials/lip_sync_sound.html:6
+#: templates/sound_games/partials/lip_sync_sound.html:5
 #: templates/sound_games/partials/mimic_sound.html:8
 msgid "No sounds yet!"
-msgstr ""
-
-#: templates/active_games/highway.html:48
-msgid "Switch game"
 msgstr ""
